@@ -6,9 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/01 18:08:14 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/01 23:44:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 // readline
 #include <stdio.h>
@@ -38,14 +40,179 @@ void	prompt_on_new_line()
 	// rl_on_new_line();
 	printf("\nminishell $ ");
 }
-// $env_var ' " < > << >> |
 
-int	main(int argc, char const *argv[])
+typedef struct s_cmd_list t_cmd_list;
+
+struct s_cmd_list
+{
+	char		**cmd_argv; // {"echo", "-n", "123", NULL}
+	char		**redirect; // {"<infile", "<<delimiter", ">outfile", ">>outfile"}
+	t_cmd_list	*next;
+};
+
+t_cmd_list	*cmd_list_last(t_cmd_list *list)
+{
+	while (list->next)
+	{
+		list = list->next;
+	}
+	return (list);
+}
+
+void	cmd_list_append(t_cmd_list **list, t_cmd_list *node)
+{
+	if (!list)
+		return;
+	if (!(*list))
+		*list = node;
+	else
+		cmd_list_last(*list)->next = node;
+}
+
+t_cmd_list	*cmd_list_new(void)
+{
+	return((t_cmd_list *)ft_calloc(1, sizeof(t_cmd_list)));
+}
+
+bool	is_divider(char c)
+{
+	return (c == '<' || c == '>' || c == '|');
+}
+
+// Lexical analysis, sometimes referred to as tokenizer
+// Translates line into tokens. 
+// $env_var ' " < > << >> |
+// echo -n 123 321
+// echo -n 123 321 | cat
+t_cmd_list	*analyze_leximes(const char *line)
+{
+	size_t		i;
+	size_t		analysis_idx;
+	t_cmd_list	*cmds;
+	t_cmd_list	*this_cmd;
+	t_list		*this_cmd_argv_list;
+	t_list		*this_cmd_redirect_list;
+
+	this_cmd_argv_list = NULL;
+	cmds = NULL;
+	this_cmd = cmd_list_new();
+	i = 0;
+	while (line[i] && ft_isspace(line[i]))
+		i++;
+	while (line[i])
+	{
+		if (line[i] == '|')         /* Pipe */
+		{
+			cmd_list_append(&cmds, this_cmd);
+			i++;
+			while (line[i] && ft_isspace(line[i]))
+				i++;
+			this_cmd = cmd_list_new();
+		}
+		else if (line[i] == '<')
+			if (line[i + 1] == '<') /* Heredoc */
+				;
+			else                    /* Infile redirect */
+				;
+		else if (line[i] == '>')
+			if (line[i + 1] == '>') /* Outfile append */
+				;
+			else                    /* Outfile truncate */
+				;
+		else if (line[i] == '\'')   /* ' single quotes */
+			;
+		else if (line[i] == '\"')   /* " Double quotes */
+			;
+		else if (line[i] == '$')    /* Variable */
+			;
+		else                        /* The command "echo" */
+		{
+			/* Extract command */
+			analysis_idx = i;
+			while (line[i] && !is_divider(line[i]))
+			{
+				/* Append redirect to linked list */
+				if (is_divider(line[i]))
+				{
+					// TODO Left here
+					// <<    END
+					// <  infile
+					// > outfile
+					// >>outfile
+					
+				}
+
+
+
+				/* Append command name/argument to linked list */
+				while (line[analysis_idx]
+				&& !ft_isspace(line[analysis_idx])
+				&& !is_divider(line[analysis_idx])) // "'$USER'" "\"$USER\""
+					analysis_idx++;
+				ft_lstadd_back(&this_cmd_argv_list,
+						ft_lstnew((void *)ft_strndup(&line[i], analysis_idx - i)));
+				printf("%s\n", (char *)ft_lstlast(this_cmd_argv_list)->content);
+
+				/* Skip spaces until next argument or \0 is found */
+				while (line[analysis_idx] && ft_isspace(line[analysis_idx]))
+					analysis_idx++;
+				i = analysis_idx;
+			}
+
+			/* Converts linked list to argv string array */
+			int		cmd_argc;
+			int		argv_idx;
+			t_list	*node;
+
+			cmd_argc = ft_lstsize(this_cmd_argv_list);
+			this_cmd->cmd_argv = (char **)ft_calloc(cmd_argc + 1, sizeof(char *));
+			argv_idx = 0;
+			while (cmd_argc)
+			{
+				node = this_cmd_argv_list;
+				this_cmd->cmd_argv[argv_idx] = (char *)this_cmd_argv_list->content;
+				this_cmd_argv_list = this_cmd_argv_list->next;
+				free(node);
+				argv_idx++;
+				cmd_argc--;
+			}
+			
+		}
+	}
+	cmd_list_append(&cmds, this_cmd);
+	
+	return (cmds);
+
+	t_cmd_list	*cmd;
+	t_cmd_list	*next_cmd;
+	int			argv_idx;
+
+	cmd = cmds;
+	while (cmd)
+	{
+		next_cmd = cmd->next;
+		printf("===Command===\n");
+		argv_idx = 0;
+		while (cmd->cmd_argv[argv_idx])
+		{
+			printf("%s\n", cmd->cmd_argv[argv_idx]);
+			free(cmd->cmd_argv[argv_idx]);
+			argv_idx++;
+		}
+		free(cmd->cmd_argv);
+		free(cmd);
+		cmd = next_cmd;
+	}
+}
+
+
+int	main(void)
 {
 	char	buffer[100];
 
 	if (!isatty(STDIN_FILENO))
 		return (0);
+	
 	signal(SIGINT, prompt_on_new_line);
 	getcwd(buffer, 100);
 	printf("%s\n", buffer);
@@ -58,10 +225,14 @@ int	main(int argc, char const *argv[])
 	add_history("Second to latest command");
 	add_history("Latest command");
 
+	char	*line;
+
 	while (true)
 	{
-		free(readline("minishell $ "));
+		line = readline("minishell $ ");
 		printf("((%s))\n", rl_line_buffer);
+		analyze_leximes(line);
+		free(line);
 	}
 	return 0;
 }
