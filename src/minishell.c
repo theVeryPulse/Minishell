@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/01 23:44:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/02 03:19:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ t_cmd_list	*analyze_leximes(const char *line)
 	t_list		*this_cmd_redirect_list;
 
 	this_cmd_argv_list = NULL;
+	this_cmd_redirect_list = NULL;
 	cmds = NULL;
 	this_cmd = cmd_list_new();
 	i = 0;
@@ -103,6 +104,7 @@ t_cmd_list	*analyze_leximes(const char *line)
 	{
 		if (line[i] == '|')         /* Pipe */
 		{
+			// printf("Detects pipe |\n");
 			cmd_list_append(&cmds, this_cmd);
 			i++;
 			while (line[i] && ft_isspace(line[i]))
@@ -129,17 +131,62 @@ t_cmd_list	*analyze_leximes(const char *line)
 		{
 			/* Extract command */
 			analysis_idx = i;
-			while (line[i] && !is_divider(line[i]))
+			while (line[i] && line[i] != '|')
 			{
 				/* Append redirect to linked list */
 				if (is_divider(line[i]))
 				{
+					// printf("Detectes divider %c\n", line[i]);
 					// TODO Left here
 					// <<    END
 					// <  infile
 					// > outfile
 					// >>outfile
-					
+
+					/* Finds out the redirect instruction string length */
+					int	redirect_str_len;
+					char	*redirect_str;
+
+					redirect_str_len = 0;
+					while (is_divider(line[analysis_idx]))
+					{
+						analysis_idx++;
+						redirect_str_len++;
+					}
+					while (line[analysis_idx] && ft_isspace(line[analysis_idx]))
+						analysis_idx++;
+					while (line[analysis_idx]
+						&& !ft_isspace(line[analysis_idx])
+						&& !is_divider(line[analysis_idx]))
+					{
+						analysis_idx++;
+						redirect_str_len++;
+					}
+					redirect_str = (char *)ft_calloc(redirect_str_len + 1, sizeof(char));
+
+					/* Duplicates the redirect instruction string */
+					int	redirect_str_idx;
+
+					redirect_str_idx = 0;
+					analysis_idx = i;
+					while (is_divider(line[analysis_idx]))
+					{
+						redirect_str[redirect_str_idx++] = line[analysis_idx++];
+					}
+					while (line[analysis_idx] && ft_isspace(line[analysis_idx]))
+						analysis_idx++;
+					while (line[analysis_idx]
+						&& !ft_isspace(line[analysis_idx])
+						&& !is_divider(line[analysis_idx]))
+					{
+						redirect_str[redirect_str_idx++] = line[analysis_idx++];
+					}
+					ft_lstadd_back(&this_cmd_redirect_list,
+									ft_lstnew((void *)redirect_str));
+					printf("%s\n", (char *)ft_lstlast(this_cmd_redirect_list)->content);
+					i = analysis_idx;
+
+					// TODO Convert list to string array and assign to command
 				}
 
 
@@ -181,7 +228,7 @@ t_cmd_list	*analyze_leximes(const char *line)
 	}
 	cmd_list_append(&cmds, this_cmd);
 	
-	return (cmds);
+	// return (cmds);
 
 	t_cmd_list	*cmd;
 	t_cmd_list	*next_cmd;
