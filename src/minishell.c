@@ -6,12 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/03 20:56:35 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/03 23:35:22 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include "character_checks.h"
 
 // readline
 #include <stdio.h>
@@ -38,43 +39,6 @@
 void	prompt_on_new_line()
 {
 	printf("\nminishell $ ");
-}
-
-t_cmd_list	*cmd_list_last(t_cmd_list *list)
-{
-	while (list->next)
-		list = list->next;
-	return (list);
-}
-
-void	cmd_list_append(t_cmd_list **list, t_cmd_list *node)
-{
-	if (!list)
-		return;
-	if (!(*list))
-		*list = node;
-	else
-		cmd_list_last(*list)->next = node;
-}
-
-t_cmd_list	*cmd_list_new(void)
-{
-	return((t_cmd_list *)ft_calloc(1, sizeof(t_cmd_list)));
-}
-
-bool	is_redirect(char c)
-{
-	return (c == '<' || c == '>');
-}
-
-// `|`, `<`, or `>`, space, tab, newline
-bool	is_metacharacter(char c)
-{
-	return (c == '<'
-			|| c == '>'
-			|| c == '|'
-			|| c == ' '
-			|| c == '\t');
 }
 
 char	**list_to_string_array(t_list *list)
@@ -116,11 +80,7 @@ void	free_all_nodes_leave_content(t_list **head)
 	*head = NULL;
 }
 
-bool	is_quotation_mark(char c)
-{
-	return (c == '\'' || c == '\"');
-}
-
+#if 0
 char	*complete_quoted_string(const char *line, size_t *i)
 {
 	char	*end_of_argument;
@@ -149,44 +109,7 @@ char	*complete_quoted_string(const char *line, size_t *i)
 	*i = i_copy;
 	return (quoted_string);
 }
-
-void	print_and_free_cmds(t_cmd_list *cmds)
-{
-	int		cmd_argc;
-	int		argv_idx;
-	t_list	*node;
-	int		redirect_count;
-	int		redirect_idx;
-	t_cmd_list	*cmd;
-	t_cmd_list	*next_cmd;
-
-	cmd = cmds;
-	while (cmd)
-	{
-		next_cmd = cmd->next;
-		printf("\n===Command===\n");
-		printf("---Arguments---\n");
-		argv_idx = 0;
-		while (cmd->cmd_argv && cmd->cmd_argv[argv_idx])
-		{
-			printf("%d: %s\n", argv_idx, cmd->cmd_argv[argv_idx]);
-			free(cmd->cmd_argv[argv_idx]);
-			argv_idx++;
-		}
-		printf("---Redirects---\n");
-		redirect_idx = 0;
-		while (cmd->redirects && cmd->redirects[redirect_idx])
-		{
-			printf("%d: %s\n", redirect_idx, cmd->redirects[redirect_idx]);
-			free(cmd->redirects[redirect_idx]);
-			redirect_idx++;
-		}
-		free(cmd->redirects);
-		free(cmd->cmd_argv);
-		free(cmd);
-		cmd = next_cmd;
-	}
-}
+#endif
 
 // Stops at a metacharacter
 // 123"123"123'123'<
@@ -246,13 +169,11 @@ char	*get_next_word(const char *line, size_t *i)
 void	add_this_cmd_to_list(t_cmd_list	**cmds, t_cmd_list *this_cmd,
 		t_list **this_cmd_argv_list, t_list **this_cmd_redirect_list)
 {
-	printf("Detects pipe |, recording new command\n");
 	this_cmd->cmd_argv = list_to_string_array(*this_cmd_argv_list);
 	this_cmd->redirects = list_to_string_array(*this_cmd_redirect_list);
 	free_all_nodes_leave_content(this_cmd_argv_list);
 	free_all_nodes_leave_content(this_cmd_redirect_list);
 	cmd_list_append(cmds, this_cmd);
-	printf("Recording new command\n");
 }
 
 // Lexical analysis, sometimes referred to as tokenizer
@@ -357,7 +278,7 @@ int	main(void)
 		add_history(line);
 		analyze_leximes(line);
 		free(line);
-		break;
+		// break;
 	}
 	return 0;
 }
