@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/02 23:15:03 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/03 02:04:32 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ bool	is_redirect(char c)
 	return (c == '<' || c == '>');
 }
 
-bool	is_divider(char c)
+// `|`, `<`, or `>`
+bool	is_metacharacter(char c)
 {
 	return (is_redirect(c) || c == '|');
 }
@@ -156,15 +157,59 @@ char	*complete_quoted_string(const char *line, size_t *i)
 	*i = i_copy;
 	return (quoted_string);
 }
-//123"123"123'123'
-//  123"123 123"123
-// "123 123"123'123'
+
+// Stops at a metacharacter
+// 123"123"123'123'<
+// 123"123 123"123|
+// "123 123"123'123'>
 // "123"123'123
 // Should be used for arguments and redirect filenames/delimters
-char	*get_complete_string(const char *line)
+// 'E'""END
+// > >> < << should be handled outside this function
+// [ ] Test this function
+char	*get_next_word(const char *line, size_t *i)
 {
-	// TODO: left here, refer to the part of line 287 and 292
+	size_t	i_copy;
+	char	*word;
+	char	*close_quote;
+	size_t	end_idx; // Copy until before this index
 
+	i_copy = *i;
+	if (is_metacharacter(line[i_copy]))
+		return (ft_calloc(1, sizeof(char)));
+	while (ft_isspace(line[i_copy]))
+		i_copy++;
+	/* Duplicate the complete word */
+	end_idx = i_copy;
+	/* |-- Finds out where the word ends */
+	while (line[end_idx]
+		&& !is_metacharacter(line[end_idx]))
+	{
+		if (is_quotation_mark(line[end_idx]))
+		{
+			close_quote = ft_strchr(&line[end_idx + 1], line[end_idx]);
+			if (close_quote)
+			{
+				end_idx = close_quote - line + 1;
+			}
+			else
+			{
+				while (line[end_idx])
+					end_idx++;
+			}
+		}
+		else
+		{
+			while (line[end_idx]
+				&& !is_metacharacter(line[end_idx]
+				&& !is_quotation_mark(line[end_idx])))
+			{
+				end_idx++;
+			}
+		}
+	}
+	word = ft_strndup(&line[i_copy], end_idx - i_copy);
+	*i = i_copy;
 }
 
 void	add_this_cmd_to_list(t_cmd_list	**cmds, t_cmd_list **this_cmd,
@@ -199,10 +244,10 @@ t_cmd_list	*analyze_leximes(const char *line)
 	cmds = NULL;
 	this_cmd = cmd_list_new();
 	i = 0;
-	while (line[i] && ft_isspace(line[i]))
-		i++;
 	while (line[i])
 	{
+		while (line[i] && ft_isspace(line[i]))
+			i++;
 		if (line[i] == '|')         /* Pipe */
 		{
 			/*
@@ -250,7 +295,7 @@ t_cmd_list	*analyze_leximes(const char *line)
 					/* |-- Count word length */
 					while (line[analysis_idx]
 						&& !ft_isspace(line[analysis_idx])
-						&& !is_divider(line[analysis_idx]))
+						&& !is_metacharacter(line[analysis_idx]))
 					{
 						analysis_idx++;
 						redirect_str_len++;
@@ -270,7 +315,7 @@ t_cmd_list	*analyze_leximes(const char *line)
 						analysis_idx++;
 					while (line[analysis_idx]
 						&& !ft_isspace(line[analysis_idx])
-						&& !is_divider(line[analysis_idx]))
+						&& !is_metacharacter(line[analysis_idx]))
 					{
 						redirect_str[redirect_str_idx++] = line[analysis_idx++];
 					}
@@ -293,7 +338,7 @@ t_cmd_list	*analyze_leximes(const char *line)
 					{
 						while (line[analysis_idx]
 						&& !ft_isspace(line[analysis_idx])
-						&& !is_divider(line[analysis_idx]))
+						&& !is_metacharacter(line[analysis_idx]))
 							analysis_idx++;
 						this_argument = ft_strndup(&line[i], analysis_idx - i);
 						if (is_quotation_mark(line[analysis_idx]))
@@ -317,6 +362,11 @@ t_cmd_list	*analyze_leximes(const char *line)
 					printf("\"%s\" added to list\n", (char *)ft_lstlast(this_cmd_argv_list)->content);
 				}
 			}
+			/* Two cases: redirect, words 
+			 * In case of redirect: join symbols with the following word and add
+			                        to redirect list
+			 * In case of words: add the next word as command argument
+			 */
 		}
 	}
 	/* Converts linked list to argv string array */
