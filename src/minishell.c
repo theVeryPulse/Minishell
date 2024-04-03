@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/03 02:04:32 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/03 02:15:08 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,23 +250,9 @@ t_cmd_list	*analyze_leximes(const char *line)
 			i++;
 		if (line[i] == '|')         /* Pipe */
 		{
-			/*
-			printf("Detects pipe |, recording new command\n");
-			this_cmd->cmd_argv = list_to_string_array(this_cmd_argv_list);
-			this_cmd->redirects = list_to_string_array(this_cmd_redirect_list);
-			free_all_nodes_leave_content(&this_cmd_argv_list);
-			free_all_nodes_leave_content(&this_cmd_redirect_list);
-			cmd_list_append(&cmds, this_cmd);
-			this_cmd = cmd_list_new();
-			printf("Recording new command\n");
-			// */
-			// /*
 			add_this_cmd_to_list(&cmds, &this_cmd, &this_cmd_argv_list,
 				&this_cmd_redirect_list);
-			// */
 			i++;
-			while (line[i] && ft_isspace(line[i]))
-				i++;
 		}
 		else                        /* The command "echo" */
 		{
