@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexical_analyzer.h                                 :+:      :+:    :+:   */
+/*   syntax_analyzer.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 21:03:19 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 19:43:03 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/04 19:16:06 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/04 19:42:58 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXICAL_ANALYZER_H
-# define LEXICAL_ANALYZER_H
+#ifndef SYNTAX_ANAYLYZER_H
+# define SYNTAX_ANAYLYZER_H
 
 
 #endif

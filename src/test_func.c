@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:16:06 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/03 23:36:22 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:41:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-void	print_and_free_cmds(t_cmd_list *cmds)
+void	print_cmds(t_cmd_list *cmds)
 {
 	int		cmd_argc;
 	int		argv_idx;
@@ -28,7 +28,7 @@ void	print_and_free_cmds(t_cmd_list *cmds)
 	while (cmd)
 	{
 		next_cmd = cmd->next;
-		printf("\n===Command===\n");
+		printf("===Command===\n");
 		printf("---Arguments---\n");
 		argv_idx = 0;
 		while (cmd->cmd_argv && cmd->cmd_argv[argv_idx])
@@ -45,5 +45,4 @@ void	print_and_free_cmds(t_cmd_list *cmds)
 		}
 		cmd = next_cmd;
 	}
-	cmd_list_free(&cmds);
 }

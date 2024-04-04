@@ -6,14 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 18:58:27 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:42:14 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include "lexical_analyzer.h"
-#include "character_checks.h"
 
 // readline
 #include <stdio.h>
@@ -65,12 +63,13 @@ int	main(void)
 	// add_history("Second to latest command");
 	// add_history("Latest command");
 
-	char	*line;
+	char		*line;
+	t_cmd_list	*cmds;
 
 	while (true)
 	{
 		line = readline("minishell $ ");
-		printf("((%s))\n", rl_line_buffer);
+		// printf("((%s))\n", rl_line_buffer);
 		if (ft_strncmp("exit", line, 5) == 0) // Incomplete, exit should return
 		{
 			free(line);
@@ -79,7 +78,10 @@ int	main(void)
 		}
 		add_history(line);
 		if (!contains_only_spaces(line))
-			analyze_leximes(line);
+			cmds = analyze_leximes(line);
+		analyze_syntax(cmds);
+		print_cmds(cmds);
+		cmd_list_free(&cmds);
 		free(line);
 		// break;
 	}

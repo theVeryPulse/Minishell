@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   lexical_analyzer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 18:58:57 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:24:43 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ t_cmd_list	*analyze_leximes(const char *line)
 					word)));
 			free(redirect_symbols);
 			free(word);
-			printf("\"%s\" added to list\n", (char *)ft_lstlast(this_cmd_redirect_list)->content);
+			// printf("\"%s\" added to list\n", (char *)ft_lstlast(this_cmd_redirect_list)->content);
 		}
 		else
 		{
@@ -178,7 +178,7 @@ t_cmd_list	*analyze_leximes(const char *line)
 			word = get_next_word(line, &i);
 			ft_lstadd_back(&this_cmd_argv_list,
 					ft_lstnew((void *)word));
-			printf("\"%s\" added to list\n", (char *)ft_lstlast(this_cmd_argv_list)->content);
+			// printf("\"%s\" added to list\n", (char *)ft_lstlast(this_cmd_argv_list)->content);
 		}
 	}
 	add_this_cmd_to_list(&cmds, this_cmd, &this_cmd_argv_list,
@@ -186,7 +186,5 @@ t_cmd_list	*analyze_leximes(const char *line)
 
 	/* List nodes should be freed, but the content should not be freed */
 	
-	// return (cmds);
-	print_and_free_cmds(cmds);
+	return (cmds);
 }
-
