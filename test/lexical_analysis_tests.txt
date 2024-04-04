@@ -1,0 +1,21 @@
+Next:
+parser, check all syntax, if anything wrong, do not execute anything.
+
+minishell $ cat >> >> END
+((cat >> >> END))
+"cat" added to list
+">>" added to list
+">>END" added to list
+
+===Command===
+---Arguments---
+0: cat
+---Redirects---
+0: >>              // The missing delimiter would only be `|` or `>` `<`
+1: >>END           // If there is following redirection, they shall be the unexpcted token
+                   // If there is not, then `|` shall be the unexpcted token
+                   // A command with at least one argument or one redirection is valid.
+
+BASH:
+$ |echo 123
+bash: syntax error near unexpected token `|'

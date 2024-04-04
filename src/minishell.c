@@ -6,40 +6,18 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/03 23:35:22 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/04 18:58:57 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "character_checks.h"
-
-// readline
 #include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-#include <stdbool.h>
-#include <stdlib.h>
-
-// getcwd
-#include <unistd.h>
-
-// stat
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-
-// signal
-#include <signal.h>
 
 // Check this command
 // <output1 <output2 <outputnotexist <output4 cat >b > c  > d
 
-void	prompt_on_new_line()
-{
-	printf("\nminishell $ ");
-}
 
 char	**list_to_string_array(t_list *list)
 {
@@ -80,37 +58,6 @@ void	free_all_nodes_leave_content(t_list **head)
 	*head = NULL;
 }
 
-#if 0
-char	*complete_quoted_string(const char *line, size_t *i)
-{
-	char	*end_of_argument;
-	char	*quoted_string;
-	size_t	i_copy;
-
-	i_copy = *i;
-	end_of_argument = ft_strchr(&line[i_copy + 1], line[i_copy]);
-	while (end_of_argument
-		&& is_quotation_mark(*(end_of_argument + 1)))
-	{
-		end_of_argument = ft_strchr(end_of_argument + 1, *end_of_argument);
-	}
-	if (end_of_argument)
-	{
-		// size_t n = end_of_argument - &line[i_copy]; /* Test */
-		quoted_string = ft_strndup(&line[i_copy], end_of_argument - &line[i_copy] + 1);
-		i_copy = end_of_argument - line + 1;
-	}
-	else
-	{
-		quoted_string = ft_strdup(&line[i_copy]);
-		while (line[i_copy])
-			i_copy++;
-	}
-	*i = i_copy;
-	return (quoted_string);
-}
-#endif
-
 // Stops at a metacharacter
 // 123"123"123'123'<
 // 123"123 123"123|
@@ -119,7 +66,6 @@ char	*complete_quoted_string(const char *line, size_t *i)
 // Should be used for arguments and redirect filenames/delimters
 // 'E'""END
 // > >> < << should be handled outside this function
-// [ ] Test this function
 char	*get_next_word(const char *line, size_t *i)
 {
 	size_t	i_copy;
@@ -244,41 +190,3 @@ t_cmd_list	*analyze_leximes(const char *line)
 	print_and_free_cmds(cmds);
 }
 
-
-int	main(void)
-{
-	char	buffer[100];
-
-	if (!isatty(STDIN_FILENO))
-		return (0);
-	
-	signal(SIGINT, prompt_on_new_line);
-	getcwd(buffer, 100);
-	printf("%s\n", buffer);
-	printf("%s\n", *__environ);
-	printf("ttyname: %s\n", ttyname(STDIN_FILENO));
-	printf("STDIN isatty = %d\n", isatty(STDIN_FILENO));
-	printf("STDOUT isatty = %d\n", isatty(STDOUT_FILENO));
-	printf("STDERR isatty = %d\n", isatty(STDERR_FILENO));
-
-	// add_history("Second to latest command");
-	// add_history("Latest command");
-
-	char	*line;
-
-	while (true)
-	{
-		line = readline("minishell $ ");
-		printf("((%s))\n", rl_line_buffer);
-		if (ft_strncmp("exit", line, 5) == 0) // Incomplete, exit should return
-		{
-			free(line);
-			exit (0);
-		}
-		add_history(line);
-		analyze_leximes(line);
-		free(line);
-		// break;
-	}
-	return 0;
-}

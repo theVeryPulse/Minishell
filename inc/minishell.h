@@ -6,10 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/03 23:26:45 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/04 18:56:38 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MINISHELL_H
+# define MINISHELL_H
 typedef struct s_cmd_list t_cmd_list;
 
 struct s_cmd_list
@@ -33,3 +35,5 @@ void		cmd_list_free(t_cmd_list **list);
 /* Test functions */
 
 void	print_and_free_cmds(t_cmd_list *cmds);
+
+#endif
