@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:16:06 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 19:42:58 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/04 20:07:03 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYNTAX_ANAYLYZER_H
-# define SYNTAX_ANAYLYZER_H
+#ifndef SYNTAX_ANALYZER_H
+# define SYNTAX_ANALYZER_H
 
 
 #endif

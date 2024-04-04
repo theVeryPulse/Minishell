@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:13:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 18:29:35 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/04 20:05:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	cmd_list_free(t_cmd_list **list)
 		string_array = node->cmd_argv;
 		while (string_array && *string_array)
 		{
-			free(*string_array); // [ ] Invalid address
+			free(*string_array);
 			string_array++;
 		}
 		string_array = node->redirects;

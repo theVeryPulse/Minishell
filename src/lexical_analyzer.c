@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 19:24:43 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/04 20:06:00 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	free_all_nodes_leave_content(t_list **head)
 // 123"123 123"123|
 // "123 123"123'123'>
 // "123"123'123
-// Should be used for arguments and redirect filenames/delimters
+// Should be used for arguments and redirect filenames/delimiters
 // 'E'""END
 // > >> < << should be handled outside this function
 char	*get_next_word(const char *line, size_t *i)
@@ -127,7 +127,7 @@ void	add_this_cmd_to_list(t_cmd_list	**cmds, t_cmd_list *this_cmd,
 // $env_var ' " < > << >> |
 // echo -n 123 321
 // echo -n 123 321 | cat
-t_cmd_list	*analyze_leximes(const char *line)
+t_cmd_list	*analyze_lexemes(const char *line)
 {
 	size_t		i;
 	t_cmd_list	*cmds;
