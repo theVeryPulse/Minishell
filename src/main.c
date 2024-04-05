@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 20:04:09 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/05 21:21:23 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	main(void)
 		add_history(line);
 		if (!contains_only_spaces(line))
 			cmds = analyze_lexemes(line);
+		print_cmds(cmds); /* Develop */
 		analyze_syntax(cmds);
-		print_cmds(cmds);
 		cmd_list_free(&cmds);
 		free(line);
 		// break;
