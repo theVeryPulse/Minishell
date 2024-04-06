@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 01:48:03 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 02:04:58 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,11 @@ static void	print_error_message(t_type unexpected, char *next_redirect)
 	}
 	else if (unexpected == REDIRECT)
 	{
+		ft_strlcpy(unexpected_redirect_symbols, next_redirect, 3);
 		if (next_redirect[0] == next_redirect[1])
-			ft_strlcpy(unexpected_redirect_symbols, next_redirect, 3);
+			unexpected_redirect_symbols[2] = '\0';
 		else
-			ft_strlcpy(unexpected_redirect_symbols, next_redirect, 3);
+			unexpected_redirect_symbols[1] = '\0';
 		ft_dprintf(STDERR_FILENO,
 			"minishell: syntax error near unexpected token `%s'\n",
 			unexpected_redirect_symbols);

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 01:11:44 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 02:22:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void	prompt_on_new_line()
 
 int	main(void)
 {
-
 	if (!isatty(STDIN_FILENO))
 		return (0);
 	
 	signal(SIGINT, prompt_on_new_line);
+	signal(SIGQUIT, SIG_IGN);
 	// char	buffer[100];
 	// getcwd(buffer, 100);
 	// printf("%s\n", buffer);
@@ -70,15 +70,18 @@ int	main(void)
 	{
 		line = readline("minishell $ ");
 		// printf("((%s))\n", rl_line_buffer);
+		if (line == NULL) /* crtl+d EOF */
+			return (0);
 		if (ft_strncmp("exit", line, 5) == 0) // Incomplete, exit should return
 		{
 			free(line);
 			rl_clear_history();
-			exit (0);
+			return (0);
 		}
 		add_history(line);
-		if (!contains_only_spaces(line))
-			cmds = analyze_lexemes(line);
+		if (contains_only_spaces(line))
+			continue ;
+		cmds = analyze_lexemes(line);
 		print_cmds(cmds); /* Develop */
 		analyze_syntax(cmds);
 		cmd_list_free(&cmds);
