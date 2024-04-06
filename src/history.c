@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:39:15 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 16:22:28 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 16:51:25 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
  * of it. Each line's newline character is trimmed before getting added to the 
  * readline history.
  *
- * @return The file descriptor of the opened history file, or -1 if an error occurs.
+ * @return The file descriptor of the opened history file, or -1 upon error.
  */
-int	read_history_from_file()
+int	read_history_from_file(void)
 {
 	int		history;
 	char	*line;
