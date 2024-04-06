@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:23:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 01:36:24 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 12:37:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  */
 typedef enum e_type
 {
-	/* Missing filename/delimiter: `>>|` `>|` `<|` `<<|` */
+	/* Missing filename/delimiter/command: `>>|` `>|` `<|` `<<|` `|` */
 	PIPE,
 	/* Missing filename/delimiter: `>>` `>` `<` `<<` */
 	NEWLINE,
