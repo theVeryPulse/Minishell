@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 02:22:05 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 16:21:39 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	contains_only_spaces(char *line)
 
 void	prompt_on_new_line()
 {
-	printf("\nminishell $ ");
+	printf("\n%s", rl_prompt);
 }
 
 int	main(void)
@@ -65,13 +65,19 @@ int	main(void)
 
 	char		*line;
 	t_cmd_list	*cmds;
+	int			history_file;
 
+	history_file = read_history_from_file();
 	while (true)
 	{
 		line = readline("minishell $ ");
 		// printf("((%s))\n", rl_line_buffer);
 		if (line == NULL) /* crtl+d EOF */
+		{
+			if (history_file != -1)
+				close(history_file);
 			return (0);
+		}
 		if (ft_strncmp("exit", line, 5) == 0) // Incomplete, exit should return
 		{
 			free(line);
@@ -79,6 +85,8 @@ int	main(void)
 			return (0);
 		}
 		add_history(line);
+		if (history_file != -1)
+			ft_dprintf(history_file, "\n%s", line);
 		if (contains_only_spaces(line))
 			continue ;
 		cmds = analyze_lexemes(line);
