@@ -6,18 +6,54 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 01:27:17 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 01:48:03 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_list.h"
 #include "libft.h"
 #include "character_checks.h"
+#include "syntax_analyzer_internal.h"
 #include <stddef.h>
 #include <stdio.h>
 
+static char	last_character_of_string(char *str);
+static void	print_error_message(t_type unexpected, char *next_redirect);
+static int	check_redirects(t_cmd_list *cmd);
+
 /**
- * Helper function for `check_redirects()`
+ * @brief  Checks if all commands have correct syntax. Returns 1 upon finding
+ *         any error, else return 0.
+ * 
+ * @param  cmds A pointer to the first node of the command list.
+ * @return int Returns 1 if any error is found, otherwise returns 0.
+ * @note   Incorrect syntax include:
+ *         1. Empty command: both redirect and arguments are empty;
+ *         2. Missing filename/delimiter for redirection: `<<><`, `<<|`, etc;
+ */
+int	analyze_syntax(t_cmd_list *cmds)
+{
+	t_cmd_list	*cmd;
+
+	if (!cmds)
+		return (0);
+	cmd = cmds;
+	while (cmd)
+	{
+		if (cmd->cmd_argv == NULL && cmd->redirects == NULL && cmd->next)
+		{
+			print_error_message(PIPE, NULL);
+			return (1);
+		}
+		if (check_redirects(cmd) != 0)
+			return (1);
+		cmd = cmd->next;
+	}
+	return (0);
+}
+
+/**
+ * Internal helper function for `check_redirects()`
  */
 static char	last_character_of_string(char *str)
 {
@@ -27,28 +63,13 @@ static char	last_character_of_string(char *str)
 }
 
 /**
- * Helper type for `analyze_syntax()`.
+ * Internal helper function for `check_redirects()`.
  * 
- * @brief Define unexpected characters after redirect symbols
+ * @brief Prints the error message to STDERR
  * 
- */
-typedef enum e_type
-{
-	/* Missing filename/delimiter: `>>|` `>|` `<|` `<<|` */
-	PIPE,
-	/* Missing filename/delimiter: `>>` `>` `<` `<<` */
-	NEWLINE,
-	/* Missing filename/delimiter: `>>>` `>>>>` `<<>` `<<<<` etc. */
-	REDIRECT,
-}	t_type;
-
-/**
- * Helper function for `check_redirects()`
- * 
- * @brief 
- * 
- * @param unexpected 
- * @param next_redirect 
+ * @param unexpected The unexpected character after redirect symbol
+ * @param next_redirect The following redirect, use NULL when unexpected
+ *                      character is not `<` or `>`
  */
 static void	print_error_message(t_type unexpected, char *next_redirect)
 {
@@ -77,7 +98,7 @@ static void	print_error_message(t_type unexpected, char *next_redirect)
 }
 
 /* 
-Helper function for `analyze_syntax()`
+Internal helper function for `analyze_syntax()`
 
 Three possible incorrect inputs:
 | Input                       | Expected output                                |
@@ -111,29 +132,3 @@ static int	check_redirects(t_cmd_list *cmd)
 	}
 	return (0);
 }
-
-
-int	analyze_syntax(t_cmd_list *cmds)
-{
-	t_cmd_list	*cmd;
-
-	if (!cmds)
-		return (0);
-	cmd = cmds;
-	while (cmd)
-	{
-		if (cmd->cmd_argv == NULL && cmd->redirects == NULL && cmd->next)
-		/* There is a following command but current command is empty,
-		   meaning there is an unexpected `|` */
-		{
-			ft_dprintf(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
-			return (1);
-		}
-		if (check_redirects(cmd) != 0)
-			return (1);
-		cmd = cmd->next;
-	}
-	return (0);
-}
-
-
