@@ -9,7 +9,7 @@ SRC_DIR := src
 all: $(NAME)
 
 $(NAME): developing
-	cc src/*.c -I lib/libft/inc/ -I inc -L lib/libft/lib -lft -lreadline -o minishell -g -Wall -Wextra
+	cc src/*.c -Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o minishell -g -Wall -Wextra
 
 developing:
 	@echo "Compiling..."
