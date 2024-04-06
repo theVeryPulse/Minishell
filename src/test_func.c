@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:16:06 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 19:41:56 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 01:12:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@
 
 void	print_cmds(t_cmd_list *cmds)
 {
-	int		cmd_argc;
 	int		argv_idx;
-	t_list	*node;
-	int		redirect_count;
 	int		redirect_idx;
 	t_cmd_list	*cmd;
 	t_cmd_list	*next_cmd;

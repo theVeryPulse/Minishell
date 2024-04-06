@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/05 21:21:23 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 01:11:44 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void	prompt_on_new_line()
 
 int	main(void)
 {
-	char	buffer[100];
 
 	if (!isatty(STDIN_FILENO))
 		return (0);
 	
 	signal(SIGINT, prompt_on_new_line);
+	// char	buffer[100];
 	// getcwd(buffer, 100);
 	// printf("%s\n", buffer);
 	// printf("%s\n", *__environ);

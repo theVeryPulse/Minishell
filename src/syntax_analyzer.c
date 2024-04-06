@@ -6,74 +6,108 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/05 22:58:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 01:27:17 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
 #include "cmd_list.h"
 #include "libft.h"
 #include "character_checks.h"
 #include <stddef.h>
 #include <stdio.h>
 
-#define EMPTY_LIST (0)
-#define SYNTAX_ERROR (1)
-
-// In case that a redirect is ">>" without infile/outfile/delimiter:
-// The missing delimiter's position would only be taken by `|` or `>` `<`
-// If there is following redirection, they shall be the unexpected token
-// If there is not, then `|` shall be the unexpected token
-// A command with at least one argument or one redirection is valid.
-
-static int	check_arguments(char **argument)
+/**
+ * Helper function for `check_redirects()`
+ */
+static char	last_character_of_string(char *str)
 {
-	if (!argument || !(*argument))
-		return (0);
-	
+	while (*(str + 1))
+		str++;
+	return (*str);
 }
 
-static int	check_redirects(char **redirects)
+/**
+ * Helper type for `analyze_syntax()`.
+ * 
+ * @brief Define unexpected characters after redirect symbols
+ * 
+ */
+typedef enum e_type
 {
-	size_t	i;
-	char	*unexpected_str;
-	char	*redirect;
-	char	*next_redirect;
+	/* Missing filename/delimiter: `>>|` `>|` `<|` `<<|` */
+	PIPE,
+	/* Missing filename/delimiter: `>>` `>` `<` `<<` */
+	NEWLINE,
+	/* Missing filename/delimiter: `>>>` `>>>>` `<<>` `<<<<` etc. */
+	REDIRECT,
+}	t_type;
 
-	unexpected_str = NULL;
+/**
+ * Helper function for `check_redirects()`
+ * 
+ * @brief 
+ * 
+ * @param unexpected 
+ * @param next_redirect 
+ */
+static void	print_error_message(t_type unexpected, char *next_redirect)
+{
+	char	unexpected_redirect_symbols[3];
+
+	if (unexpected == PIPE)
+	{
+		ft_dprintf(STDERR_FILENO,
+			"minishell: syntax error near unexpected token `|'\n");
+	}
+	else if (unexpected == NEWLINE)
+	{
+		ft_dprintf(STDERR_FILENO,
+			"minishell: syntax error near unexpected token `newline'\n");
+	}
+	else if (unexpected == REDIRECT)
+	{
+		if (next_redirect[0] == next_redirect[1])
+			ft_strlcpy(unexpected_redirect_symbols, next_redirect, 3);
+		else
+			ft_strlcpy(unexpected_redirect_symbols, next_redirect, 3);
+		ft_dprintf(STDERR_FILENO,
+			"minishell: syntax error near unexpected token `%s'\n",
+			unexpected_redirect_symbols);
+	}
+}
+
+/* 
+Helper function for `analyze_syntax()`
+
+Three possible incorrect inputs:
+| Input                       | Expected output                                |
+| ----------------------------| ---------------------------------------------- |
+| >>\| (followed by pipe)     | "syntax error near unexpected token `|'"       |
+| >>> (followed by redirects) | "syntax error near unexpected token `>>'"      |
+| >>  (followed by nothing)   | "syntax error near unexpected token `newline'" |
+*/
+static int	check_redirects(t_cmd_list *cmd)
+{
+	char	*redirect;
+	char	**redirects;
+
+	if (!cmd->redirects)
+		return (0);
+	redirects = cmd->redirects;
 	redirect = *redirects;
-	// next_redirect = *(redirects + 1);
 	while (redirect)
 	{
-		i = 0;
-		while (redirect[i])
-			i++;
-		i--;
-		if (is_redirect(redirect[i]))
+		if (is_redirect(last_character_of_string(redirect)))
 		{
-			if (redirects + 1 && *(redirects + 1))
-			{
-				next_redirect = *(redirects + 1);
-				/* syntax error near unexpected token `>' */
-				if (next_redirect[0] == next_redirect[1])
-					unexpected_str = ft_strndup(next_redirect, 2);
-				else
-					unexpected_str = ft_strndup(next_redirect, 2);
-				ft_dprintf(STDERR_FILENO,
-					"minishell: syntax error near unexpected token `%s'\n", unexpected_str);
-				free(unexpected_str);
-			}
-			else if (0) /* [ ] bash: syntax error near unexpected token `newline'  use command to check this */
-			{
-
-			}
-			else
-				ft_dprintf(STDERR_FILENO, "minishell: missing command after `|'\n");
+			if ((redirects + 1) && *(redirects + 1))
+				print_error_message(REDIRECT, *(redirects + 1));
+			else if (!cmd->next)
+				print_error_message(NEWLINE, NULL);
+			else if (cmd->next)
+				print_error_message(PIPE, NULL);
 			return (1);
 		}
-		redirect++;
-		redirect = *redirects;
-		// next_redirect = *(redirects + 1);
+		redirect = *(++redirects);
 	}
 	return (0);
 }
@@ -82,31 +116,23 @@ static int	check_redirects(char **redirects)
 int	analyze_syntax(t_cmd_list *cmds)
 {
 	t_cmd_list	*cmd;
-	char		**argument;
-	char		**redirect;
 
 	if (!cmds)
-		return (EMPTY_LIST);
+		return (0);
 	cmd = cmds;
-	// There is a second command but first command is empty, meaning there is an
-	// unexpected `|`
 	while (cmd)
 	{
 		if (cmd->cmd_argv == NULL && cmd->redirects == NULL && cmd->next)
+		/* There is a following command but current command is empty,
+		   meaning there is an unexpected `|` */
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
-			return (SYNTAX_ERROR);
+			return (1);
 		}
-		argument = cmd->cmd_argv;
-		// [ ] Check arguments
-		redirect = cmd->redirects;
-		if (check_redirects(cmd->redirects) != 0)
-		{
-			return (1); /* Redirects error */
-		}
+		if (check_redirects(cmd) != 0)
+			return (1);
 		cmd = cmd->next;
 	}
-	
 	return (0);
 }
 
