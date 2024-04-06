@@ -6,14 +6,14 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 02:04:58 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 19:43:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_list.h"
 #include "libft.h"
 #include "character_checks.h"
-#include "syntax_analyzer_internal.h"
+#include "syntax_analyzer.h"
 #include <stddef.h>
 #include <stdio.h>
 

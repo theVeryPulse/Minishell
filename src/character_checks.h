@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:33:47 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 18:57:52 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 19:39:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,5 @@
 bool	is_redirect(char c);
 bool	is_metacharacter(char c);
 bool	is_quotation_mark(char c);
+
 #endif
