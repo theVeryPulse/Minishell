@@ -4,7 +4,7 @@ RED="\e[31m"
 RESET="\e[0m"
 PASS=1
 
-cc src/"$FILE_NAME".c test/"$FILE_NAME"_test.c \
+cc src/"$FILE_NAME".c src/"$FILE_NAME"_part2.c test/"$FILE_NAME"_test.c \
     -I lib/libft/inc -Iinc -Isrc \
     -L lib/libft/lib \
     -lft \
@@ -33,6 +33,11 @@ echo "$output" | grep -q "HOME: >$HOME<" \
     || (echo -e "HOME: ""$RED""Failed" $RESET; PASS=0)
 
 # Add new variable to environment and compare output
+echo "$output" | grep -q "MYVAR: >Hello World<" \
+    && echo -e "Add to env: "$GREEN"OK" $RESET \
+    || (echo -e "Add new var to env: ""$RED""Failed" $RESET; PASS=0)
+
+# Change existing environment variable and compare output
 echo "$output" | grep -q "MYVAR: >Hello World<" \
     && echo -e "Add to env: "$GREEN"OK" $RESET \
     || (echo -e "Add new var to env: ""$RED""Failed" $RESET; PASS=0)

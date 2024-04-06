@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 19:56:14 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/06 23:28:29 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,22 @@ void		cmd_list_free(t_cmd_list **list);
 /* Working history */
 
 int			read_history_from_file(void);
+
+/* Lexical analysis */
+
 t_cmd_list	*analyze_lexemes(const char *line);
+
+/* Syntax analysis */
+
 int			analyze_syntax(t_cmd_list *cmds);
 
 /* Environment variables */
 
 void		build_env_stack(t_env_stack	**stack);
-void		add_to_env(t_env_stack **stack, char *name_value);
+void		update_in_env(t_env_stack **stack, const char *name_value);
 char		*find_env_value_by_name(t_env_stack *stack, const char *name);
 void		remove_from_env_by_name(t_env_stack **stack, const char *name);
+char		**build_envp(t_env_stack *stack);
 void		free_env_stack(t_env_stack **stack);
 
 /* Test functions */
