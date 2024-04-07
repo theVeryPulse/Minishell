@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 19:41:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 19:46:07 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static bool	is_builtin_function(const char *cmd)
 			|| ft_strncmp("export", cmd, 10) == 0);
 }
 
-void	search_executable(t_cmd_list *cmds, t_env_stack *env)
+void	search_executable(t_cmd_list *cmds, t_env *env)
 {
 	t_cmd_list	*cmd;
 	char		*exe;

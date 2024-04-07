@@ -4,7 +4,7 @@
 
 int main(void)
 {
-	t_env_stack	*env;
+	t_env	*env;
 	char		*value;
 	char		*name;
 

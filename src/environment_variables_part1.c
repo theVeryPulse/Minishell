@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:39:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 19:42:17 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 19:46:58 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include "libft.h"
 #include <unistd.h>
 
-static void	add_to_env(t_env_stack **stack, const char *name_value);
+static void	add_to_env(t_env **stack, const char *name_value);
 
-char	*env_get_value_by_name(t_env_stack *stack, const char *name)
+char	*env_get_value_by_name(t_env *stack, const char *name)
 {
-	t_env_stack	*node;
-	size_t		i;
+	t_env	*node;
+	size_t	i;
 
 	node = stack;
 	while (node)
@@ -34,7 +34,7 @@ char	*env_get_value_by_name(t_env_stack *stack, const char *name)
 	return (NULL);
 }
 
-void	env_build(t_env_stack **stack)
+void	env_build(t_env **stack)
 {
 	char	**env_var;
 
@@ -65,11 +65,11 @@ A->B->NULL
 
  */
 
-void	env_remove_by_name(t_env_stack **stack, const char *name)
+void	env_remove_by_name(t_env **stack, const char *name)
 {
-	t_env_stack	*node;
-	t_env_stack	*prev;
-	size_t		i;
+	t_env	*node;
+	t_env	*prev;
+	size_t	i;
 
 	node = *stack;
 	while (node)
@@ -90,10 +90,10 @@ void	env_remove_by_name(t_env_stack **stack, const char *name)
 	}
 }
 
-void	env_update_name_value(t_env_stack **stack, const char *name_value)
+void	env_update_name_value(t_env **stack, const char *name_value)
 {
-	t_env_stack	*node;
-	size_t		i;
+	t_env	*node;
+	size_t	i;
 
 	node = *stack;
 	while (node)
@@ -112,11 +112,11 @@ void	env_update_name_value(t_env_stack **stack, const char *name_value)
 	add_to_env(stack, name_value);
 }
 
-static void	add_to_env(t_env_stack **stack, const char *name_value)
+static void	add_to_env(t_env **stack, const char *name_value)
 {
-	t_env_stack	*new_node;
+	t_env	*new_node;
 
-	new_node = (t_env_stack *)ft_calloc(1, sizeof(t_env_stack));
+	new_node = (t_env *)ft_calloc(1, sizeof(t_env));
 	new_node->next = NULL;
 	if (*stack)
 		new_node->next = *stack;

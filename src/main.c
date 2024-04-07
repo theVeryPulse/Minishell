@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 19:42:41 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 19:46:07 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(void)
 	char		*line;
 	t_cmd_list	*cmds;
 	int			history_file;
-	t_env_stack	*env;
+	t_env	*env;
 
 	env_build(&env);
 	history_file = read_history_from_file();

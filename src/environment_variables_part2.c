@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:39:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 19:42:41 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 19:47:14 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include "libft.h"
 #include <unistd.h>
 
-char	**env_build_envp(t_env_stack *stack)
+char	**env_build_envp(t_env *stack)
 {
-	int			i;
-	int			len;
-	char		**envp;
-	t_env_stack	*node;
+	int		i;
+	int		len;
+	char	**envp;
+	t_env	*node;
 
 	node = stack;
 	len = 0;
@@ -39,10 +39,10 @@ char	**env_build_envp(t_env_stack *stack)
 	return (envp);
 }
 
-void	env_free(t_env_stack **stack)
+void	env_free(t_env **stack)
 {
-	t_env_stack	*node;
-	t_env_stack	*next_node;
+	t_env	*node;
+	t_env	*next_node;
 
 	if (!stack || !(*stack))
 		return ;
