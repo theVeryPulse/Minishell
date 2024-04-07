@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 19:46:07 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 20:41:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ int			analyze_syntax(t_cmd_list *cmds);
 /* Search executable */
 
 void		search_executable(t_cmd_list *cmds, t_env *env);
+
+/* Expand argument */
+
+void		expand_arguments(t_cmd_list *cmds, t_env *env);
+
 
 /* Test functions */
 
