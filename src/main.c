@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 02:41:57 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 19:42:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(void)
 	int			history_file;
 	t_env_stack	*env;
 
-	build_env_stack(&env);
+	env_build(&env);
 	history_file = read_history_from_file();
 	while (true)
 	{
@@ -82,7 +82,7 @@ int	main(void)
 		}
 		if (ft_strncmp("exit", line, 5) == 0) // Incomplete, exit should return
 		{
-			free_env_stack(&env);
+			env_free(&env);
 			free(line);
 			rl_clear_history();
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 02:48:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 19:42:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int			analyze_syntax(t_cmd_list *cmds);
 
 /* Environment variables */
 
-void		build_env_stack(t_env_stack	**stack);
-void		update_in_env(t_env_stack **stack, const char *name_value);
-char		*find_env_value_by_name(t_env_stack *stack, const char *name);
-void		remove_from_env_by_name(t_env_stack **stack, const char *name);
-char		**build_envp(t_env_stack *stack);
-void		free_env_stack(t_env_stack **stack);
+// void		env_build(t_env_stack	**stack);
+// void		env_update_name_value(t_env_stack **stack, const char *name_value);
+// char		*env_get_value_by_name(t_env_stack *stack, const char *name);
+// void		env_remove_by_name(t_env_stack **stack, const char *name);
+// char		**env_build_envp(t_env_stack *stack);
+// void		env_free(t_env_stack **stack);
 
 /* Search executable */
 

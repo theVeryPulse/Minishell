@@ -8,22 +8,22 @@ int main(void)
 	char		*value;
 	char		*name;
 
-	build_env_stack(&env);
+	env_build(&env);
 
 	/* Search */
 
 	name = "USER";
-	value = find_env_value_by_name(env, name);
+	value = env_get_value_by_name(env, name);
 	ft_printf("Search %s: >%s<\n", name, value);
 	free(value);
 
 	name = "LANGUAGE";
-	value = find_env_value_by_name(env, name);
+	value = env_get_value_by_name(env, name);
 	ft_printf("Search %s: >%s<\n", name, value);
 	free(value);
 
 	name = "HOME";
-	value = find_env_value_by_name(env, name);
+	value = env_get_value_by_name(env, name);
 	ft_printf("Search %s: >%s<\n", name, value);
 	free(value);
 
@@ -33,25 +33,25 @@ int main(void)
 	name = "MYVAR";
 	
 	ft_printf("Add new var to env\n");
-	update_in_env(&env, "MYVAR=Hello World");
-	value = find_env_value_by_name(env, name);
+	env_update_name_value(&env, "MYVAR=Hello World");
+	value = env_get_value_by_name(env, name);
 	ft_printf("Search %s: >%s<\n", name, value);
 	free(value);
 
 	ft_printf("Change existing variable\n");
-	update_in_env(&env, "USER=super");
-	value = find_env_value_by_name(env, "USER");
+	env_update_name_value(&env, "USER=super");
+	value = env_get_value_by_name(env, "USER");
 	ft_printf("Search USER: >%s<\n", value);
 	free(value);
 
 	ft_printf("Remove new var from env\n");
-	remove_from_env_by_name(&env, name);
-	value = find_env_value_by_name(env, name);
+	env_remove_by_name(&env, name);
+	value = env_get_value_by_name(env, name);
 	ft_printf("Search %s: >%s<\n", name, value);
 
 	free(value);
 
-	char **envp = build_envp(env);
+	char **envp = env_build_envp(env);
 	char **iter = envp;
 	while (iter && *iter)
 	{
@@ -61,6 +61,6 @@ int main(void)
 	}
 	free(envp);
 
-	free_env_stack(&env);
+	env_free(&env);
 	return 0;
 }

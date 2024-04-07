@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 17:02:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 19:41:53 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	search_executable(t_cmd_list *cmds, t_env_stack *env)
 
 	if (!cmds)
 		return ;
-	path_all = find_env_value_by_name(env, "PATH");
+	path_all = env_get_value_by_name(env, "PATH");
 	paths = ft_split(path_all, ':');
 	free_and_null((void **)&path_all);
 	cmd = cmds;

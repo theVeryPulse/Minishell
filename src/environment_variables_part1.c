@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:39:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 01:33:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 19:42:17 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	add_to_env(t_env_stack **stack, const char *name_value);
 
-char	*find_env_value_by_name(t_env_stack *stack, const char *name)
+char	*env_get_value_by_name(t_env_stack *stack, const char *name)
 {
 	t_env_stack	*node;
 	size_t		i;
@@ -34,7 +34,7 @@ char	*find_env_value_by_name(t_env_stack *stack, const char *name)
 	return (NULL);
 }
 
-void	build_env_stack(t_env_stack **stack)
+void	env_build(t_env_stack **stack)
 {
 	char	**env_var;
 
@@ -65,7 +65,7 @@ A->B->NULL
 
  */
 
-void	remove_from_env_by_name(t_env_stack **stack, const char *name)
+void	env_remove_by_name(t_env_stack **stack, const char *name)
 {
 	t_env_stack	*node;
 	t_env_stack	*prev;
@@ -90,7 +90,7 @@ void	remove_from_env_by_name(t_env_stack **stack, const char *name)
 	}
 }
 
-void	update_in_env(t_env_stack **stack, const char *name_value)
+void	env_update_name_value(t_env_stack **stack, const char *name_value)
 {
 	t_env_stack	*node;
 	size_t		i;
