@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 16:21:39 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 02:41:57 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int	main(void)
 	char		*line;
 	t_cmd_list	*cmds;
 	int			history_file;
+	t_env_stack	*env;
 
+	build_env_stack(&env);
 	history_file = read_history_from_file();
 	while (true)
 	{
@@ -80,6 +82,7 @@ int	main(void)
 		}
 		if (ft_strncmp("exit", line, 5) == 0) // Incomplete, exit should return
 		{
+			free_env_stack(&env);
 			free(line);
 			rl_clear_history();
 			return (0);
@@ -92,6 +95,8 @@ int	main(void)
 		cmds = analyze_lexemes(line);
 		print_cmds(cmds); /* Develop */
 		analyze_syntax(cmds);
+		search_executable(cmds, env);
+		print_cmds(cmds); /* Develop */
 		cmd_list_free(&cmds);
 		free(line);
 		// break;

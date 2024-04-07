@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/04 20:06:00 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 02:45:48 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,45 +18,8 @@
 // Check this command
 // <output1 <output2 <outputnotexist <output4 cat >b > c  > d
 
-
-char	**list_to_string_array(t_list *list)
-{
-	int		list_len;
-	int		i;
-	char	**string_array;
-
-	if (!list)
-	{
-		return (NULL);
-	}
-	list_len = ft_lstsize(list);
-	string_array = (char **)ft_calloc(list_len + 1, sizeof(char *));
-	i = 0;
-	while (i < list_len)
-	{
-		string_array[i] = (char *)list->content;
-		list = list->next;
-		i++;
-	}
-	return (string_array);
-}
-
-void	free_all_nodes_leave_content(t_list **head)
-{
-	t_list	*node;
-	t_list	*next_node;
-
-	if (!head || !(*head))
-		return ;
-	node = *head;
-	while (node)
-	{
-		next_node = node->next;
-		free(node);
-		node = next_node;
-	}
-	*head = NULL;
-}
+static char	**list_to_string_array(t_list *list);
+static void	free_all_nodes_leave_content(t_list **head);
 
 // Stops at a metacharacter
 // 123"123"123'123'<
@@ -187,4 +150,43 @@ t_cmd_list	*analyze_lexemes(const char *line)
 	/* List nodes should be freed, but the content should not be freed */
 	
 	return (cmds);
+}
+
+static char	**list_to_string_array(t_list *list)
+{
+	int		list_len;
+	int		i;
+	char	**string_array;
+
+	if (!list)
+	{
+		return (NULL);
+	}
+	list_len = ft_lstsize(list);
+	string_array = (char **)ft_calloc(list_len + 1, sizeof(char *));
+	i = 0;
+	while (i < list_len)
+	{
+		string_array[i] = (char *)list->content;
+		list = list->next;
+		i++;
+	}
+	return (string_array);
+}
+
+static void	free_all_nodes_leave_content(t_list **head)
+{
+	t_list	*node;
+	t_list	*next_node;
+
+	if (!head || !(*head))
+		return ;
+	node = *head;
+	while (node)
+	{
+		next_node = node->next;
+		free(node);
+		node = next_node;
+	}
+	*head = NULL;
 }

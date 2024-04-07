@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:39:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 23:39:13 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 01:33:53 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	build_env_stack(t_env_stack **stack)
 		add_to_env(stack, *env_var);
 		env_var++;
 	}
+	add_to_env(stack, "?=0");
 }
 
 /*

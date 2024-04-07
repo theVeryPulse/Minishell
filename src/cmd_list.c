@@ -6,15 +6,14 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:13:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 02:02:48 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 02:32:17 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_list.h"
+#include "string_array.h"
 #include "libft.h"
 #include <stddef.h>
-
-static void	free_string_array(char **string_array);
 
 t_cmd_list	*cmd_list_new(void)
 {
@@ -49,21 +48,10 @@ void	cmd_list_free(t_cmd_list **list)
 	while (node)
 	{
 		next_node = node->next;
-		free_string_array(node->cmd_argv);
-		free_string_array(node->redirects);
-		free(node->cmd_argv);
-		free(node->redirects);
+		free_string_array_and_null(&node->cmd_argv);
+		free_string_array_and_null(&node->redirects);
 		free(node);
 		node = next_node;
 	}
 	*list = NULL;
-}
-
-static void	free_string_array(char **string_array)
-{
-	while (string_array && *string_array)
-	{
-		free(*string_array);
-		string_array++;
-	}
 }
