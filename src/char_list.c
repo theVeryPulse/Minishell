@@ -6,13 +6,15 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 20:34:06 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 20:36:39 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/07 20:43:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "char_list.h"
 #include "libft.h"
 #include <stddef.h>
+
+static t_char_list	*char_list_last_node(t_char_list *list);
 
 void	char_list_free_and_null(t_char_list **list)
 {
@@ -57,15 +59,6 @@ char	*char_list_to_str(t_char_list *list)
 	return (str);
 }
 
-t_char_list	*char_list_last_node(t_char_list *list)
-{
-	if (!list)
-		return (NULL);
-	while (list->next)
-		list = list->next;
-	return (list);	
-}
-
 void	char_list_add_char(t_char_list **list, char c)
 {
 	t_char_list	*new_node;
@@ -85,4 +78,13 @@ void	char_list_add_str(t_char_list **list, char *str)
 		char_list_add_char(list, *str);
 		str++;
 	}
+}
+
+static t_char_list	*char_list_last_node(t_char_list *list)
+{
+	if (!list)
+		return (NULL);
+	while (list->next)
+		list = list->next;
+	return (list);	
 }

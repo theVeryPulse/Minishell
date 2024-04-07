@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 20:40:29 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 00:01:44 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 /* [ ] echo $USER'$USER'"$USER" -> SIGSEGV */
 
-static char	*get_var_name(char *str)
+static char	*get_var_name(char *str, bool quotation) /* Checks what ends a var_name */
 {
 	size_t	start;
 	size_t	end;
