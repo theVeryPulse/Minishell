@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 00:01:44 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 01:53:22 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@
 #include "libft.h"
 #include <stddef.h>
 
-/* [ ] echo $USER'$USER'"$USER" -> SIGSEGV */
-
-static char	*get_var_name(char *str, bool quotation) /* Checks what ends a var_name */
+static char	*get_var_name(char *str)
 {
 	size_t	start;
 	size_t	end;
@@ -28,7 +26,7 @@ static char	*get_var_name(char *str, bool quotation) /* Checks what ends a var_n
 	if (str[start] == '$')
 		start++;
 	end = start;
-	while (str[end] && str[end] != ' ' && str[end] != '\"')
+	while (str[end] && ft_isalnum(str[end]))
 		end++;
 	return (ft_strndup(&str[start], end - start));
 }
@@ -47,14 +45,16 @@ static void	expand_string(char **arg_ptr, t_env *env)
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] == '\'') /*  '123'  , oldlen:5, newlen:3 */
-		{                   /* ~34567~                      */
+		if (arg[i] == '\'')
+		{
 			i++;
 			while (arg[i] != '\'')
 			{
 				char_list_add_char(&char_list, arg[i]);
 				i++;
 			}
+			if (arg[i] == '\'')
+				i++;
 		}
 		else if (arg[i] == '\"')
 		{
@@ -63,12 +63,13 @@ static void	expand_string(char **arg_ptr, t_env *env)
 			{
 				if (arg[i] == '$')
 				{
+					i++;
 					name = get_var_name(&arg[i]);
 					value = env_get_value_by_name(env, name);
 					char_list_add_str(&char_list, value);
 					free_and_null((void **)&name);
 					free_and_null((void **)&value);
-					while (arg[i] && arg[i] != ' ' && arg[i] != '\"')
+					while (arg[i] && ft_isalnum(arg[i]))
 						i++;
 				}
 				else
@@ -86,7 +87,8 @@ static void	expand_string(char **arg_ptr, t_env *env)
 			char_list_add_str(&char_list, value);
 			free_and_null((void **)&name);
 			free_and_null((void **)&value);
-			while (arg[i] && arg[i] != ' ' && arg[i] != '\"')
+			i++;
+			while (arg[i] && ft_isalnum(arg[i]))
 				i++;
 		}
 		else

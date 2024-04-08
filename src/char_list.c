@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 20:34:06 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 20:43:55 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 01:51:24 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	char_list_free_and_null(t_char_list **list)
 		free(node);
 		node = next;
 	}
+	*list = NULL;
 }
 
 char	*char_list_to_str(t_char_list *list)
