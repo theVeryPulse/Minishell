@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 20:38:58 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 15:01:57 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(void)
 		return (0);
 	
 	signal(SIGINT, prompt_on_new_line);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN); /* For terminating process while testing */
 	// char	buffer[100];
 	// getcwd(buffer, 100);
 	// printf("%s\n", buffer);
