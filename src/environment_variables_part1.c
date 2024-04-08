@@ -6,13 +6,14 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:39:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 19:46:58 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:01:33 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environment_variables.h"
 #include "libft.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 static void	add_to_env(t_env **stack, const char *name_value);
 

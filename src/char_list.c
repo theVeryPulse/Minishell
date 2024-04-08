@@ -6,13 +6,14 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 20:34:06 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 01:51:24 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:02:45 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "char_list.h"
 #include "libft.h"
 #include <stddef.h>
+#include <stdlib.h>
 
 static t_char_list	*char_list_last_node(t_char_list *list);
 

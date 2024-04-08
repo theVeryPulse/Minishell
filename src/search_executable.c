@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 19:46:07 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:06:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "string_array.h"
 #include "libft.h"
 #include "free_and_null.h"
+#include <stdbool.h>
+#include <unistd.h>
 
 /* 
 |command |options                                |

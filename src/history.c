@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:39:15 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 16:51:25 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:01:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <readline/history.h>
+#include <stdlib.h>
 
 /**
  * @brief Reads command history from a file and adds it to the readline history.

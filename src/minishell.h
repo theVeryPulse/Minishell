@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 20:41:20 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:05:19 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 
 /* Linked list of commands */
 
-t_cmd_list	*cmd_list_new(void);
-t_cmd_list	*cmd_list_last(t_cmd_list *list);
-void		cmd_list_append(t_cmd_list **list, t_cmd_list *node);
-void		cmd_list_free(t_cmd_list **list);
+// t_cmd_list	*cmd_list_new(void);
+// t_cmd_list	*cmd_list_last(t_cmd_list *list);
+// void		cmd_list_append(t_cmd_list **list, t_cmd_list *node);
+// void		cmd_list_free(t_cmd_list **list);
 
 /* Working history */
 

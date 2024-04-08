@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 15:04:09 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:07:27 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "syntax_analyzer.h"
 #include <stddef.h>
 #include <stdio.h>
+#include <unistd.h>
 
 static char	last_character_of_string(char *str);
 static void	print_error_message(t_type unexpected, char *next_redirect);

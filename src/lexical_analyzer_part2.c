@@ -6,11 +6,15 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:34:50 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 16:54:37 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:07:00 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "character_checks.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 static char	*get_next_word_and_update_i(const char *line, size_t *i);
 static void	set_end_idx_to_close_quote(const char *line, size_t *end_idx);

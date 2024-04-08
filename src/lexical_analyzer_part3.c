@@ -6,12 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 16:19:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 16:52:14 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:02:27 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_list.h"
 #include "libft.h"
+#include <stdlib.h>
 
 static char	**list_to_string_array(t_list *list);
 static void	free_all_nodes_leave_content(t_list **head);

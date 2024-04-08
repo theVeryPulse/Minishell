@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:13:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 02:32:17 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:01:21 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "string_array.h"
 #include "libft.h"
 #include <stddef.h>
+#include <stdlib.h>
 
 t_cmd_list	*cmd_list_new(void)
 {

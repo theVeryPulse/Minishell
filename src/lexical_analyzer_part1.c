@@ -6,13 +6,14 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 16:52:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:04:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "minishell.h"
+#include "lexical_analyzer.h"
+#include "cmd_list.h"
 #include "character_checks.h"
+#include "libft.h"
 #include <stdarg.h>
 #include <stdio.h>
 
