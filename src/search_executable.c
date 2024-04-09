@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 17:06:26 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 02:48:13 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "environment_variables.h"
+#include "environment_variables/env.h"
 #include "string_array.h"
 #include "libft.h"
 #include "free_and_null.h"

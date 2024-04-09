@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment_variables.h                            :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/06 18:19:20 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 19:46:20 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/09 02:38:37 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/09 02:51:21 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENVIRONMENT_VARIABLES_H
-# define ENVIRONMENT_VARIABLES_H
+#ifndef ENV_H
+# define ENV_H
 
 typedef struct s_env	t_env;
 typedef struct s_env

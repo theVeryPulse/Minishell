@@ -12,6 +12,7 @@ $(NAME): developing
 	cc src/*.c \
 	src/lexical_analyzer/*.c \
 	src/syntax_analyzer/*.c \
+	src/environment_variables/*.c \
 	-Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o minishell -g -Wall -Wextra
 
 developing:

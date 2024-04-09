@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 17:20:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 02:47:13 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_list.h"
-#include "environment_variables.h"
+#include "environment_variables/env.h"
 #include "char_list.h"
 #include "free_and_null.h"
 #include "libft.h"

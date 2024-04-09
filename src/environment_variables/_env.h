@@ -6,7 +6,15 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:29:41 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:29:41 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 02:43:10 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef _ENV_H
+# define _ENV_H
+
+# include "env.h" 
+
+void	_add_to_env(t_env **stack, const char *name_value);
+
+#endif
