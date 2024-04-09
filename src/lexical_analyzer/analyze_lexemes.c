@@ -6,13 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:46:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:15:06 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 10:27:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_lexical_analyzer.h"
 #include "../character_checks.h"
-#include "../cmd_list.h"
+#include "../command_list/cmd_list.h"
 #include "libft.h"
 #include <stdarg.h>
 

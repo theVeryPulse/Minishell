@@ -6,11 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:53:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:09:42 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 10:26:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cmd_list.h"
+#include "../command_list/cmd_list.h"
 #include "libft.h"
 #include <stdlib.h>
 

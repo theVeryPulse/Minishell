@@ -14,6 +14,7 @@ $(NAME): developing
 	src/syntax_analyzer/*.c \
 	src/environment_variables/*.c \
 	src/character_list/*.c \
+	src/command_list/*.c \
 	-Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o minishell -g -Wall -Wextra
 
 developing:

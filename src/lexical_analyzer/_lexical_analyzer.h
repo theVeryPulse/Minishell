@@ -6,14 +6,14 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:54:34 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:11:58 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 10:26:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _LEXICAL_ANALYZER_H
 # define _LEXICAL_ANALYZER_H
 
-# include "../cmd_list.h"
+# include "../command_list/cmd_list.h"
 # include "libft.h"
 
 void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
