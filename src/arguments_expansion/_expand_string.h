@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_list_free_and_null.c                          :+:      :+:    :+:   */
+/*   _expand_string.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 10:09:41 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:03:17 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/09 10:55:44 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/09 10:59:37 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "char_list.h"
-#include <stdlib.h>
-#include <stddef.h>
+#ifndef _EXPAND_STRING_H
+# define _EXPAND_STRING_H
 
-void	char_list_free_and_null(t_char_list **list)
-{
-	t_char_list	*node;
-	t_char_list	*next;
+# include "../environment_variables/env.h"
 
-	if (!list || !(*list))
-		return ;
-	node = *list;
-	while (node)
-	{
-		next = node->next;
-		free(node);
-		node = next;
-	}
-	*list = NULL;
-}
+void	_expand_string(char **arg_ptr, t_env *env);
+
+#endif

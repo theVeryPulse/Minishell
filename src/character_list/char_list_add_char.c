@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:10:57 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 10:15:08 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 11:03:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ static t_char_list	*char_list_last_node(t_char_list *list)
 		return (NULL);
 	while (list->next)
 		list = list->next;
-	return (list);	
+	return (list);
 }

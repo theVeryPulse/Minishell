@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:10:41 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 10:14:19 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 11:03:36 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 char	*char_list_to_str(t_char_list *list)
 {
-	size_t	len;
-	size_t	i;
+	size_t		len;
+	size_t		i;
 	t_char_list	*node;
-	char	*str;
+	char		*str;
 
 	if (!list)
 		return (NULL);

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax_analyzer.h                                  :+:      :+:    :+:   */
+/*   _syntax_analyzer.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:23:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 19:42:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 11:04:15 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYNTAX_ANALYZER_INTERNAL_H
-# define SYNTAX_ANALYZER_INTERNAL_H
+#ifndef _SYNTAX_ANALYZER_H
+# define _SYNTAX_ANALYZER_H
 
 /**
  * Internal helper type for `analyze_syntax()`.
