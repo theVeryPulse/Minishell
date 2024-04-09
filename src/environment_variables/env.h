@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:38:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:51:21 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 11:41:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct s_env
 	t_env	*next;
 }	t_env;
 
-void	env_build(t_env	**env);
+void	env_init(t_env	**env);
 void	env_update_name_value(t_env **env, const char *name_value);
 char	*env_get_value_by_name(t_env *env, const char *name);
 void	env_remove_by_name(t_env **env, const char *name);

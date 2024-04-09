@@ -8,7 +8,7 @@ int main(void)
 	char		*value;
 	char		*name;
 
-	env_build(&env);
+	env_init(&env);
 
 	/* Search */
 

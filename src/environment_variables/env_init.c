@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_build.c                                        :+:      :+:    :+:   */
+/*   env_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <unistd.h>
 
-void	env_build(t_env **stack)
+void	env_init(t_env **stack)
 {
 	char	**env_var;
 

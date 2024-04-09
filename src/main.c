@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:52:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 11:41:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(void)
 	int			history_file;
 	t_env	*env;
 
-	env_build(&env);
+	env_init(&env);
 	history_file = read_history_from_file();
 	while (true)
 	{
