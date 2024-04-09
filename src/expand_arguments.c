@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 01:53:22 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:20:33 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,15 @@ void	expand_arguments(t_cmd_list *cmds, t_env *env)
 	while (cmd)
 	{
 		i = 0;
-		while (cmd->cmd_argv[i])
+		while (cmd->cmd_argv && cmd->cmd_argv[i])
 		{
 			expand_string(&(cmd->cmd_argv[i]), env);
+			i++;
+		}
+		i = 0;
+		while (cmd->redirects && cmd->redirects[i])
+		{
+			expand_string(&(cmd->redirects[i]), env);
 			i++;
 		}
 		cmd = cmd->next;
