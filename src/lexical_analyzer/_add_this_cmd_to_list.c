@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexical_analyzer_part3.c                           :+:      :+:    :+:   */
+/*   _add_this_cmd_to_list.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/08 16:19:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 17:02:27 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/09 01:53:25 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/09 02:09:42 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_list.h"
+#include "../cmd_list.h"
 #include "libft.h"
 #include <stdlib.h>
 
-static char	**list_to_string_array(t_list *list);
-static void	free_all_nodes_leave_content(t_list **head);
+static char	**_list_to_string_array(t_list *list);
+static void	_free_all_nodes_leave_content(t_list **head);
 
-void	add_this_cmd_to_list(t_cmd_list	**cmds, t_cmd_list *this_cmd,
+void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
 		t_list **arguments, t_list **redirects)
 {
-	this_cmd->cmd_argv = list_to_string_array(*arguments);
-	this_cmd->redirects = list_to_string_array(*redirects);
-	free_all_nodes_leave_content(arguments);
-	free_all_nodes_leave_content(redirects);
+	this_cmd->cmd_argv = _list_to_string_array(*arguments);
+	this_cmd->redirects = _list_to_string_array(*redirects);
+	_free_all_nodes_leave_content(arguments);
+	_free_all_nodes_leave_content(redirects);
 	cmd_list_append(cmds, this_cmd);
 }
 
-static char	**list_to_string_array(t_list *list)
+static char	**_list_to_string_array(t_list *list)
 {
 	int		list_len;
 	int		i;
@@ -49,7 +49,7 @@ static char	**list_to_string_array(t_list *list)
 	return (string_array);
 }
 
-static void	free_all_nodes_leave_content(t_list **head)
+static void	_free_all_nodes_leave_content(t_list **head)
 {
 	t_list	*node;
 	t_list	*next_node;
