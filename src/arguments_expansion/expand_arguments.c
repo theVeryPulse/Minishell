@@ -6,18 +6,18 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 10:27:26 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 10:34:18 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "command_list/cmd_list.h"
-#include "environment_variables/env.h"
-#include "character_list/char_list.h"
-#include "free_and_null.h"
+#include "../command_list/cmd_list.h"
+#include "../environment_variables/env.h"
+#include "../character_list/char_list.h"
+#include "../free_and_null.h"
 #include "libft.h"
 #include <stddef.h>
 
-static char	*get_var_name(char *str)
+static char	*_get_var_name(char *str)
 {
 	size_t	start;
 	size_t	end;
@@ -31,7 +31,7 @@ static char	*get_var_name(char *str)
 	return (ft_strndup(&str[start], end - start));
 }
 
-static void	expand_string(char **arg_ptr, t_env *env)
+static void	_expand_string(char **arg_ptr, t_env *env)
 {
 	size_t		i;
 	char		*arg;
@@ -64,7 +64,7 @@ static void	expand_string(char **arg_ptr, t_env *env)
 				if (arg[i] == '$')
 				{
 					i++;
-					name = get_var_name(&arg[i]);
+					name = _get_var_name(&arg[i]);
 					value = env_get_value_by_name(env, name);
 					char_list_add_str(&char_list, value);
 					free_and_null((void **)&name);
@@ -82,7 +82,7 @@ static void	expand_string(char **arg_ptr, t_env *env)
 		}
 		else if (arg[i] == '$')
 		{
-			name = get_var_name(&arg[i]);
+			name = _get_var_name(&arg[i]);
 			value = env_get_value_by_name(env, name);
 			char_list_add_str(&char_list, value);
 			free_and_null((void **)&name);
@@ -113,13 +113,13 @@ void	expand_arguments(t_cmd_list *cmds, t_env *env)
 		i = 0;
 		while (cmd->cmd_argv && cmd->cmd_argv[i])
 		{
-			expand_string(&(cmd->cmd_argv[i]), env);
+			_expand_string(&(cmd->cmd_argv[i]), env);
 			i++;
 		}
 		i = 0;
 		while (cmd->redirects && cmd->redirects[i])
 		{
-			expand_string(&(cmd->redirects[i]), env);
+			_expand_string(&(cmd->redirects[i]), env);
 			i++;
 		}
 		cmd = cmd->next;
