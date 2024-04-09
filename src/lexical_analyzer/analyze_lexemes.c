@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:46:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 10:27:05 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:42:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 #include "../character_checks.h"
 #include "../command_list/cmd_list.h"
 #include "libft.h"
+#include <stdio.h>
 #include <stdarg.h>
 
 static void	_set_to_null(int n, ...);
 static void	_skip_spaces(const char *line, size_t *i);
+static void	_add_argument_and_update_i(t_list **arguments, const char *line,
+				size_t *i);
+static void	_add_redirect_and_update_i(t_list **redirects, const char *line,
+				size_t *i);
 
 /*
 analyze_lexemes
@@ -101,4 +106,42 @@ static void	_skip_spaces(const char *line, size_t *i)
 	while (line[i_copy] && ft_isspace(line[i_copy]))
 		i_copy++;
 	*i = i_copy;
+}
+
+static void	_add_redirect_and_update_i(
+			t_list **redirects, const char *line, size_t *i)
+{
+	char	*redirect_symbols;
+	char	*word;
+	char	*redirect_str;
+	size_t	i_copy;
+
+	i_copy = *i;
+	if (line[i_copy + 1] == line[i_copy])
+		redirect_symbols = ft_strndup(&line[i_copy++], 2);
+	else
+		redirect_symbols = ft_strndup(&line[i_copy], 1);
+	i_copy++;
+	while (ft_isspace(line[i_copy]))
+		i_copy++;
+	word = _get_next_word_and_update_i(line, &i_copy);
+	redirect_str = ft_strjoin(redirect_symbols, word);
+	ft_lstadd_back(redirects, ft_lstnew((void *)redirect_str));
+	free(redirect_symbols);
+	free(word);
+	*i = i_copy;
+	printf("\"%s\" added to list\n", (char *)ft_lstlast(*redirects)->content); /* Test */
+}
+
+static void	_add_argument_and_update_i(
+			t_list **arguments, const char *line, size_t *i)
+{
+	char	*word;
+	size_t	i_copy;
+
+	i_copy = *i;
+	word = _get_next_word_and_update_i(line, &i_copy);
+	ft_lstadd_back(arguments, ft_lstnew((void *)word));
+	*i = i_copy;
+	// printf("\"%s\" added to list\n", (char *)ft_lstlast(arguments)->content);
 }
