@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:26:43 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:38:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 11:39:36 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@
  */
 bool	is_builtin_function(const char *cmd)
 {
-	return (ft_strncmp("cd", cmd, 10) == 0
-			|| ft_strncmp("env", cmd, 10) == 0
-			|| ft_strncmp("pwd", cmd, 10) == 0
-			|| ft_strncmp("echo", cmd, 10) == 0
-			|| ft_strncmp("exit", cmd, 10) == 0
-			|| ft_strncmp("unset", cmd, 10) == 0
-			|| ft_strncmp("export", cmd, 10) == 0);
+	return (ft_strncmp("cd", cmd, 3) == 0
+		|| ft_strncmp("env", cmd, 4) == 0
+		|| ft_strncmp("pwd", cmd, 4) == 0
+		|| ft_strncmp("echo", cmd, 5) == 0
+		|| ft_strncmp("exit", cmd, 5) == 0
+		|| ft_strncmp("unset", cmd, 6) == 0
+		|| ft_strncmp("export", cmd, 7) == 0);
 }
