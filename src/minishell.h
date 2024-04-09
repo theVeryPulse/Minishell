@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:53:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/09 10:18:31 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "cmd_list.h"
+# include "environment_variables/env.h"
 
 /* Working history */
 
