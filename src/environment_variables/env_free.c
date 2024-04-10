@@ -6,13 +6,20 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:28:59 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:45:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:17:43 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <stdlib.h>
 
+/**
+ * @brief Frees memory of the entire linked list for environment variables.
+ *        Resets pointer to NULL.
+ *
+ * @param stack A pointer to the pointer to the head of the linked list of
+ *              environment variables.
+ */
 void	env_free(t_env **stack)
 {
 	t_env	*node;

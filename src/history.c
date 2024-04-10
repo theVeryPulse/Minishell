@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:39:15 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/08 17:01:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:12:06 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@
 #include <stdlib.h>
 
 /**
- * @brief Reads command history from a file and adds it to the readline history.
+ * @brief Reads command history from ".minishell_history" and adds it to the
+ *        readline history.
  *
- * @note This function attempts to open ".minishell_history" and read each line 
- * of it. Each line's newline character is trimmed before getting added to the 
- * readline history.
- *
- * @return The file descriptor of the opened history file, or -1 upon error.
+ * @return `int` The file descriptor of the opened history file, or -1 upon
+ *         error.
  */
 int	read_history_from_file(void)
 {

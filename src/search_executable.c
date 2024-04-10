@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:37:20 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:44:48 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 
 static void	_try_find_executable(t_cmd_list *cmd, char **paths);
 
+/**
+ * @brief Searches for executable files in the directories specified by the PATH
+ *        environment variable. If executable is found, the file path will
+ *        replace the original argument. Skips built-in functions.
+ *
+ * @param cmds A pointer to the head of the linked list of command nodes.
+ * @param env  A pointer to the head of the linked list of environment variables.
+ */
 void	search_executable(t_cmd_list *cmds, t_env *env)
 {
 	t_cmd_list	*cmd;

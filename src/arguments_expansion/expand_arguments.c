@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:01:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:47:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include "../environment_variables/env.h"
 #include <stddef.h>
 
+/**
+ * @brief Expands environment variables in command arguments and redirects.
+ *
+ * @param cmds A pointer to the head of the linked list of command nodes.
+ * @param env  A pointer to the head of the linked list of environment
+ *             variables.
+ */
 void	expand_arguments(t_cmd_list *cmds, t_env *env)
 {
 	t_cmd_list	*cmd;

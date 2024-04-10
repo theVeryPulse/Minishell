@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 10:27:12 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:10:32 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static void	print_error_message(t_type unexpected, char *next_redirect);
 static int	check_redirects(t_cmd_list *cmd);
 
 /**
- * @brief  Checks if all commands have correct syntax. Returns 1 upon finding
- *         any error, else return 0.
+ * @brief  Checks if all commands have correct syntax. Prints message for found 
+ *         errors.
  * 
  * @param  cmds A pointer to the first node of the command list.
- * @return int Returns 1 if any error is found, otherwise returns 0.
+ * @return `int` 1 if any error is found, otherwise returns 0.
  * @note   Incorrect syntax include:
  *         1. Empty command: both redirect and arguments are empty;
  *         2. Missing filename/delimiter for redirection: `<<><`, `<<|`, etc;

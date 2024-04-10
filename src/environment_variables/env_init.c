@@ -14,6 +14,13 @@
 #include <stddef.h>
 #include <unistd.h>
 
+/**
+ * @brief Initializes an environment variable linked list with the current 
+ *        environment variables.
+ *
+ * @param stack A pointer to the pointer to the head of the linked list of 
+ *              environment variables.
+ */
 void	env_init(t_env **stack)
 {
 	char	**env_var;

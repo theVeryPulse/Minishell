@@ -6,13 +6,23 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:28:51 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:44:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:34:21 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "libft.h"
 
+/**
+ * @brief Builds an environment variables string array from a linked list of
+ *        environment variables.
+ *        The array of strings (envp) is suitable for passing to execve().
+ *
+ * @param stack A pointer to the head of the linked list of environment 
+ *              variables.
+ * @return      A pointer to the array of strings (envp) terminated by NULL.
+ *              This array should be freed by the caller when no longer needed.
+ */
 char	**env_build_envp(t_env *stack)
 {
 	int		i;

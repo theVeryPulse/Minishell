@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:46:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 20:42:55 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:09:03 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../command_list/cmd_list.h"
 #include "libft.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 
 static void	_set_to_null(int n, ...);
@@ -47,12 +48,19 @@ analyze_lexemes
  */
 
 /**
- * @brief Lexical analysis, also known as tokenizer or lexer. Translates line
- *        into tokens.
+ * @brief Translates line into tokens.
  * 
  * @param line the input string to be analyzed.
  * @return `t_cmd_list*` A linked list of commands, each node is a command with
  *         arguments and redirects as string arrays.
+ * @note Lexical analysis, also known as tokenizer or lexer.
+ *       Example:
+ *       `>output echo<"$USER" |ls|$USER >>END | echo "$PATH"`
+ *       will be divided into
+ *       `echo`, `>output`, `<$"USER"`
+ *       `ls`
+ *       `$USER`, `>>END`
+ *       `echo`, `"$PATH"`
  */
 t_cmd_list	*analyze_lexemes(const char *line)
 {
