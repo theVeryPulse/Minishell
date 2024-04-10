@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 13:11:27 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 23:35:03 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ void		expand_arguments(t_cmd_list *cmds, t_env *env);
 
 void		check_redirect_files(t_cmd_list *cmds);
 
+/* Execute commands */
+
+void	execute_cmds(t_cmd_list *cmds, t_env *env);
 
 /* Test functions */
 
