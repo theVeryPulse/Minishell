@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_up_redirection_files.c                         :+:      :+:    :+:   */
+/*   check_redirect_files.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 20:50:07 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 19:09:03 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 19:13:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	check_redirect_files(t_cmd_list *cmds)
 static bool	_check_file_for_redirect(const char *redirect,
 				const char *file_path, const char *arg)
 {
-	int	fd;
+	int		fd;
 	bool	not_okay;
 
 	not_okay = false;
@@ -92,7 +92,6 @@ static bool	_file_not_okay(const char *redirect)
 {
 	size_t	i;
 	char	*file_path;
-	// int		fd;
 	bool	not_okay;
 
 	not_okay = false;
@@ -104,7 +103,7 @@ static bool	_file_not_okay(const char *redirect)
 	else
 		file_path = ft_format_string("./%s", &redirect[i]);
 	not_okay = _check_file_for_redirect(redirect, file_path, &redirect[i]);
-	ft_printf("  redirect: checking %s: file okay: %s\n", file_path, not_okay ? "no" : "yes");
+	ft_printf("  redirect: checking %s: file okay: %s\n", file_path, not_okay ? "no" : "yes"); /* Test */
 	free(file_path);
 	return (not_okay);
 }
