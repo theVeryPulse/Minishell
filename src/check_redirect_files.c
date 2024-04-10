@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 20:50:07 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 19:13:05 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 19:42:52 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static bool	_file_not_okay(const char *redirect)
 	else
 		file_path = ft_format_string("./%s", &redirect[i]);
 	not_okay = _check_file_for_redirect(redirect, file_path, &redirect[i]);
-	ft_printf("  redirect: checking %s: file okay: %s\n", file_path, not_okay ? "no" : "yes"); /* Test */
+	printf("  redirect: checking %s: file okay: %s\n", file_path, not_okay ? "no" : "yes"); /* Test */
 	free(file_path);
 	return (not_okay);
 }
