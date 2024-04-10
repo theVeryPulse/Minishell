@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:16:06 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 01:12:59 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 02:34:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ void	print_cmds(t_cmd_list *cmds)
 	while (cmd)
 	{
 		next_cmd = cmd->next;
-		printf("===Command===\n");
-		printf("---Arguments---\n");
+		printf("Command\n");
+		printf("  Arguments\n");
 		argv_idx = 0;
 		while (cmd->cmd_argv && cmd->cmd_argv[argv_idx])
 		{
-			printf("%d: %s\n", argv_idx, cmd->cmd_argv[argv_idx]);
+			printf("    %d: %s\n", argv_idx, cmd->cmd_argv[argv_idx]);
 			argv_idx++;
 		}
-		printf("---Redirects---\n");
+		printf("  Redirects\n");
 		redirect_idx = 0;
 		while (cmd->redirects && cmd->redirects[redirect_idx])
 		{
-			printf("%d: %s\n", redirect_idx, cmd->redirects[redirect_idx]);
+			printf("    %d: %s\n", redirect_idx, cmd->redirects[redirect_idx]);
 			redirect_idx++;
 		}
 		cmd = next_cmd;

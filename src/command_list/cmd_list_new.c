@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:21:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 10:24:02 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 02:29:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,9 @@
 
 t_cmd_list	*cmd_list_new(void)
 {
-	return ((t_cmd_list *)ft_calloc(1, sizeof(t_cmd_list)));
+	t_cmd_list	*new;
+
+	new = (t_cmd_list *)ft_calloc(1, sizeof(t_cmd_list));
+	new->should_execute = true;
+	return (new);
 }

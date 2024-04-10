@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:44:48 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/10 13:10:31 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	search_executable(t_cmd_list *cmds, t_env *env)
 	cmd = cmds;
 	while (cmd)
 	{
-		if (!ft_strchr(cmd->cmd_argv[0], '/')
+		if (cmd->cmd_argv
+			&& !ft_strchr(cmd->cmd_argv[0], '/')
 			&& !is_builtin_function(cmd->cmd_argv[0]))
 		{
 			_try_find_executable(cmd, paths);
