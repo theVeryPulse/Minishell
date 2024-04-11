@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/11 10:50:45 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:05:44 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,9 @@ void	execute_one_cmd(t_cmd_list *cmd, t_env *env)
 	char	*exit_status_as_str;
 	char	*exit_status_env;
 
-	if (cmd->cmd_argv && command_for_parent_process(cmd->cmd_argv[0]))
+	if (!cmd->cmd_argv)
+		return ;
+	if (command_for_parent_process(cmd->cmd_argv[0]))
 	{
 		;
 	}
