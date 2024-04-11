@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/11 11:05:44 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/11 12:18:06 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ For debugging child process:
 #include "libft.h"
 #include "is_builtin_function.h"
 #include "free_and_null.h"
+#include "fcntl.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdio.h>
@@ -54,22 +55,20 @@ For debugging child process:
  * cmd_count 3
  * pipes = [0] [1] [2] [3] [4] [5]
  */
-void	pipes_init(t_pipes *pipes, t_cmd_list *cmds)
+void	pipes_init(t_pipes *pipes, int pipe_count)
 {
-	int	cmd_count;
 	int	i;
 
-	cmd_count = cmd_list_len(cmds);
-	if (cmd_count < 2)
+	if (pipe_count < 1)
 	{
 		pipes->pipe_count = 0;
 		pipes->pipes = NULL;
 		return ;
 	}
-	pipes->pipe_count = cmd_count - 1;
-	pipes->pipes = (int *)ft_calloc((cmd_count - 1) * 2, sizeof(int));
+	pipes->pipe_count = pipe_count;
+	pipes->pipes = (int *)ft_calloc(pipe_count * 2, sizeof(int));
 	i = 0;
-	while (i < (cmd_count - 1) * 2)
+	while (i < pipe_count * 2)
 	{
 		pipe(&(pipes->pipes[i]));
 		i += 2;
@@ -111,7 +110,7 @@ void	heredoc(char *delimiter, int output_fd)
 	while (1)
 	{
 		line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(delimiter, line, ft_strlen(delimiter) + 1))
+		if (ft_strncmp(delimiter, line, ft_strlen(delimiter) + 1) == 0)
 			break ;
 		if (line && output_fd != -1)
 			write(output_fd, line, ft_strlen(line));
@@ -119,6 +118,65 @@ void	heredoc(char *delimiter, int output_fd)
 	}
 	free_and_null((void **)&line);
 	exit (0);
+}
+
+/**
+ * @brief 
+ * 
+ * @param 
+ * @note Four occasions: 
+ *       `<`  : dup2(input_file_fd, STDIN_FILENO)
+ *       `<<` : dup2(pipe_read_end, STDIN_FILENO) write end is heredoc
+ *       `>`  : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_APPEND
+ *       `>>` : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_TRUNC
+ */
+void	apply_redirects(t_cmd_list *cmd, int pipe_read_end_fd)
+{
+	char	**redirect;
+	int		fd;
+	pid_t	id;
+	t_pipes	heredoc_pipe;
+
+	if (!cmd->redirects)
+		return ;
+	redirect = cmd->redirects;
+	while (*redirect)
+	{
+		if ((*redirect)[0] == '<' && (*redirect)[1] == '<') // TODO: Left here
+		{
+			pipes_init(&heredoc_pipe, 1);
+			id = fork();
+			if (id == 0)
+			{
+				close(heredoc_pipe.pipes[0]);
+				heredoc(&(*redirect)[2], heredoc_pipe.pipes[1]);
+			}
+			else
+			{
+				close(heredoc_pipe.pipes[1]);
+				dup2(heredoc_pipe.pipes[0], STDIN_FILENO);
+			}
+		}
+		else if ((*redirect)[0] == '<')
+		{
+			fd = open(&(*redirect)[1], O_RDONLY);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		else if ((*redirect)[0] == '>' && (*redirect)[1] == '>')
+		{
+			fd = open(&(*redirect)[2], O_WRONLY | O_APPEND);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if ((*redirect)[0] == '>')
+		{
+			fd = open(&(*redirect)[1], O_WRONLY | O_TRUNC);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		redirect++;
+	}
 }
 
 void	execute_one_cmd(t_cmd_list *cmd, t_env *env)
@@ -145,6 +203,7 @@ void	execute_one_cmd(t_cmd_list *cmd, t_env *env)
 		id = fork();
 		if (id == 0)
 		{
+			apply_redirects(cmd, -1);
 			if (execve(cmd->cmd_argv[0], cmd->cmd_argv, env_build_envp(env)) == -1)
 			{
 				ft_dprintf(STDERR_FILENO, "minishell: ");
@@ -168,6 +227,8 @@ void	execute_one_cmd(t_cmd_list *cmd, t_env *env)
 	}
 }
 
+
+
 void	execute_cmds(t_cmd_list *cmds, t_env *env)
 {
 	t_pipes		pipes;
@@ -184,7 +245,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 		execute_one_cmd(cmds, env);
 		return ;
 	}
-	pipes_init(&pipes, cmds);
+	pipes_init(&pipes, cmd_list_len(cmds) - 1);
 	pipe_idx = 0;
 	cmd_idx = 0;
 	cmd = cmds;
@@ -217,6 +278,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 					dup2(pipes.pipes[write_end], STDOUT_FILENO);
 				if (read_end >= 0 && read_end < pipes.pipe_count * 2)
 					dup2(pipes.pipes[read_end], STDIN_FILENO);
+				apply_redirects(cmd, pipes.pipes[read_end]);
 				pipes_close_all(&pipes);
 				if (execve(cmd->cmd_argv[0], cmd->cmd_argv, env_build_envp(env)) == -1)
 				{
