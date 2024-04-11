@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:23:53 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 02:08:47 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/11 01:47:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ t_cmd_list	*cmd_list_new(void);
 t_cmd_list	*cmd_list_last(t_cmd_list *list);
 void		cmd_list_append(t_cmd_list **list, t_cmd_list *node);
 void		cmd_list_free(t_cmd_list **list);
+int			cmd_list_len(t_cmd_list *list);
 
 #endif
