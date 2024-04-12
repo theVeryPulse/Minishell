@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 12:37:21 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 16:55:54 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	main(void)
 			expand_arguments(cmds, env);
 			print_cmds(cmds); /* Develop */
 			check_redirect_files(cmds);
+			execute_cmds(cmds, env);
 		}
 		cmd_list_free(&cmds);
 		free(line);

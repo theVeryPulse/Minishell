@@ -16,6 +16,8 @@ $(NAME): developing
 	src/character_list/*.c \
 	src/command_list/*.c \
 	src/arguments_expansion/*.c \
+	src/built_in/*.c \
+	src/pipes/*.c \
 	-Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o minishell -g -Wall -Wextra
 
 developing:

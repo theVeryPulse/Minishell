@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_list_add_str.c                                :+:      :+:    :+:   */
+/*   _t_pipe.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 10:11:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 21:02:09 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/12 20:53:58 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/12 21:20:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "char_list.h"
+#ifndef _T_PIPE_H
+# define _T_PIPE_H
 
-void	char_list_add_str(t_char_list **list, char *str)
+/**
+ * @brief Structure for pipes. `int *pipes` should be a dynamically allocated
+ *        array of integers.
+ * 
+ * @note Pipes is an integer array of length (pipe_count * 2) as each pipe has
+ *       two ends.
+ */
+typedef struct s_pipes
 {
-	if (!str)
-		return ;
-	while (*str)
-	{
-		char_list_add_char(list, *str);
-		str++;
-	}
-}
+	int	*pipes;
+	int	pipe_count;
+}	t_pipes;
+
+#endif
