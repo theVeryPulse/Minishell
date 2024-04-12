@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 16:56:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 20:53:19 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ For debugging child process:
  */
 
 // #include
-#include "pipes.h"
+#include "pipes/pipes.h"
 #include "command_list/cmd_list.h"
 #include "environment_variables/env.h"
 #include "built_in/built_in.h"
@@ -55,45 +55,6 @@ static int	_open_heredoc_temp_file_for_write(void)
 		unlink(HEREDOC_FILE);
 	fd = open(HEREDOC_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0755);
 	return (fd);
-}
-
-/**
- * @brief Set the up pipes object
- * 
- * @param cmds 
- * @return int* 
- * @note 
- * 
- * cmd_count 3
- * pipes = [0] [1] [2] [3] [4] [5]
- */
-void	pipes_init(t_pipes *pipes, int pipe_count)
-{
-	int	i;
-
-	if (pipe_count < 1)
-	{
-		pipes->pipe_count = 0;
-		pipes->pipes = NULL;
-		return ;
-	}
-	pipes->pipe_count = pipe_count;
-	pipes->pipes = (int *)ft_calloc(pipe_count * 2, sizeof(int));
-	i = 0;
-	while (i < pipe_count * 2)
-	{
-		pipe(&(pipes->pipes[i]));
-		i += 2;
-	}
-}
-
-void	pipes_close_all(t_pipes *pipes)
-{
-	int	i;
-	
-	i = 0;
-	while (i < pipes->pipe_count * 2)
-		close(pipes->pipes[i++]);
 }
 
 /**
@@ -254,6 +215,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 		if (cmd->cmd_argv && command_for_parent_process(cmd->cmd_argv[0]))
 		{
 			/* Close all write end? */
+			/* if (ft_strncmp(cmd->cmd_argv[0], "export", 7) == 0)
+				builtin_export(cmd->cmd_argv, env); */
 		}
 		/* [ ] Executes built-ins with I/O */
 		else if (cmd->cmd_argv && is_builtin_function(cmd->cmd_argv[0]))
