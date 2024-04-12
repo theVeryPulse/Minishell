@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 23:03:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 23:40:13 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void	apply_redirects(t_cmd_list *cmd, int stdin_copy)
 	}
 }
 
-void	execute_cmds(t_cmd_list *cmds, t_env *env)
+void	execute_cmds(t_cmd_list *cmds, t_env **env)
 {
 	t_pipes		pipes;
 	t_cmd_list	*cmd;
@@ -175,6 +175,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 	int			exit_status;
 	bool		has_child_process;
 
+	exit_status = 0;
 	has_child_process = false;
 	pipes_init(&pipes, cmd_list_len(cmds) - 1);
 	cmd = cmds;
@@ -245,7 +246,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 			{
 				pipes_close_all(&pipes);
 				if (execve(cmd->cmd_argv[0], cmd->cmd_argv,
-					env_build_envp(env)) == -1)
+					env_build_envp(*env)) == -1)
 				{
 					ft_dprintf(STDERR_FILENO, "minishell: ");
 					perror(cmd->cmd_argv[0]);
@@ -275,17 +276,17 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 		waitpid(id, &wstatus, 0);
 		if (WIFEXITED(wstatus))
 			exit_status = WEXITSTATUS(wstatus);
-		printf("Exit status: %d\n", exit_status);/* Testing */
-		exit_status_str = ft_itoa(exit_status);
-		exit_status_name_value = ft_format_string("?=%s", exit_status_str);
-		env_update_name_value(&env, exit_status_name_value);
-		free_and_null((void **)&exit_status_str);
-		free_and_null((void **)&exit_status_name_value);
 	}
 	else
 	{
 		/* Try catch the exit status of built-in functions */
 	}
+	printf("Exit status: %d\n", exit_status);/* Testing */
+	exit_status_str = ft_itoa(exit_status);
+	exit_status_name_value = ft_format_string("?=%s", exit_status_str);
+	env_update_name_value(env, exit_status_name_value);
+	free_and_null((void **)&exit_status_str);
+	free_and_null((void **)&exit_status_name_value);
 	/* Free resources */
 	free_and_null((void **)(&pipes.pipes));
 	unlink(HEREDOC_FILE);

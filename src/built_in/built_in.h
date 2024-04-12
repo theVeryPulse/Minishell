@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/11 10:58:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 23:36:48 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define BUILT_IN_H
 
 int	builtin_pwd(void);
+int	builtin_export(t_env **env, char **cmd_argv);
 
 #endif

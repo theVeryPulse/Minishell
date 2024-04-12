@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:02:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 23:57:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,11 @@ static void	_add_env_value(t_char_list **char_list, const char *arg,
 	char_list_add_str(char_list, value);
 	free_and_null((void **)&name);
 	free_and_null((void **)&value);
+	if (ft_strncmp(&arg[*i], "$?", 2))
+	{
+		(*i) += 2;
+		return ;
+	}
 	(*i)++;
 	while (arg[*i] && ft_isalnum(arg[*i]))
 		(*i)++;
@@ -115,6 +120,8 @@ static char	*_get_var_name(const char *str)
 	size_t	start;
 	size_t	end;
 
+	if (ft_strncmp(str, "$?", 3) == 0)
+		return (ft_strdup("?"));
 	start = 0;
 	if (str[start] == '$')
 		start++;

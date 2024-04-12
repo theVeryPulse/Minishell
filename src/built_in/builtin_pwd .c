@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd .c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:57:10 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/12 21:35:05 by chuleung         ###   ########.fr       */
+/*   Updated: 2024/04/12 22:57:31 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	builtin_pwd(void)
 		printf("%s\n", cwd);
 	else
 	{
-		perror("No such file or directory");
+		perror("minishell");
 		return (1);
 	}
 	return (0);

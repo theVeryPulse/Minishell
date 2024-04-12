@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 16:55:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 23:58:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ int	main(void)
 		// print_cmds(cmds); /* Develop */
 		if (analyze_syntax(cmds) == 0)
 		{
-			search_executable(cmds, env);
 			expand_arguments(cmds, env);
+			search_executable(cmds, env);
 			print_cmds(cmds); /* Develop */
 			check_redirect_files(cmds);
-			execute_cmds(cmds, env);
+			execute_cmds(cmds, &env);
 		}
 		cmd_list_free(&cmds);
 		free(line);
