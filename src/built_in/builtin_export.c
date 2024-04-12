@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:43:07 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/11 21:45:42 by chuleung         ###   ########.fr       */
+/*   Updated: 2024/04/12 21:34:24 by chuleung         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_env.h"
+#include "../environment_variables/env.h"
+#include "../environment_variables/_env.h"
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "../environment_variables/env.h"
-
-
-void export(char **argv, t_env *env)
+void builtin_export(t_env *env, char *cmd_argv)
 {
-    int id;
-    char *name_value;
-
-    //sth that can argv into a array of arg strings
-    env_update_name_value(&env, &(argv[1]));
-
-    id = fork();
-    if (id == 0)
-    {
-        e
-        perror("EXIT_FAILURE")
-    }
-    else
-        wait(NULL);
+    if (ft_strncmp(cmd_argv[0], "export", 7))
+        exit (1);
+    env_update_name_value(&env, cmd_argv[1]);
 }
 
 /*
