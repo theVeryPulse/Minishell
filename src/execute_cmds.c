@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 21:34:55 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 23:03:30 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 	int			write_end;
 	int			cmd_idx;
 	int			id;
+	int			exit_status;
 	bool		has_child_process;
 
 	has_child_process = false;
@@ -212,11 +213,21 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 
 
 		/* [ ] Executes built-ins for main process */
+		/* 
+		 * cd with only a relative or absolute path  same process
+		 * export with no options                    same process
+		 * unset with no options                     same process
+		 * exit with no options                      same process
+		 * pwd with no options                       child process
+		 * env with no options or arguments          child process 
+		 */
 		if (cmd->cmd_argv && command_for_parent_process(cmd->cmd_argv[0]))
 		{
 			/* Close all write end? */
-			/* if (ft_strncmp(cmd->cmd_argv[0], "export", 7) == 0)
-				builtin_export(cmd->cmd_argv, env); */
+			if (ft_strncmp(cmd->cmd_argv[0], "pwd", 4) == 0)
+				exit_status =  builtin_pwd();
+			else if (ft_strncmp(cmd->cmd_argv[0], "export", 7) == 0)
+				exit_status = builtin_export(env, cmd->cmd_argv);
 		}
 		/* [ ] Executes built-ins with I/O */
 		else if (cmd->cmd_argv && is_builtin_function(cmd->cmd_argv[0]))
@@ -224,7 +235,9 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 			has_child_process = true;
 		}
 		/* Executes (external programs) */
-		else if (cmd->cmd_argv && cmd->cmd_argv[0])
+		else if (cmd->cmd_argv
+			&& cmd->cmd_argv[0]
+			&& ft_strlen(cmd->cmd_argv[0]) > 0)
 		{
 			has_child_process = true;
 			id = fork();
@@ -253,7 +266,6 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 
 	/* Get and save exit status */
 	int		wstatus;
-	int		exit_status;
 	char	*exit_status_str;
 	char	*exit_status_name_value;
 

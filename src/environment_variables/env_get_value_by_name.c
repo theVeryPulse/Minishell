@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:27:08 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:29:02 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 22:52:19 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ char	*env_get_value_by_name(t_env *stack, const char *name)
 			return (ft_strdup(&(node->name_value[i + 1])));
 		node = node->next;
 	}
-	return (NULL);
+	return (ft_calloc(1, sizeof(char)));
 }
