@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/11 11:05:44 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 20:53:19 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,58 +31,30 @@ For debugging child process:
  */
 
 // #include
-#include "pipes.h"
+#include "pipes/pipes.h"
 #include "command_list/cmd_list.h"
 #include "environment_variables/env.h"
 #include "built_in/built_in.h"
 #include "libft.h"
 #include "is_builtin_function.h"
 #include "free_and_null.h"
+#include "fcntl.h"
+#include "heredoc.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 
-/**
- * @brief Set the up pipes object
- * 
- * @param cmds 
- * @return int* 
- * @note 
- * 
- * cmd_count 3
- * pipes = [0] [1] [2] [3] [4] [5]
- */
-void	pipes_init(t_pipes *pipes, t_cmd_list *cmds)
+static int	_open_heredoc_temp_file_for_write(void)
 {
-	int	cmd_count;
-	int	i;
+	int		fd;
 
-	cmd_count = cmd_list_len(cmds);
-	if (cmd_count < 2)
-	{
-		pipes->pipe_count = 0;
-		pipes->pipes = NULL;
-		return ;
-	}
-	pipes->pipe_count = cmd_count - 1;
-	pipes->pipes = (int *)ft_calloc((cmd_count - 1) * 2, sizeof(int));
-	i = 0;
-	while (i < (cmd_count - 1) * 2)
-	{
-		pipe(&(pipes->pipes[i]));
-		i += 2;
-	}
-}
-
-void	pipes_close_all(t_pipes *pipes)
-{
-	int	i;
-	
-	i = 0;
-	while (i < pipes->pipe_count * 2)
-		close(pipes->pipes[i++]);
+	if (access(HEREDOC_FILE, F_OK | R_OK | W_OK) != 0)
+		unlink(HEREDOC_FILE);
+	fd = open(HEREDOC_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0755);
+	return (fd);
 }
 
 /**
@@ -104,67 +76,89 @@ bool	command_for_parent_process(const char *cmd)
 			|| ft_strncmp(cmd, "export", 7) == 0);
 }
 
-void	heredoc(char *delimiter, int output_fd)
+/**
+ * @brief 
+ * 
+ * @param delimiter 
+ * @note The process itself first finishes heredoc before executing any built-in
+ *       or external programs.
+ * @todo Handle signals
+ */
+void	heredoc(char *delimiter, int stdin_copy)
 {
 	char	*line;
+	int		heredoc_fd;
+	char	*delimiter_nl;
 
+	dup2(stdin_copy, STDIN_FILENO);
+	delimiter_nl = ft_format_string("%s\n", delimiter);
+	heredoc_fd = _open_heredoc_temp_file_for_write();
+	// ft_dprintf(STDERR_FILENO, "  %d heredoc\n", getpid()); /* Develop */
 	while (1)
 	{
+		write(STDERR_FILENO, "> ", 2);
 		line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(delimiter, line, ft_strlen(delimiter) + 1))
+		// ft_dprintf(STDERR_FILENO, "  %d received \"%s\"\n", getpid(), line); /* Develop */
+		if (!line)
+		{
+			ft_dprintf(STDERR_FILENO,
+				"\nminishell: warning: here-document delimited by end-of-line "
+				"(wanted `END')\n");
 			break ;
-		if (line && output_fd != -1)
-			write(output_fd, line, ft_strlen(line));
+		}
+		if (ft_strncmp(delimiter_nl, line, ft_strlen(delimiter) + 1) == 0)
+			break ;
+		if (line)
+			write(heredoc_fd, line, ft_strlen(line));
 		free_and_null((void **)&line);
 	}
+	close(heredoc_fd);
+	free_and_null((void **)&delimiter_nl);
 	free_and_null((void **)&line);
-	exit (0);
 }
 
-void	execute_one_cmd(t_cmd_list *cmd, t_env *env)
+/**
+ * @brief 
+ * 
+ * @param 
+ * @note Four occasions: 
+ *       `<`  : dup2(input_file_fd, STDIN_FILENO)
+ *       `<<` : dup2(heredoc_temp_file, STDIN_FILENO)
+ *       `>`  : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_APPEND
+ *       `>>` : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_TRUNC
+ */
+void	apply_redirects(t_cmd_list *cmd, int stdin_copy)
 {
-	pid_t	id;
-	int		wstatus;
-	int		exit_status;
-	char	*exit_status_as_str;
-	char	*exit_status_env;
+	char	**redirect;
+	int		fd;
 
-	if (!cmd->cmd_argv)
+	if (!cmd->redirects)
 		return ;
-	if (command_for_parent_process(cmd->cmd_argv[0]))
+	redirect = cmd->redirects;
+	while (*redirect)
 	{
-		;
-	}
-	else if (is_builtin_function(cmd->cmd_argv[0]))
-	{
-		if (ft_strncmp(cmd->cmd_argv[0], "pwd", 3) == 0)
-			builtin_pwd();
-	}
-	else 
-	{
-		id = fork();
-		if (id == 0)
+		if ((*redirect)[0] == '<')
 		{
-			if (execve(cmd->cmd_argv[0], cmd->cmd_argv, env_build_envp(env)) == -1)
+			if ((*redirect)[1] == '<')
 			{
-				ft_dprintf(STDERR_FILENO, "minishell: ");
-				perror(cmd->cmd_argv[0]);
-				exit (127);
+				// ft_dprintf(STDERR_FILENO, "  %d executing heredoc\n", getpid()); /* Develop */
+				heredoc(&(*redirect)[2], stdin_copy);
+				fd = open(HEREDOC_FILE, O_RDONLY);
 			}
-			exit (0);
+			else
+				fd = open(&(*redirect)[1], O_RDONLY);
+			dup2(fd, STDIN_FILENO);
 		}
-		else
+		else if ((*redirect)[0] == '>')
 		{
-			waitpid(id, &wstatus, 0);
-			if (WIFEXITED(wstatus))
-				exit_status = WEXITSTATUS(wstatus);
-			printf("Exit status: %d\n", exit_status);
-			exit_status_as_str = ft_itoa(exit_status);
-			exit_status_env =  ft_format_string("?=%s", exit_status_as_str);
-			env_update_name_value(&env, exit_status_env);
-			free(exit_status_as_str);
-			free(exit_status_env);
+			if ((*redirect)[1] == '>')
+				fd = open(&(*redirect)[2], O_WRONLY | O_APPEND);
+			else
+				fd = open(&(*redirect)[1], O_WRONLY | O_TRUNC);
+			dup2(fd, STDOUT_FILENO);
 		}
+		close(fd);
+		redirect++;
 	}
 }
 
@@ -172,77 +166,115 @@ void	execute_cmds(t_cmd_list *cmds, t_env *env)
 {
 	t_pipes		pipes;
 	t_cmd_list	*cmd;
-	int			pipe_idx;
+	int			stdin_copy;
+	int			stdout_copy;
+	int			read_end;
+	int			write_end;
 	int			cmd_idx;
-	pid_t		id;
-	int			wstatus;
-	int			exit_status;
+	int			id;
+	bool		has_child_process;
 
-	printf("Execution\n");
-	if (cmd_list_len(cmds) == 1)
-	{
-		execute_one_cmd(cmds, env);
-		return ;
-	}
-	pipes_init(&pipes, cmds);
-	pipe_idx = 0;
-	cmd_idx = 0;
+	has_child_process = false;
+	pipes_init(&pipes, cmd_list_len(cmds) - 1);
 	cmd = cmds;
+	stdin_copy = dup(STDIN_FILENO);
+	stdout_copy = dup(STDOUT_FILENO);
+	read_end = -1;
+	write_end = -1;
+	cmd_idx = 0;
 	while (cmd)
 	{
-		if (cmd->cmd_argv)
-			printf("  executing %s\n", cmd->cmd_argv[0]);
-		if (!cmd->should_execute)
+		/* Reset STDIN and STDOUT for the process */
+		dup2(stdin_copy, STDIN_FILENO);
+		dup2(stdout_copy, STDOUT_FILENO);
+
+		/* Skip commands that have redirect issues */
+		if (cmd->should_execute == false)
 		{
 			cmd = cmd->next;
 			continue ;
 		}
+
+		/* Set up pipes and redirects before fork and execute */
+		read_end = cmd_idx * 2 - 2;
+		write_end = cmd_idx * 2 + 1;
+		if (write_end >= 0 && write_end < pipes.pipe_count * 2)
+		{
+			dup2(pipes.pipes[write_end], STDOUT_FILENO);
+			close(pipes.pipes[write_end]);
+		}
+		if (read_end >= 0 && read_end < pipes.pipe_count * 2)
+		{
+			dup2(pipes.pipes[read_end], STDIN_FILENO);
+			close(pipes.pipes[read_end]);
+		}
+		apply_redirects(cmd, stdin_copy);
+
+
+		/* [ ] Executes built-ins for main process */
 		if (cmd->cmd_argv && command_for_parent_process(cmd->cmd_argv[0]))
 		{
-			/* built-in functions that do not need redirect or pipe */
+			/* Close all write end? */
+			/* if (ft_strncmp(cmd->cmd_argv[0], "export", 7) == 0)
+				builtin_export(cmd->cmd_argv, env); */
 		}
-		else
+		/* [ ] Executes built-ins with I/O */
+		else if (cmd->cmd_argv && is_builtin_function(cmd->cmd_argv[0]))
 		{
+			has_child_process = true;
+		}
+		/* Executes (external programs) */
+		else if (cmd->cmd_argv && cmd->cmd_argv[0])
+		{
+			has_child_process = true;
 			id = fork();
 			if (id == 0)
 			{
-				/* Set up the pipes */
-				/* cmd0 -> pipe[1] -> pipe [0] -> cmd1 -> pipe[3] ->pipe[2] -> cmd2 -> pipe[5] -> pipe[4] -> cmd3 */
-				int	read_end;
-				int	write_end;
-				
-				read_end = cmd_idx * 2 - 2; /* (cmd_idx*2-1):last command write */
-				write_end = cmd_idx * 2 + 1; /* (cmd_idx*2+0) next command read */
-				if (write_end >= 0 && write_end < pipes.pipe_count * 2) /* Each pipe has two ends hence `pipe_count * 2` */
-					dup2(pipes.pipes[write_end], STDOUT_FILENO);
-				if (read_end >= 0 && read_end < pipes.pipe_count * 2)
-					dup2(pipes.pipes[read_end], STDIN_FILENO);
 				pipes_close_all(&pipes);
-				if (execve(cmd->cmd_argv[0], cmd->cmd_argv, env_build_envp(env)) == -1)
+				if (execve(cmd->cmd_argv[0], cmd->cmd_argv,
+					env_build_envp(env)) == -1)
 				{
 					ft_dprintf(STDERR_FILENO, "minishell: ");
 					perror(cmd->cmd_argv[0]);
 					exit (127);
 				}
-				exit (0);
+				exit (0); /* is free needed? */
 			}
 		}
-		cmd_idx++;
-		pipe_idx += 2;
+		
 		cmd = cmd->next;
+		cmd_idx++;
 	}
-	pipes_close_all(&pipes);
-	waitpid(id, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		exit_status = WEXITSTATUS(wstatus);
-	printf("Exit status: %d\n", exit_status);
+	/* Reset stdin and stdout for main process */
+	dup2(stdin_copy, STDIN_FILENO);
+	dup2(stdout_copy, STDOUT_FILENO);
+	close(stdin_copy);
+	close(stdout_copy);
 
-	char	*exit_status_as_str;
-	char	*exit_status_env;
+	/* Get and save exit status */
+	int		wstatus;
+	int		exit_status;
+	char	*exit_status_str;
+	char	*exit_status_name_value;
 
-	exit_status_as_str = ft_itoa(exit_status);
-	exit_status_env =  ft_format_string("?=%s", exit_status_as_str);
-	env_update_name_value(&env, exit_status_env);
-	free(exit_status_as_str);
-	free(exit_status_env);
+	if (has_child_process)
+	{
+		exit_status = 0; /* Init for silencing warning */
+		waitpid(id, &wstatus, 0);
+		if (WIFEXITED(wstatus))
+			exit_status = WEXITSTATUS(wstatus);
+		printf("Exit status: %d\n", exit_status);/* Testing */
+		exit_status_str = ft_itoa(exit_status);
+		exit_status_name_value = ft_format_string("?=%s", exit_status_str);
+		env_update_name_value(&env, exit_status_name_value);
+		free_and_null((void **)&exit_status_str);
+		free_and_null((void **)&exit_status_name_value);
+	}
+	else
+	{
+		/* Try catch the exit status of built-in functions */
+	}
+	/* Free resources */
+	free_and_null((void **)(&pipes.pipes));
+	unlink(HEREDOC_FILE);
 }
