@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 20:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 20:57:23 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/12 21:20:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,10 @@
 #include <unistd.h>
 
 /**
- * @brief Set the up pipes object
+ * @brief Initializes a t_pipes structure with the specified number of pipes.
  * 
- * @param cmds 
- * @return int* 
- * @note 
- * 
- * cmd_count 3
- * pipes = [0] [1] [2] [3] [4] [5]
+ * @param pipes A pointer to the t_pipes structure to initialize.
+ * @param pipe_count The number of pipes to create.
  */
 void	pipes_init(t_pipes *pipes, int pipe_count)
 {
