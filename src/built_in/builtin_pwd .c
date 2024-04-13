@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd .c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
+/*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:57:10 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/12 22:57:31 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/13 18:01:11 by chuleung         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
-
-#define PATH_MAX 4096
+#include <limits.h>
 
 /**
  * @brief Prints the current working directory.
