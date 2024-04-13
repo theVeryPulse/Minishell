@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:43:07 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/13 02:09:27 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/13 02:11:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	builtin_export(t_env **env, char **cmd_argv)
 		name_value = cmd_argv[i];
 		if (_not_valid_identifier(name_value))
 		{
-			ft_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid"
+			ft_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid "
 				"identifier\n", name_value);
 			exit_status = 1;
 		}
