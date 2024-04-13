@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 23:57:46 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/13 01:22:19 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static void	_add_env_value(t_char_list **char_list, const char *arg,
 	char_list_add_str(char_list, value);
 	free_and_null((void **)&name);
 	free_and_null((void **)&value);
-	if (ft_strncmp(&arg[*i], "$?", 2))
+	if (ft_strncmp(&arg[*i], "$?", 2) == 0)
 	{
 		(*i) += 2;
 		return ;
