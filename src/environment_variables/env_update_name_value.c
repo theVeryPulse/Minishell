@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:28:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:33:32 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/13 02:01:45 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	env_update_name_value(t_env **stack, const char *name_value)
 	while (node)
 	{
 		i = 0;
-		while (node->name_value[i] == name_value[i])
+		while (node->name_value[i]
+			&& node->name_value[i] == name_value[i])
 			i++;
 		if (i > 0 && node->name_value[i - 1] == '=' && name_value[i - 1] == '=')
 		{
