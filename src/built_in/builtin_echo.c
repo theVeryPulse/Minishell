@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 02:03:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 10:15:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 10:40:43 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+static bool	_is_flag_for_no_newline(const char *arg);
+
+/**
+ * @brief 
+ * 
+ * @param argv 
+ * @return int 
+ * @note
+ * bash `echo -nnnnnn` is handled as `echo -n`, hence comparing 2 in ft_strncmp;
+ * Flag: '-' followed by any number of n's.
+ */
 int	builtin_echo(char **argv)
 {
 	char	**arg;
@@ -21,7 +32,7 @@ int	builtin_echo(char **argv)
 
 	arg = &argv[1];
 	no_newline = false;
-	while (*arg && ft_strncmp(*arg, "-n", 3) == 0)
+	while (*arg && _is_flag_for_no_newline(*arg))
 	{
 		no_newline = true;
 		arg++;
@@ -37,4 +48,23 @@ int	builtin_echo(char **argv)
 	if (!no_newline)
 		printf("\n");
 	return (0);
+}
+
+static bool	_is_flag_for_no_newline(const char *arg)
+{
+	size_t	i;
+
+	if (!arg)
+		return (false);
+	i = 0;
+	if (arg[i] != '-')
+		return (false);
+	i++;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);	
 }

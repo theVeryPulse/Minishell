@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/13 16:08:20 by chuleung         ###   ########.fr       */
+/*   Updated: 2024/04/14 10:16:47 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main(void)
 		{
 			expand_arguments(cmds, env);
 			search_executable(cmds, env);
-			print_cmds(cmds); /* Develop */
+			// print_cmds(cmds); /* Develop */
 			check_redirect_files(cmds);
 			execute_cmds(cmds, &env);
 		}

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/13 01:22:19 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 10:39:12 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ static void	_add_env_value(t_char_list **char_list, const char *arg,
 				size_t *i, t_env *env);
 static char	*_get_var_name(const char *str);
 
+/**
+ * 
+ * @note
+ * - A single '$' is seen as a literal character.
+ */
 void	_expand_string(char **arg_ptr, t_env *env)
 {
 	size_t		i;
@@ -41,7 +46,7 @@ void	_expand_string(char **arg_ptr, t_env *env)
 			_add_literal_str(&char_list, arg, &i);
 		else if (arg[i] == '\"')
 			_add_env_expanded_str(&char_list, arg, &i, env);
-		else if (arg[i] == '$')
+		else if (arg[i] == '$' && arg[i + 1])
 			_add_env_value(&char_list, arg, &i, env);
 		else
 			char_list_add_char(&char_list, arg[i++]);
@@ -115,12 +120,16 @@ static void	_add_env_value(t_char_list **char_list, const char *arg,
 		(*i)++;
 }
 
+/**
+ * @note
+ * - "$?" forms exit status regardless of the following charater;
+ */
 static char	*_get_var_name(const char *str)
 {
 	size_t	start;
 	size_t	end;
 
-	if (ft_strncmp(str, "$?", 3) == 0)
+	if (ft_strncmp(str, "$?", 2) == 0)
 		return (ft_strdup("?"));
 	start = 0;
 	if (str[start] == '$')

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 02:12:22 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 10:07:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				if (execve(cmd->cmd_argv[0], cmd->cmd_argv,
 					env_build_envp(*env)) == -1)
 				{
-					ft_dprintf(STDERR_FILENO, "%s: command not found\n",
+					ft_dprintf(STDERR_FILENO, "minishell: %s: "
+					"command not found\n",
 						cmd->cmd_argv[0]);
 					exit (127);
 				}
@@ -287,7 +288,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	{
 		/* Try catch the exit status of built-in functions */
 	}
-	printf("Exit status: %d\n", exit_status);/* Testing */
+	// printf("Exit status: %d\n", exit_status);/* Testing */
 	exit_status_str = ft_itoa(exit_status);
 	exit_status_name_value = ft_format_string("?=%s", exit_status_str);
 	env_update_name_value(env, exit_status_name_value);
