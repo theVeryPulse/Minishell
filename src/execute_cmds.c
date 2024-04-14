@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 00:47:42 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 11:34:44 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,13 +233,9 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				exit_status = builtin_export(env, cmd->cmd_argv);
 			else if (ft_strncmp(cmd->cmd_argv[0], "cd", 3) == 0)
 				exit_status = builtin_cd(env, cmd->cmd_argv);
+			else if (ft_strncmp(cmd->cmd_argv[0], "echo", 5) == 0)
+				exit_status = builtin_echo(cmd->cmd_argv);
 		}
-		/* [ ] Executes built-ins with I/O */
-		/* else if (cmd->cmd_argv && is_builtin_function(cmd->cmd_argv[0]))
-		{
-			has_child_process = true;
-		} */
-		/* Executes (external programs) */
 		else if (cmd->cmd_argv
 			&& cmd->cmd_argv[0]
 			&& ft_strlen(cmd->cmd_argv[0]) > 0)
@@ -252,7 +248,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				if (execve(cmd->cmd_argv[0], cmd->cmd_argv,
 					env_build_envp(*env)) == -1)
 				{
-					ft_dprintf(STDERR_FILENO, "%s: command not found\n",
+					ft_dprintf(STDERR_FILENO, "minishell: %s: "
+					"command not found\n",
 						cmd->cmd_argv[0]);
 					exit (127);
 				}
@@ -285,7 +282,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	{
 		/* Try catch the exit status of built-in functions */
 	}
-	printf("Exit status: %d\n", exit_status);/* Testing */
+	// printf("Exit status: %d\n", exit_status);/* Testing */
 	exit_status_str = ft_itoa(exit_status);
 	exit_status_name_value = ft_format_string("?=%s", exit_status_str);
 	env_update_name_value(env, exit_status_name_value);

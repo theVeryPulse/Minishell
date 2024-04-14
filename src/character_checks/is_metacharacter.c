@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_list_add_str.c                                :+:      :+:    :+:   */
+/*   is_metacharacter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 10:11:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 11:56:08 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/14 10:49:20 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/14 10:49:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "char_list.h"
+#include <stdbool.h>
 
-void	char_list_add_str(t_char_list **list, char *str)
+// `|`, `<`, or `>`, space, tab, newline
+bool	is_metacharacter(char c)
 {
-	if (!str)
-		return ;
-	if (*str == '\0')
-		char_list_add_char(list, *str);
-	while (*str)
-	{
-		char_list_add_char(list, *str);
-		str++;
-	}
+	return (c == '<'
+			|| c == '>'
+			|| c == '|'
+			|| c == ' '
+			|| c == '\t');
 }

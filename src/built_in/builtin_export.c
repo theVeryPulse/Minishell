@@ -6,11 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:43:07 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/13 02:11:04 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 12:41:53 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../environment_variables/env.h"
+#include "../character_checks/character_checks.h"
 #include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -71,18 +72,13 @@ static bool	_not_valid_identifier(char *identifier)
 {
 	size_t	i;
 
-	i = 0;
-	while (identifier[i])
-	{
-		while (identifier[i] && identifier[i] != '=')
-		{
-			if (identifier[i] == '?')
-				return (true);
-			i++;
-		}
-		if (i == 0)
-			return (true);
+	if (!is_variable_name_start(identifier[0]))
+		return (true);
+	i = 1;
+	while (identifier[i] && is_variable_name_middle(identifier[i]))
 		i++;
-	}
-	return (false);
+	if (identifier[i] != '=' && identifier[i] != '\0')
+		return (true);
+	else
+		return (false);
 }

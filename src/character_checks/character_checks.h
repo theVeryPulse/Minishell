@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_list_add_str.c                                :+:      :+:    :+:   */
+/*   character_checks.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 10:11:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 11:56:08 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/03 23:33:47 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/14 11:24:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "char_list.h"
+#ifndef CHARACTER_CHECKS_H
+# define CHARACTER_CHECKS_H
+# include <stdbool.h>
 
-void	char_list_add_str(t_char_list **list, char *str)
-{
-	if (!str)
-		return ;
-	if (*str == '\0')
-		char_list_add_char(list, *str);
-	while (*str)
-	{
-		char_list_add_char(list, *str);
-		str++;
-	}
-}
+bool	is_redirect(char c);
+bool	is_metacharacter(char c);
+bool	is_quotation_mark(char c);
+bool	is_variable_name_start(char c);
+bool	is_variable_name_middle(char c);
+
+#endif

@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   character_checks.h                                 :+:      :+:    :+:   */
+/*   is_variable_name_start.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 23:33:47 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/06 19:52:00 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/14 11:12:28 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/14 11:16:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHARACTER_CHECKS_H
-# define CHARACTER_CHECKS_H
-# include <stdbool.h>
+#include "libft.h"
+#include <stdbool.h>
 
-bool	is_redirect(char c);
-bool	is_metacharacter(char c);
-bool	is_quotation_mark(char c);
-
-#endif
+/**
+ * @brief Checks if a character can be a leading character of a variable name
+ * 
+ * @param c Character to check.
+ * @return true if a character is a underscore or letter, else false.
+ */
+bool	is_variable_name_start(char c)
+{
+	return (c == '_' || ft_isalpha(c));
+}
