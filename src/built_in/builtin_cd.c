@@ -3,74 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:03:40 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/13 23:43:15 by chuleung         ###   ########.fr       */
+/*   Updated: 2024/04/14 01:42:30 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../environment_variables/env.h"
 #include "libft.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <limits.h>
+#include <unistd.h> /* access, chdir */
+#include <stdlib.h> /* free */
+#include <stdio.h> /* printf,  */
 #include <stdbool.h>
 
-int	_check_cd_dir(char *name_value, int *exit_status)
+static int	_dir_not_okay(char *path)
 {
 	int	check;
 	
 	check = 0;
-	if (access(name_value, F_OK) != 0)
+	if (access(path, F_OK) != 0)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: cd: no such file or directory: "
-				"`%s'\n", name_value);
+				"`%s'\n", path);
 		check = -1;
-		*exit_status = 1;
 	}
-	else 
+	else if (access(path, X_OK) != 0)
 	{
-		if (access(name_value, R_OK) != 0)
-		{
-			ft_dprintf(STDERR_FILENO, "minishell: cd: permission denied: "
-				"`%s'\n", name_value);
-			check = -1;
-			*exit_status = 1;
-		}
+		ft_dprintf(STDERR_FILENO, "minishell: cd: permission denied: `%s'\n",
+			path);
+		check = -1;
 	}
 	return (check);
 }
 
-/**
- * 
- * input:
- * cd
- * cd not_exist
- * cd no_permission_folder V
- * cd {a folder that exists and user has permission} another_arg V
- * 
-*/
+static char	*_get_cwd(void)
+{
+	char	cwd[4096];
+
+	getcwd(cwd, sizeof(cwd));
+	return (ft_strdup(cwd));
+}
+
 int builtin_cd(t_env **env, char **cmd_argv)
 {
-	int     exit_status;
-	int     error;
-	char	*name_value;
+	char		*path;
+	char		*cwd;
+	char		*pwd_name_value;
+	char		*oldpwd_name_value;
+	static bool	first_cd = true;
 
-	env += 1;
-	exit_status = 0;
-	if (!cmd_argv || !(cmd_argv[1]))
-		return (exit_status);
-	name_value = cmd_argv[1];
-	}
-	if((_check_cd_dir(name_value, &exit_status) != 0))
-		return (exit_status);
-	error = chdir(name_value);
-	if (error == -1)
+	if (cmd_argv[1] && cmd_argv[2])
 	{
-		perror("chdir");
-		exit_status = 1;
+		ft_dprintf(STDERR_FILENO, "minishell: cd: too many arguments\n");
+		return (1);
 	}
-	return (exit_status);
+	if (cmd_argv[1]
+		&& ft_strncmp(cmd_argv[1], "-", 2) == 0)
+	{
+		path = env_get_value_by_name(*env, "OLDPWD");
+		printf("%s\n", path);
+	}
+	else if (cmd_argv[1])
+		path = cmd_argv[1];
+	else
+		path = env_get_value_by_name(*env, "HOME");
+	if (_dir_not_okay(path))
+		return (1);
+	cwd = _get_cwd();
+	chdir(path);
+	if (!first_cd)
+	{
+		oldpwd_name_value = ft_format_string("OLDPWD=%s", cwd);
+		env_update_name_value(env, oldpwd_name_value);
+		free(oldpwd_name_value);
+	}
+	if (first_cd)
+		first_cd = false;
+	if (path != cmd_argv[1])
+		free(path);
+	free(cwd);
+	cwd = _get_cwd();
+	pwd_name_value = ft_format_string("PWD=%s", cwd);
+	env_update_name_value(env, pwd_name_value);
+	free(cwd);
+	free(pwd_name_value);
+	return (0);
 }
