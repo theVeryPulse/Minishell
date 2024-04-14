@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 02:03:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 12:53:59 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 13:03:34 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 static bool	_is_flag_for_no_newline(const char *arg);
 
 /**
- * @brief 
+ * @brief Prints the provided arguments to stdout.
  * 
- * @param argv 
- * @return int 
+ * @param argv An array of strings containing the flags and arguments to be 
+ *             printed.
+ * @return Always returns 0. 
  * @note
  * bash `echo -nnnnnn` is handled as `echo -n`, hence comparing 2 in ft_strncmp;
  * Flag: '-' followed by any number of n's.
