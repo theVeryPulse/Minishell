@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 02:03:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 02:42:25 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 10:15:36 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ int	builtin_echo(char **argv)
 	bool	no_newline;
 
 	arg = &argv[1];
-	if (ft_strncmp(*arg, "-n", 3) == 0)
+	no_newline = false;
+	while (*arg && ft_strncmp(*arg, "-n", 3) == 0)
 	{
 		no_newline = true;
 		arg++;
 	}
-	else
-		no_newline = false;
 	while (arg && *arg)
 	{
 		if (*arg)
