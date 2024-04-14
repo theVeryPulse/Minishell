@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:27:08 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 22:52:19 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 16:06:27 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
  *              variables.
  * @param name  The name of the environment variable to search for.
  * @return      A duplicate string of the value of the environment variable if
- *              found, or NULL if the environment variable is not found.
- *              The returned string should be freed by the caller after use.
+ *              found, or a malloc'ed empty string if the environment variable
+ *              is not found. The returned string should be freed by the caller
+ *              after use.
  */
 char	*env_get_value_by_name(t_env *stack, const char *name)
 {
