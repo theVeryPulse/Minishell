@@ -6,12 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:57:10 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/12 22:57:31 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 01:07:38 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
+#include <limits.h>
 
 #define PATH_MAX 4096
 
