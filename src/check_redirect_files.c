@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 20:50:07 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 19:42:52 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 10:54:33 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_list/cmd_list.h"
-#include "character_checks.h"
+#include "character_checks/character_checks.h"
 #include "free_and_null.h"
 #include "libft.h"
 #include <errno.h>

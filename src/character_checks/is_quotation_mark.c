@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   character_checks.c                                 :+:      :+:    :+:   */
+/*   is_quotation_mark.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 23:29:59 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/03 23:31:16 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/14 10:49:22 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/14 10:50:14 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-
-bool	is_redirect(char c)
-{
-	return (c == '<' || c == '>');
-}
-
-// `|`, `<`, or `>`, space, tab, newline
-bool	is_metacharacter(char c)
-{
-	return (c == '<'
-			|| c == '>'
-			|| c == '|'
-			|| c == ' '
-			|| c == '\t');
-}
 
 bool	is_quotation_mark(char c)
 {
