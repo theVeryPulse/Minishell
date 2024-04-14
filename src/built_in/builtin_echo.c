@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 02:03:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 02:17:05 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 02:42:25 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ int	builtin_echo(char **argv)
 	{
 		if (*arg)
 			printf("%s", *arg);
-		printf(" ");
 		arg++;
+		if (arg && *arg)
+			printf(" ");
 	}
 	if (!no_newline)
 		printf("\n");
