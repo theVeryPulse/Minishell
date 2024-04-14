@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 02:11:08 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 12:54:23 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	builtin_pwd(void);
 int	builtin_export(t_env **env, char **cmd_argv);
-int builtin_cd(t_env **env, char **cmd_argv);
+int	builtin_cd(t_env **env, char **cmd_argv);
 int	builtin_echo(char **argv);
 
 #endif

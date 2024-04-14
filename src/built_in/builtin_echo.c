@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 02:03:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 10:40:43 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 12:53:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,5 @@ static bool	_is_flag_for_no_newline(const char *arg)
 			return (false);
 		i++;
 	}
-	return (true);	
+	return (true);
 }
