@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 11:34:44 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 17:30:53 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				exit_status = builtin_cd(env, cmd->cmd_argv);
 			else if (ft_strncmp(cmd->cmd_argv[0], "echo", 5) == 0)
 				exit_status = builtin_echo(cmd->cmd_argv);
+			else if (ft_strncmp(cmd->cmd_argv[0], "env", 4) == 0)
+				exit_status = builtin_env(*env, cmd->cmd_argv);
 		}
 		else if (cmd->cmd_argv
 			&& cmd->cmd_argv[0]

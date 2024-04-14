@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.h                                         :+:      :+:    :+:   */
+/*   list_to_string_array.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 17:30:13 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/14 20:11:35 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/14 20:12:01 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_H
-# define BUILT_IN_H
+#include "libft.h"
 
-int	builtin_pwd(void);
-int	builtin_export(t_env **env, char **cmd_argv);
-int	builtin_cd(t_env **env, char **cmd_argv);
-int	builtin_echo(char **argv);
-int builtin_env(t_env *env, char **argv);
+char	**list_to_string_array(t_list *list)
+{
+	int		list_len;
+	int		i;
+	char	**string_array;
 
-#endif
+	if (!list)
+		return (NULL);
+	list_len = ft_lstsize(list);
+	string_array = (char **)ft_calloc(list_len + 1, sizeof(char *));
+	i = 0;
+	while (i < list_len)
+	{
+		string_array[i] = (char *)list->content;
+		list = list->next;
+		i++;
+	}
+	return (string_array);
+}
