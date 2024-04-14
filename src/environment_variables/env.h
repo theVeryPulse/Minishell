@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:38:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 17:42:17 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 00:43:03 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define ENV_H
 
 # include <stdbool.h>
-
+// TODO: change env to linked list to solve env order issue.
 typedef struct s_env	t_env;
 typedef struct s_env
 {
