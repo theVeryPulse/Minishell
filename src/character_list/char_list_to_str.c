@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:10:41 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 02:27:47 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 12:01:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,17 @@ char	*char_list_to_str(t_char_list *list)
 	len = 0;
 	while (node)
 	{
+		if (node->c != '\0')
+			len++;
 		node = node->next;
-		len++;
 	}
 	str = (char *)ft_calloc(len + 1, sizeof(char));
 	node = list;
 	i = 0;
 	while (node)
 	{
-		str[i++] = node->c;
+		if (node->c != '\0')
+			str[i++] = node->c;
 		node = node->next;
 	}
 	return (str);

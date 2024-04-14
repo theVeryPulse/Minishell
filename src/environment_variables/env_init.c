@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "_env.h"
+#include "env.h"
 #include <stddef.h>
 #include <unistd.h>
 
@@ -32,5 +33,5 @@ void	env_init(t_env **stack)
 		_add_to_env(stack, *env_var);
 		env_var++;
 	}
-	_add_to_env(stack, "?=0");
+	env_update_name_value(stack, "?=0");
 }

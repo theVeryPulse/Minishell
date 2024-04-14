@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_list_add_str.c                                :+:      :+:    :+:   */
+/*   is_variable_name_middle.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 10:11:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 11:56:08 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/14 11:21:19 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/14 11:22:40 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "char_list.h"
+#include "libft.h"
+#include <stdbool.h>
 
-void	char_list_add_str(t_char_list **list, char *str)
+bool	is_variable_name_middle(char c)
 {
-	if (!str)
-		return ;
-	if (*str == '\0')
-		char_list_add_char(list, *str);
-	while (*str)
-	{
-		char_list_add_char(list, *str);
-		str++;
-	}
+	return (c == '_' || ft_isalnum(c));
 }

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 10:07:41 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 11:34:44 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,12 +236,6 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 			else if (ft_strncmp(cmd->cmd_argv[0], "echo", 5) == 0)
 				exit_status = builtin_echo(cmd->cmd_argv);
 		}
-		/* [ ] Executes built-ins with I/O */
-		/* else if (cmd->cmd_argv && is_builtin_function(cmd->cmd_argv[0]))
-		{
-			has_child_process = true;
-		} */
-		/* Executes (external programs) */
 		else if (cmd->cmd_argv
 			&& cmd->cmd_argv[0]
 			&& ft_strlen(cmd->cmd_argv[0]) > 0)
