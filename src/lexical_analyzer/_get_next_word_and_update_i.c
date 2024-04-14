@@ -6,11 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:49:41 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 02:10:07 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 10:54:57 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../character_checks.h"
+#include "../character_checks/character_checks.h"
 #include "libft.h"
 
 static void	_set_end_idx_to_close_quote(const char *line, size_t *end_idx);
