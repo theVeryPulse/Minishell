@@ -1,21 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.h                                         :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 02:11:08 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/14 02:03:18 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/14 02:17:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_H
-# define BUILT_IN_H
+#include "libft.h"
+#include <stdio.h>
+#include <stdbool.h>
 
-int	builtin_pwd(void);
-int	builtin_export(t_env **env, char **cmd_argv);
-int builtin_cd(t_env **env, char **cmd_argv);
-int	builtin_echo(char **argv);
+int	builtin_echo(char **argv)
+{
+	char	**arg;
+	bool	no_newline;
 
-#endif
+	arg = &argv[1];
+	if (ft_strncmp(*arg, "-n", 3) == 0)
+	{
+		no_newline = true;
+		arg++;
+	}
+	else
+		no_newline = false;
+	while (arg && *arg)
+	{
+		if (*arg)
+			printf("%s", *arg);
+		printf(" ");
+		arg++;
+	}
+	if (!no_newline)
+		printf("\n");
+	return (0);
+}

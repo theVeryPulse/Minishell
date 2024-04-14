@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 00:47:42 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 02:12:22 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				exit_status = builtin_export(env, cmd->cmd_argv);
 			else if (ft_strncmp(cmd->cmd_argv[0], "cd", 3) == 0)
 				exit_status = builtin_cd(env, cmd->cmd_argv);
+			else if (ft_strncmp(cmd->cmd_argv[0], "echo", 5) == 0)
+				exit_status = builtin_echo(cmd->cmd_argv);
 		}
 		/* [ ] Executes built-ins with I/O */
 		/* else if (cmd->cmd_argv && is_builtin_function(cmd->cmd_argv[0]))
