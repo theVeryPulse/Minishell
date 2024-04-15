@@ -6,10 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 22:58:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 12:59:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "search_executable.h"
 #include "minishell.h"
 #include "environment_variables/env.h"
 #include "string_array.h"
@@ -18,8 +19,6 @@
 #include "free_and_null.h"
 #include <stdbool.h>
 #include <unistd.h>
-
-static void	_try_find_executable(t_cmd_list *cmd, char **paths);
 
 /**
  * @brief Searches for executable files in the directories specified by the PATH
@@ -48,29 +47,10 @@ void	search_executable(t_cmd_list *cmds, t_env *env)
 			&& !is_builtin_function(cmd->cmd_argv[0])
 			&& ft_strlen(cmd->cmd_argv[0]) > 0)
 		{
-			_try_find_executable(cmd, paths);
+			// _try_find_executable(cmd, paths);
+			search_exec_and_replace_arg(&(cmd->cmd_argv[0]), paths);
 		}
 		cmd = cmd->next;
 	}
 	free_string_array_and_null(&paths);
-}
-
-static void	_try_find_executable(t_cmd_list *cmd, char **paths)
-{
-	char		*exe;
-	char		**path;
-
-	path = paths;
-	while (path && *path)
-	{
-		exe = ft_format_string("%s/%s", *path, cmd->cmd_argv[0]);
-		if (access(exe, F_OK) == 0)
-		{
-			free_and_null((void **)&(cmd->cmd_argv[0]));
-			cmd->cmd_argv[0] = exe;
-			break ;
-		}
-		free_and_null((void **)&exe);
-		path++;
-	}
 }
