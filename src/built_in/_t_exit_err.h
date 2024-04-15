@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.h                                         :+:      :+:    :+:   */
+/*   _t_exit_err.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 22:25:24 by chuleung         ###   ########.fr       */
+/*   Created: 2024/04/14 22:23:27 by chuleung          #+#    #+#             */
+/*   Updated: 2024/04/14 22:23:30 by chuleung         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_H
-# define BUILT_IN_H
-
-# include "../environment_variables/env.h"
-# include "../command_list/cmd_list.h"
-# include "../pipes/pipes.h"
-
-int	builtin_pwd(void);
-int	builtin_cd(t_env **env, char **cmd_argv);
-int	builtin_echo(char **argv);
-void	builtin_exit(char **cmd_argv, t_env **env, t_cmd_list *cmds,
-			t_pipes *pipes);
-int	builtin_export(t_env **env, char **cmd_argv);
-
-#endif
+/* Should be in a internal header file, such as "_t_exit_err.h" */
+typedef enum e_exit_err
+{
+	NUMERIC,
+	MANY_ARGS,
+}	t_exit_err;
