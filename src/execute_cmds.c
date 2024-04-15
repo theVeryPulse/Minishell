@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
+/*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
 /*   Updated: 2024/04/15 17:06:07 by Philip           ###   ########.fr       */
@@ -239,6 +239,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				exit_status = builtin_echo(cmd->cmd_argv);
 			else if (ft_strncmp(cmd->cmd_argv[0], "env", 4) == 0)
 				exit_status = builtin_env(*env, cmd->cmd_argv);
+			else if (ft_strncmp(cmd->cmd_argv[0], "exit", 5) == 0)
+				builtin_exit(cmd->cmd_argv, env, cmds, &pipes);
 		}
 		else if (cmd->cmd_argv
 			&& cmd->cmd_argv[0]

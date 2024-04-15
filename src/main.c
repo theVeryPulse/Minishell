@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
+/*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 13:47:42 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 14:31:49 by chuleung         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	main(void)
 				close(history_file);
 			return (0);
 		}
+		/*
 		if (ft_strncmp("exit", line, 5) == 0) // Incomplete, exit should return
 		{
 			env_free(&env);
@@ -89,6 +90,7 @@ int	main(void)
 			rl_clear_history();
 			return (0);
 		}
+		*/
 		add_history(line);
 		if (history_file != -1)
 			ft_dprintf(history_file, "\n%s", line);
