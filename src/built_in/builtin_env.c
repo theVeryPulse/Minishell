@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 14:40:44 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 16:57:54 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../search_executable/search_executable.h"
 #include "../is_builtin_function.h"
 #include "../free_and_null.h"
+#include "../string_array.h"
 #include "libft.h"
 #include <stddef.h> /* NULL */
 #include <stdlib.h> /* exit */
@@ -22,6 +23,7 @@
 #include <unistd.h> /* execve, fork */
 #include <sys/types.h> /* pid_t */
 #include <sys/wait.h> /* wait */
+#include <readline/readline.h> /* rl_clear_history */
 
 // [x] env PATH= ls
 // [ ] Memory leak: env PATH= ls
@@ -98,20 +100,28 @@ int	builtin_env(t_env *env, char **argv)
 		id = fork();
 		if (id == 0)
 		{
+			char **envp;
+
+			envp = env_build_envp(modified_env);
 			// [ ] close pipes?
-			if (execve(*arg, arg, env_build_envp(env)) == -1)
+			if (execve(*arg, arg, envp) == -1) // [x] free envp when execve fails
 			{
 				ft_dprintf(STDERR_FILENO, "env: ‘%s’: ", *arg);
 				perror("");
+				free_string_array_and_null(&envp);
+				rl_clear_history();
+				env_free(&env);
 				exit (0);
 			}
 		}
 	}
+	env_free(&modified_env);
 
 	// [x] wait for child process to finish (if any)
 	int	wstatus;
 	int child_exit_status;
 
+	child_exit_status = 0;
 	if (has_child_process)
 	{
 		// [ ] same code with execute_cmds: 276
@@ -123,7 +133,6 @@ int	builtin_env(t_env *env, char **argv)
 		else
 			return (127);
 	}
-	env_free(&modified_env);
 	return (exit_status);
 }
 

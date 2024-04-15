@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 17:30:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 17:06:07 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ For debugging child process:
 #include "libft.h"
 #include "is_builtin_function.h"
 #include "free_and_null.h"
+#include "string_array.h"
 #include "fcntl.h"
 #include "heredoc.h"
 #include <sys/types.h>
@@ -46,6 +47,7 @@ For debugging child process:
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <readline/readline.h> /* rl_clear_history */
 
 static int	_open_heredoc_temp_file_for_write(void)
 {
@@ -246,16 +248,22 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 			id = fork();
 			if (id == 0)
 			{
+				char **envp;
+
+				envp = env_build_envp(*env);
 				pipes_close_all(&pipes);
-				if (execve(cmd->cmd_argv[0], cmd->cmd_argv,
-					env_build_envp(*env)) == -1)
+				if (execve(cmd->cmd_argv[0], cmd->cmd_argv, envp) == -1) // [x] free envp when execve fails
 				{
 					ft_dprintf(STDERR_FILENO, "minishell: %s: "
 					"command not found\n",
 						cmd->cmd_argv[0]);
+					/* free resources */
+					rl_clear_history();
+					env_free(env);
+					cmd_list_free(&cmds);
+					free_string_array_and_null(&envp);
 					exit (127);
 				}
-				exit (0); /* is free needed? */
 			}
 		}
 		
