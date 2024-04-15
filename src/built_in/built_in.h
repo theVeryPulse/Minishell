@@ -6,7 +6,7 @@
 /*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 22:25:24 by chuleung         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:24:33 by chuleung         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int	builtin_echo(char **argv);
 void	builtin_exit(char **cmd_argv, t_env **env, t_cmd_list *cmds,
 			t_pipes *pipes);
 int	builtin_export(t_env **env, char **cmd_argv);
+void	builtin_unset(char **cmd_argv, t_env **env);
 
 #endif
