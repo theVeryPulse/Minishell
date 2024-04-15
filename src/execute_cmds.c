@@ -241,6 +241,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				exit_status = builtin_env(*env, cmd->cmd_argv);
 			else if (ft_strncmp(cmd->cmd_argv[0], "exit", 5) == 0)
 				builtin_exit(cmd->cmd_argv, env, cmds, &pipes);
+			else if (ft_strncmp(cmd->cmd_argv[0], "unset", 6) == 0)
+				builtin_unset(cmd->cmd_argv, env);
 		}
 		else if (cmd->cmd_argv
 			&& cmd->cmd_argv[0]
