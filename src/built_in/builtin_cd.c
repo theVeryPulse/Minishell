@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:03:40 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/15 20:12:49 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 20:22:18 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	_update_pwd(t_env **env);
  * @param cmd_argv An array of strings containing the command arguments.
  * @return 0 if the operation is successful, 1 otherwise.
  */
-int	builtin_cd(t_env **env, char **cmd_argv)
+int	builtin_cd(char **cmd_argv, t_env **env)
 {
 	char	*path;
 

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 20:17:49 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 20:28:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,15 +231,15 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 			if (ft_strncmp(cmd->cmd_argv[0], "pwd", 4) == 0)
 				exit_status =  builtin_pwd();
 			else if (ft_strncmp(cmd->cmd_argv[0], "export", 7) == 0)
-				exit_status = builtin_export(env, cmd->cmd_argv);
+				exit_status = builtin_export(cmd->cmd_argv, env);
 			else if (ft_strncmp(cmd->cmd_argv[0], "cd", 3) == 0)
-				exit_status = builtin_cd(env, cmd->cmd_argv);
+				exit_status = builtin_cd(cmd->cmd_argv, env);
 			else if (ft_strncmp(cmd->cmd_argv[0], "echo", 5) == 0)
 				exit_status = builtin_echo(cmd->cmd_argv);
 			else if (ft_strncmp(cmd->cmd_argv[0], "env", 4) == 0)
-				exit_status = builtin_env(*env, cmd->cmd_argv);
+				exit_status = builtin_env(cmd->cmd_argv, *env);
 			else if (ft_strncmp(cmd->cmd_argv[0], "exit", 5) == 0)
-				builtin_exit(cmd->cmd_argv, env, cmds, &pipes);
+				builtin_exit(cmd->cmd_argv, *env, cmds, &pipes);
 			else if (ft_strncmp(cmd->cmd_argv[0], "unset", 6) == 0)
 				exit_status = builtin_unset(cmd->cmd_argv, env);
 		}

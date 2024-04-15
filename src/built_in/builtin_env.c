@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 20:17:52 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 20:24:32 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	_print_all_environment_variables(t_env *env);
  * - env stops recording variables upon first arg without a '='.
  * - env's exit status is 127 when child's exit code is not 0.
  */
-int	builtin_env(t_env *env, char **argv)
+int	builtin_env(char **argv, t_env *env)
 {
 	t_env	*modified_env;
 	char	**arg;
@@ -78,13 +78,13 @@ int	builtin_env(t_env *env, char **argv)
 		if (ft_strncmp(*arg, "pwd", 4) == 0)
 			exit_status =  builtin_pwd();
 		else if (ft_strncmp(*arg, "export", 7) == 0)
-			exit_status = builtin_export(&modified_env, arg);
+			exit_status = builtin_export(arg, &modified_env);
 		else if (ft_strncmp(*arg, "cd", 3) == 0)
-			exit_status = builtin_cd(&modified_env, arg);
+			exit_status = builtin_cd(arg, &modified_env);
 		else if (ft_strncmp(*arg, "echo", 5) == 0)
 			exit_status = builtin_echo(arg);
 		else if (ft_strncmp(*arg, "env", 4) == 0)
-			exit_status = builtin_env(modified_env, arg);
+			exit_status = builtin_env(arg, modified_env);
 	}
 	/* |-- search executable in the new environment */
 	else
