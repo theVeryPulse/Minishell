@@ -30,7 +30,7 @@ void	env_init(t_env **stack)
 	env_var = __environ;
 	while (env_var && *env_var)
 	{
-		_add_to_env(stack, *env_var);
+		env_update_name_value(stack, *env_var);
 		env_var++;
 	}
 	env_update_name_value(stack, "?=0");

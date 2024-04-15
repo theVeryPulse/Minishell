@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 12:08:01 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 17:22:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 #include "../character_checks/character_checks.h"
 #include "../free_and_null.h"
 #include "libft.h"
+#include <stdlib.h>
 #include <stddef.h>
+
+bool	_arg_is_env_var(char *arg);
 
 static void	_add_literal_str(t_char_list **char_list, const char *arg,
 				size_t *i);
@@ -53,6 +56,8 @@ void	_expand_string(char **arg_ptr, t_env *env)
 			char_list_add_char(&char_list, arg[i++]);
 	}
 	expanded = char_list_to_str(char_list);
+	if (ft_strlen(expanded) == 0 && _arg_is_env_var(*arg_ptr))
+		free_and_null((void **)&expanded);
 	free_and_null((void **)arg_ptr);
 	*arg_ptr = expanded;
 	char_list_free_and_null(&char_list);
@@ -99,6 +104,7 @@ static void	_add_env_expanded_str(t_char_list **char_list, const char *arg,
 	}
 	(*i)++;
 }
+// [x] Expand "$VAR_WITHOUT_VALUE" to empty string, expand $VAR_WITHOUT_VALUE to NULL;
 
 static void	_add_env_value(t_char_list **char_list, const char *arg,
 				size_t *i, t_env *env)
@@ -108,7 +114,13 @@ static void	_add_env_value(t_char_list **char_list, const char *arg,
 
 	name = _get_var_name(&arg[*i]);
 	value = env_get_value_by_name(env, name);
-	char_list_add_str(char_list, value);
+	if (ft_strlen(value) == 0)
+	{
+		free_and_null((void **)&value);
+		value = NULL;
+	}
+	else
+		char_list_add_str(char_list, value);
 	free_and_null((void **)&name);
 	free_and_null((void **)&value);
 	if (ft_strncmp(&arg[*i], "$?", 2) == 0)
@@ -141,4 +153,16 @@ static char	*_get_var_name(const char *str)
 	while (str[end] && is_variable_name_middle(str[end]))
 		end++;
 	return (ft_strndup(&str[start], end - start));
+}
+
+bool	_arg_is_env_var(char *arg)
+{
+	size_t	i;
+
+	if (arg[0] != '$' || !is_variable_name_start(arg[1]))
+		return (false);
+	i = 2;
+	while (is_variable_name_middle(arg[i]))
+		i++;
+	return (arg[i] == '\0');
 }
