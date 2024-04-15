@@ -6,11 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 20:50:29 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 21:21:03 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 20:11:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_t_pipe.h"
+#include "t_pipes.h"
 #include <unistd.h>
 
 /**

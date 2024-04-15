@@ -6,14 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 16:57:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 20:17:52 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "../environment_variables/env.h"
 #include "../search_executable/search_executable.h"
-#include "../is_builtin_function.h"
 #include "../free_and_null.h"
 #include "../string_array.h"
 #include "libft.h"
@@ -24,9 +23,6 @@
 #include <sys/types.h> /* pid_t */
 #include <sys/wait.h> /* wait */
 #include <readline/readline.h> /* rl_clear_history */
-
-// [x] env PATH= ls
-// [ ] Memory leak: env PATH= ls
 
 void	_print_all_environment_variables(t_env *env);
 

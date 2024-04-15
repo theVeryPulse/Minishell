@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 17:54:07 by chuleung         ###   ########.fr       */
+/*   Updated: 2024/04/15 20:17:49 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ For debugging child process:
 #include "environment_variables/env.h"
 #include "built_in/built_in.h"
 #include "libft.h"
-#include "is_builtin_function.h"
 #include "free_and_null.h"
 #include "string_array.h"
 #include "fcntl.h"

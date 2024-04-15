@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_builtin_function.h                              :+:      :+:    :+:   */
+/*   t_pipes.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 11:26:05 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:27:14 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/12 20:53:58 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/15 20:06:31 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IS_BUILTIN_FUNCTION_H
-# define IS_BUILTIN_FUNCTION_H
+#ifndef T_PIPES_H
+# define T_PIPES_H
 
-# include <stdbool.h>
-
-bool	is_builtin_function(const char *cmd);
+/**
+ * @brief Structure for pipes. `int *pipes` should be a dynamically allocated
+ *        array of integers.
+ * 
+ * @note Pipes is an integer array of length (pipe_count * 2) as each pipe has
+ *       two ends.
+ */
+typedef struct s_pipes
+{
+	int	*pipes;
+	int	pipe_count;
+}	t_pipes;
 
 #endif

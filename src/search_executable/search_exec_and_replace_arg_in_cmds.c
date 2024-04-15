@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 14:18:23 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 20:17:34 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "search_executable.h"
 #include "../environment_variables/env.h"
 #include "../string_array.h"
-#include "../is_builtin_function.h"
+#include "../built_in/built_in.h"
 #include "../free_and_null.h"
 #include "libft.h"
 #include <stdbool.h>

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:03:40 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/15 19:04:55 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 20:12:49 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*_get_path(char *arg, t_env *env)
 	}
 	else if (arg)
 		path = arg;
-	else if (arg == NULL)
+	else
 		path = env_get_value_by_name(env, "HOME");
 	return (path);
 }
