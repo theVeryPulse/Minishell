@@ -6,87 +6,120 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:03:40 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/14 01:42:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 19:04:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../environment_variables/env.h"
 #include "libft.h"
-#include <unistd.h> /* access, chdir */
-#include <stdlib.h> /* free */
-#include <stdio.h> /* printf,  */
 #include <stdbool.h>
+#include <stdio.h> /* printf */
+#include <stdlib.h> /* free */
+#include <sys/stat.h> /* stat */
+#include <unistd.h> /* chdir, getcwd */
 
-static int	_dir_not_okay(char *path)
+#define PATH_MAX 4096
+
+static char	*_get_path(char *arg, t_env *env);
+static bool	_dir_not_okay(const char *path);;
+static void	_update_oldpwd(t_env **env);
+static void	_update_pwd(t_env **env);
+
+/**
+ * @brief Changes the current working directory.
+ * 
+ * @param env A pointer to the pointer to the environment variables.
+ * @param cmd_argv An array of strings containing the command arguments.
+ * @return 0 if the operation is successful, 1 otherwise.
+ */
+int	builtin_cd(t_env **env, char **cmd_argv)
 {
-	int	check;
-	
-	check = 0;
-	if (access(path, F_OK) != 0)
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: cd: no such file or directory: "
-				"`%s'\n", path);
-		check = -1;
-	}
-	else if (access(path, X_OK) != 0)
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: cd: permission denied: `%s'\n",
-			path);
-		check = -1;
-	}
-	return (check);
-}
-
-static char	*_get_cwd(void)
-{
-	char	cwd[4096];
-
-	getcwd(cwd, sizeof(cwd));
-	return (ft_strdup(cwd));
-}
-
-int builtin_cd(t_env **env, char **cmd_argv)
-{
-	char		*path;
-	char		*cwd;
-	char		*pwd_name_value;
-	char		*oldpwd_name_value;
-	static bool	first_cd = true;
+	char	*path;
 
 	if (cmd_argv[1] && cmd_argv[2])
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: cd: too many arguments\n");
 		return (1);
 	}
-	if (cmd_argv[1]
-		&& ft_strncmp(cmd_argv[1], "-", 2) == 0)
+	path = _get_path(cmd_argv[1], *env);
+	if (_dir_not_okay(path))
 	{
-		path = env_get_value_by_name(*env, "OLDPWD");
+		if (path != cmd_argv[1])
+			free(path);
+		return (1);
+	}
+	_update_oldpwd(env);
+	chdir(path);
+	_update_pwd(env);
+	if (path != cmd_argv[1])
+		free(path);
+	return (0);
+}
+
+static char	*_get_path(char *arg, t_env *env)
+{
+	char	*path;
+
+	if (arg && ft_strncmp(arg, "-", 2) == 0)
+	{
+		path = env_get_value_by_name(env, "OLDPWD");
 		printf("%s\n", path);
 	}
-	else if (cmd_argv[1])
-		path = cmd_argv[1];
-	else
-		path = env_get_value_by_name(*env, "HOME");
-	if (_dir_not_okay(path))
-		return (1);
-	cwd = _get_cwd();
-	chdir(path);
-	if (!first_cd)
+	else if (arg)
+		path = arg;
+	else if (arg == NULL)
+		path = env_get_value_by_name(env, "HOME");
+	return (path);
+}
+
+static bool	_dir_not_okay(const char *path)
+{
+	struct stat	statbuf;
+
+	if (stat(path, &statbuf) != 0)
 	{
-		oldpwd_name_value = ft_format_string("OLDPWD=%s", cwd);
+		ft_dprintf(STDERR_FILENO,
+			"minishell: cd: no such file or directory: `%s'\n", path);
+		return (true);
+	}
+	else if (!S_ISDIR(statbuf.st_mode))
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: cd: %s: Not a directory\n", path);
+		return (true);
+	}
+	else if (!(statbuf.st_mode & S_IXUSR))
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: cd: permission denied: `%s'\n",
+			path);
+		return (true);
+	}
+	return (false);
+}
+
+static void	_update_oldpwd(t_env **env)
+{
+	char		*oldpwd_name_value;
+	static bool	first_cd = true;
+	char		oldpwd[PATH_MAX];
+
+	getcwd(oldpwd, sizeof(oldpwd));
+	if (first_cd)
+		first_cd = false;
+	else
+	{
+		oldpwd_name_value = ft_format_string("OLDPWD=%s", oldpwd);
 		env_update_name_value(env, oldpwd_name_value);
 		free(oldpwd_name_value);
 	}
-	if (first_cd)
-		first_cd = false;
-	if (path != cmd_argv[1])
-		free(path);
-	free(cwd);
-	cwd = _get_cwd();
+}
+
+static void	_update_pwd(t_env **env)
+{
+	char	*pwd_name_value;
+	char	cwd[PATH_MAX];
+
+	getcwd(cwd, sizeof(cwd));
 	pwd_name_value = ft_format_string("PWD=%s", cwd);
 	env_update_name_value(env, pwd_name_value);
-	free(cwd);
 	free(pwd_name_value);
-	return (0);
 }
