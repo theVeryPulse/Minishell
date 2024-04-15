@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "minishell.h"
 #include "environment_variables/env.h"
+#include "search_executable/search_executable.h"
 
 // readline
 #include <stdio.h>
@@ -100,7 +101,7 @@ int	main(void)
 		if (analyze_syntax(cmds) == 0)
 		{
 			expand_arguments(cmds, env);
-			search_executable(cmds, env);
+			search_exec_and_replace_arg_in_cmds(cmds, env);
 			// print_cmds(cmds); /* Develop */
 			check_redirect_files(cmds);
 			execute_cmds(cmds, &env);

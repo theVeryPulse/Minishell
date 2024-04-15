@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:47:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/14 17:21:25 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "../command_list/cmd_list.h"
 #include "../environment_variables/env.h"
 #include <stddef.h>
+
+static void	_shift_all_following_args_left(char **argv, int i);
 
 /**
  * @brief Expands environment variables in command arguments and redirects.
@@ -34,6 +36,9 @@ void	expand_arguments(t_cmd_list *cmds, t_env *env)
 		while (cmd->cmd_argv && cmd->cmd_argv[i])
 		{
 			_expand_string(&(cmd->cmd_argv[i]), env);
+			/* [x] if a $VAR expands to NULL, shifts all args leftward one position */
+			if (cmd->cmd_argv[i] == NULL)
+				_shift_all_following_args_left(cmd->cmd_argv, i);
 			i++;
 		}
 		i = 0;
@@ -43,5 +48,15 @@ void	expand_arguments(t_cmd_list *cmds, t_env *env)
 			i++;
 		}
 		cmd = cmd->next;
+	}
+}
+
+static void	_shift_all_following_args_left(char **argv, int i)
+{
+	argv[i] = argv[i + 1];
+	while (argv[i])
+	{
+		argv[i] = argv[i + 1];
+		i++;
 	}
 }

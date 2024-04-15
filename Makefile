@@ -19,6 +19,7 @@ $(NAME): developing
 	src/built_in/*.c \
 	src/pipes/*.c \
 	src/character_checks/*.c \
+	src/search_executable/*.c \
 	-Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o minishell -g -Wall -Wextra
 
 developing:
