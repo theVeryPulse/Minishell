@@ -6,20 +6,23 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:03:31 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 13:28:31 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 13:56:21 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_paths.h"
+#include "paths.h"
+#include "../environment_variables/env.h"
 #include "../free_and_null.h"
 #include "libft.h"
 #include <unistd.h>
 
-void	search_exec_and_replace_arg(char **arg, t_paths paths)
+void	search_exec_and_replace_arg(char **arg, t_env *env)
 {
 	char	*exe;
 	char	**path;
+	t_paths	paths;
 
+	paths_init(&paths, env);
 	path = paths;
 	while (path && *path)
 	{
@@ -33,4 +36,5 @@ void	search_exec_and_replace_arg(char **arg, t_paths paths)
 		free_and_null((void **)&exe);
 		path++;
 	}
+	paths_free(&paths);
 }

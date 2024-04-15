@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   search_executable.c                                :+:      :+:    :+:   */
+/*   search_exec_and_replace_arg_in_cmds.c              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 13:47:42 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/15 14:18:23 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,9 @@
 void	search_exec_and_replace_arg_in_cmds(t_cmd_list *cmds, t_env *env)
 {
 	t_cmd_list	*cmd;
-	char		*path_all;
-	char		**paths;
 
 	if (!cmds)
 		return ;
-	paths_init(&paths, env);
 	cmd = cmds;
 	while (cmd)
 	{
@@ -44,8 +41,7 @@ void	search_exec_and_replace_arg_in_cmds(t_cmd_list *cmds, t_env *env)
 			&& !ft_strchr(cmd->cmd_argv[0], '/')
 			&& !is_builtin_function(cmd->cmd_argv[0])
 			&& ft_strlen(cmd->cmd_argv[0]) > 0)
-			search_exec_and_replace_arg(&(cmd->cmd_argv[0]), paths);
+			search_exec_and_replace_arg(&(cmd->cmd_argv[0]), env);
 		cmd = cmd->next;
 	}
-	paths_free(&paths);
 }
