@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:10:44 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:46:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,16 +229,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	close(stdin_copy);
 	close(stdout_copy);
 
-	// printf("Exit status: %d\n", exit_status);/* Testing */
-	/* Update $? */
-	char	*exit_status_str;
-	char	*exit_status_name_value;
-
-	exit_status_str = ft_itoa(exit_status);
-	exit_status_name_value = ft_format_string("?=%s", exit_status_str);
-	env_update_name_value(env, exit_status_name_value);
-	free_and_null((void **)&exit_status_str);
-	free_and_null((void **)&exit_status_name_value);
+	env_update_exit_status(env, exit_status);
 
 	/* Free resources */
 	free_and_null((void **)(&pipes.pipes));
