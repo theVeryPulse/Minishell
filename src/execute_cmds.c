@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 02:43:08 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:04:12 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,10 +156,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	int			cmd_idx;
 	pid_t		id;
 	int			exit_status;
-	bool		has_child_process;
 
 	exit_status = 0;
-	has_child_process = false;
 	pipes_init(&pipes, cmd_list_len(cmds) - 1);
 	cmd = cmds;
 	stdin_copy = dup(STDIN_FILENO);
@@ -201,7 +199,6 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 			exit_status = exec_builtin_function(cmd->argv, env, cmds, &pipes);
 		else if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
 		{
-			has_child_process = true;
 			id = fork();
 			if (id == 0)
 			{
@@ -220,6 +217,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 					exit (127);
 				}
 			}
+			else
+				exit_status = get_last_child_exit_status(id);
 		}
 		
 		cmd = cmd->next;
@@ -231,12 +230,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	close(stdin_copy);
 	close(stdout_copy);
 
-	/* Get and save exit status */
-
-	if (has_child_process)
-		exit_status = get_last_child_exit_status(id);
 	// printf("Exit status: %d\n", exit_status);/* Testing */
-
+	/* Update $? */
 	char	*exit_status_str;
 	char	*exit_status_name_value;
 
@@ -245,6 +240,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	env_update_name_value(env, exit_status_name_value);
 	free_and_null((void **)&exit_status_str);
 	free_and_null((void **)&exit_status_name_value);
+
 	/* Free resources */
 	free_and_null((void **)(&pipes.pipes));
 	unlink(HEREDOC_FILE);

@@ -21,6 +21,7 @@ $(NAME): developing lib/libft/lib/libft.a
 	src/character_checks/*.c \
 	src/search_executable/*.c \
 	src/minishell/*.c \
+	src/free/*.c \
 	-Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o minishell -g -Wall -Wextra
 
 developing:

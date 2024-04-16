@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 02:15:38 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:04:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 			t_pipes *pipes);
 int		builtin_export(char **argv, t_env **env);
 int		builtin_unset(char **argv, t_env **env);
-
 
 #endif

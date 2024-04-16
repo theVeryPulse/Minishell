@@ -22,7 +22,7 @@ int	exec_builtin_function(char **argv, t_env **env, t_cmd_list *cmds,
 	if (ft_strncmp(argv[0], "cd", 3) == 0)
 		exit_status = builtin_cd(argv, env);
 	else if (ft_strncmp(argv[0], "pwd", 4) == 0)
-		exit_status =  builtin_pwd();
+		exit_status = builtin_pwd();
 	else if (ft_strncmp(argv[0], "env", 4) == 0)
 		exit_status = builtin_env(argv, *env, cmds, pipes);
 	else if (ft_strncmp(argv[0], "echo", 5) == 0)
