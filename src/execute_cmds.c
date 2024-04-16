@@ -6,7 +6,7 @@
 /*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 23:45:33 by siev             ###   ########.fr       */
+/*   Updated: 2024/04/17 00:05:27 by siev             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,12 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 			exit_status = minishell()->exit_status;
 		env_update_exit_status(env, exit_status);
 	}
+	/* waits for all child processes to finish before ending function */
+	while (wait(NULL) != -1)
+	{
+		;
+	}
+	
 	/* Free resources */
 	free_and_null((void **)(&pipes.pipes));
 	minishell()->received_signal = NONE;
