@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:11:34 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 17:49:25 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	search_exec_and_replace_arg_in_cmds(t_cmd_list *cmds, t_env *env)
 	while (cmd)
 	{
 		if (cmd->argv
+			&& cmd->argv[0]
 			&& !ft_strchr(cmd->argv[0], '/')
 			&& !is_builtin_function(cmd->argv[0])
 			&& ft_strlen(cmd->argv[0]) > 0)
