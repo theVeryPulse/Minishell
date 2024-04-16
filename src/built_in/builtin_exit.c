@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
+/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:39:37 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 21:27:46 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 00:48:28 by siev             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 	int			exit_status;
 	t_to_free	to_free;
 
+	printf("exit\n");
 	exit_status = 0;
 	to_free = (t_to_free){.cmds = cmds, .env = env, .pipes = pipes};
 	if (argv[1])

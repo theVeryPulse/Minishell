@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _expand_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
+/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:10:55 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 00:51:38 by siev             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	_expand_string(char **arg_ptr, t_env *env)
 			_add_literal_str(&char_list, arg, &i);
 		else if (arg[i] == '\"')
 			_add_env_expanded_str(&char_list, arg, &i, env);
-		else if (arg[i] == '$' && !ft_isspace(arg[i + 1]))
+		else if (arg[i] == '$' && is_variable_name_start(arg[i + 1]))
 			_add_env_value(&char_list, arg, &i, env);
 		else
 			char_list_add_char(&char_list, arg[i++]);
