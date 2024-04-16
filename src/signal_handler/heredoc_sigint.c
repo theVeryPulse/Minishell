@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_cmds_env_pipes_rl_history.c                   :+:      :+:    :+:   */
+/*   heredoc_sigint.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 15:25:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 18:40:53 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 22:30:55 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 22:49:37 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_to_free.h"
-#include "../command_list/cmd_list.h"
+#include "exit_status.h"
+#include "../minishell/minishell.h"
 #include "../environment_variables/env.h"
+#include <unistd.h>
 #include <readline/readline.h>
-#include <stdlib.h>
 
-extern void	free_cmds_env_pipes_rl_clear_history(t_to_free to_free)
+extern void	heredoc_sigint(int signal)
 {
-	if (to_free.cmds)
-		cmd_list_free(&(to_free.cmds));
-	if (to_free.env)
-		env_free(&(to_free.env));
-	if (to_free.pipes && to_free.pipes->pipes)
-		free(to_free.pipes->pipes);
-	rl_clear_history();
+	signal++;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay();
+	fflush(stdout); /* test */
+	rl_done = 1;
+	env_update_exit_status(&(minishell()->env), SIGINT_EXIT_STATUS);
+	minishell()->received_signal = RECEIVED_SIGINT;
 }

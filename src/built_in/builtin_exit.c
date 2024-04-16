@@ -6,11 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:39:37 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 15:29:38 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:27:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_t_exit_err.h"
+#include "../minishell/minishell.h"
 #include "../free/free.h"
 #include "../environment_variables/env.h"
 #include "../command_list/cmd_list.h"
@@ -61,7 +62,7 @@ extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 		exit(exit_status);
 	}
 	free_cmds_env_pipes_rl_clear_history(to_free);
-	exit(0);
+	exit(minishell()->exit_status);
 }
 
 static bool	_is_a_number(char *fir_arg)

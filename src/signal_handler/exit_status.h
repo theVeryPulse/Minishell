@@ -1,36 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_minishell.h                                      :+:      :+:    :+:   */
+/*   exit_status.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 14:05:13 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 22:33:33 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 21:14:36 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 21:25:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_MINISHELL_H
-# define T_MINISHELL_H
+#ifndef EXIT_STATUS_H
+# define EXIT_STATUS_H
 
-# include "../command_list/t_cmd_list.h"
-# include "../environment_variables/t_env.h"
-# include <stdbool.h>
-
-typedef enum	e_received_signal
-{
-	NONE = 0,
-	RECEIVED_SIGINT,
-	RECEIVED_SIGQUIT,
-}	t_received_signal;
-
-
-typedef struct s_minishell
-{
-	t_cmd_list			*cmds;
-	t_env				*env;
-	int					exit_status;
-	t_received_signal	received_signal;
-}	t_minishell;
+#define SIGINT_EXIT_STATUS 130
+#define SIGQUIT_EXIT_STATUS 131
 
 #endif
