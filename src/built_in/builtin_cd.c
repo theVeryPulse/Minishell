@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:03:40 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:33:40 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 #define PATH_MAX 4096
 
+extern int	builtin_cd(char **argv, t_env **env);
 static char	*_get_path(char *arg, t_env *env);
 static bool	_dir_not_okay(const char *path);;
 static void	_update_oldpwd(t_env **env);
@@ -32,7 +33,7 @@ static void	_update_pwd(t_env **env);
  * @param argv An array of strings containing the command arguments.
  * @return 0 if the operation is successful, 1 otherwise.
  */
-int	builtin_cd(char **argv, t_env **env)
+extern int	builtin_cd(char **argv, t_env **env)
 {
 	char	*path;
 

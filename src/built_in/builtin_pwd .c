@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:57:10 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/14 01:07:38 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:34:08 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
  * 
  * @note This function relies on the getcwd() system call.
  */
-int	builtin_pwd(void)
+extern int	builtin_pwd(void)
 {
 	char	cwd[PATH_MAX];
 

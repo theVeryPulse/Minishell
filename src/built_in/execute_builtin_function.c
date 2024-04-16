@@ -13,7 +13,7 @@
 #include "built_in.h"
 #include "../pipes/t_pipes.h"
 
-int	exec_builtin_function(char **argv, t_env **env, t_cmd_list *cmds,
+extern int	exec_builtin_function(char **argv, t_env **env, t_cmd_list *cmds,
 	t_pipes *pipes)
 {
 	int	exit_status;

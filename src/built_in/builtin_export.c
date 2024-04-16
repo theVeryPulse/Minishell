@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:43:07 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:34:03 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  * @param argv An array of strings containing the command arguments.
  * @return The exit status of the function, 0 if successful, 1 otherwise.
  */
-int	builtin_export(char **argv, t_env **env)
+extern int	builtin_export(char **argv, t_env **env)
 {
 	int		i;
 	char	*name_value;

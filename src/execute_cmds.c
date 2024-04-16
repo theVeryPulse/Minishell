@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:04:12 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:10:44 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ For debugging child process:
 #include "environment_variables/env.h"
 #include "built_in/built_in.h"
 #include "libft.h"
-#include "free_and_null.h"
-#include "string_array.h"
+#include "free/free.h"
 #include "heredoc.h"
 #include "get_last_child_exit_status.h"
 #include <fcntl.h>

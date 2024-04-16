@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 21:15:26 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:34:13 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param env A pointer to the pointer to the environment variables.
  * @return Always returns 0.
  */
-int	builtin_unset(char **argv, t_env **env)
+extern int	builtin_unset(char **argv, t_env **env)
 {
 	int	i;
 
