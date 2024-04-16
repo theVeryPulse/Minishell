@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 02:03:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 13:03:34 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:33:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+extern int	builtin_echo(char **argv);
 static bool	_is_flag_for_no_newline(const char *arg);
 
 /**
@@ -26,7 +27,7 @@ static bool	_is_flag_for_no_newline(const char *arg);
  * bash `echo -nnnnnn` is handled as `echo -n`, hence comparing 2 in ft_strncmp;
  * Flag: '-' followed by any number of n's.
  */
-int	builtin_echo(char **argv)
+extern int	builtin_echo(char **argv)
 {
 	char	**arg;
 	bool	no_newline;

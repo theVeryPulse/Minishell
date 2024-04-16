@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:26:43 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:39:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:34:25 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
  * @return `bool`
  * @note `echo` `cd` `pwd` `export` `unset` `env` `exit`
  */
-bool	is_builtin_function(const char *cmd)
+extern bool	is_builtin_function(const char *cmd)
 {
 	return (ft_strncmp("cd", cmd, 3) == 0
 		|| ft_strncmp("env", cmd, 4) == 0
