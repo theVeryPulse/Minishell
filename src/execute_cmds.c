@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
+/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 22:47:10 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 23:45:33 by siev             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ static int	_open_heredoc_temp_file_for_write(void)
 	return (fd);
 }
 
+int	empty(void)
+{
+	return (0);
+}
+
 /**
  * @brief 
  * 
@@ -78,14 +83,13 @@ void	heredoc(char *delimiter, int stdin_copy)
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, heredoc_sigint);
+	rl_event_hook = &empty;
 	dup2(stdin_copy, STDIN_FILENO);
 	delimiter_nl = ft_format_string("%s\n", delimiter);
 	heredoc_fd = _open_heredoc_temp_file_for_write();
-	// ft_dprintf(STDERR_FILENO, "  %d heredoc\n", getpid()); /* Develop */
 	while (minishell()->received_signal == NONE)
 	{
 		line = readline("> ");
-		// ft_dprintf(STDERR_FILENO, "  %d received \"%s\"\n", getpid(), line); /* Develop */
 		if (!line)
 		{
 			ft_dprintf(STDERR_FILENO,

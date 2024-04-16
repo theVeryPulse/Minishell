@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
+/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 22:32:07 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 23:45:55 by siev             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	main(void)
 		signal(SIGINT, minishell_sigint);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("minishell $ ");
-		// printf("((%s))\n", rl_line_buffer);
 		if (line == NULL) /* crtl+d EOF */
 		{
 			if (history_file != -1)
