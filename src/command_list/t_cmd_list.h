@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:18:43 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:20:42 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ struct s_cmd_list
 {
 	// Null terminated array of arguments
 	// Example: `{"echo", "-n", "123", "$VAR$VAR", NULL}`
-	char		**cmd_argv;
+	char		**argv;
 	// Null terminated array of redirects
 	// Example: `{"<infile", "<<delimiter", ">outfile", ">>outfile"}`
 	char		**redirects;

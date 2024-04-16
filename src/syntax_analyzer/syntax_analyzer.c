@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:24:05 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	analyze_syntax(t_cmd_list *cmds)
 	cmd = cmds;
 	while (cmd)
 	{
-		if (cmd->cmd_argv == NULL && cmd->redirects == NULL)
+		if (cmd->argv == NULL && cmd->redirects == NULL)
 		{
 			print_error_message(PIPE, NULL);
 			return (1);

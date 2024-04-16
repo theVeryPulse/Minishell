@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   get_last_child_exit_status.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/12 21:15:26 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 02:25:57 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 02:31:16 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../environment_variables/env.h"
+#include <sys/types.h>
+#include <wait.h>
 
-/**
- * @brief Removes environment variables.
- * 
- * @param argv String array of the arguments, first one being "unset"
- * @param env A pointer to the pointer to the environment variables.
- * @return Always returns 0.
- */
-int	builtin_unset(char **argv, t_env **env)
+int	get_last_child_exit_status(pid_t id)
 {
-	int	i;
+	int	wstatus;
+	int	exit_status;
 
-	i = 0;
-	while (argv[i])
-	{
-		env_remove_by_name(env, argv[i]);
-		i++;
-	}
-	return (0);
+	waitpid(id, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		exit_status = WEXITSTATUS(wstatus);
+	return (exit_status);
 }

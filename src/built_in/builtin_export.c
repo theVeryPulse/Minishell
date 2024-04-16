@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:43:07 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/15 20:24:41 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@
  * @brief Updates environment variables or exports new ones.
  * 
  * @param env A pointer to the pointer to the stack of environment variables.
- * @param cmd_argv An array of strings containing the command arguments.
+ * @param argv An array of strings containing the command arguments.
  * @return The exit status of the function, 0 if successful, 1 otherwise.
  */
-int	builtin_export(char **cmd_argv, t_env **env)
+int	builtin_export(char **argv, t_env **env)
 {
 	int		i;
 	char	*name_value;
 	int		exit_status;
 
 	exit_status = 0;
-	if (!cmd_argv || !(cmd_argv[1]))
+	if (!argv || !(argv[1]))
 		return (exit_status);
 	i = 1;
-	while (cmd_argv[i])
+	while (argv[i])
 	{
-		name_value = cmd_argv[i];
+		name_value = argv[i];
 		if (!is_valid_identifier(name_value))
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid "

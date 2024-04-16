@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:37:35 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 02:43:08 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ For debugging child process:
 #include "libft.h"
 #include "free_and_null.h"
 #include "string_array.h"
-#include "fcntl.h"
 #include "heredoc.h"
+#include "get_last_child_exit_status.h"
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdio.h>
@@ -56,25 +57,6 @@ static int	_open_heredoc_temp_file_for_write(void)
 		unlink(HEREDOC_FILE);
 	fd = open(HEREDOC_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0755);
 	return (fd);
-}
-
-/**
- * @brief 
- * 
- * @note
- * cd with only a relative or absolute path  same process
- * export with no options                    same process
- * unset with no options                     same process
- * exit with no options                      same process
- * pwd with no options                       child process
- * env with no options or arguments          child process
- */
-bool	command_for_parent_process(const char *cmd)
-{
-	return (ft_strncmp(cmd, "cd", 3) == 0
-			|| ft_strncmp(cmd, "exit", 5) == 0
-			|| ft_strncmp(cmd, "unset", 6) == 0
-			|| ft_strncmp(cmd, "export", 7) == 0);
 }
 
 /**
@@ -172,7 +154,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	int			read_end;
 	int			write_end;
 	int			cmd_idx;
-	int			id;
+	pid_t		id;
 	int			exit_status;
 	bool		has_child_process;
 
@@ -214,38 +196,10 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 		apply_redirects(cmd, stdin_copy);
 
 
-		/* [ ] Executes built-ins for main process */
-		/* 
-		 * cd with only a relative or absolute path  same process
-		 * export with no options                    same process
-		 * unset with no options                     same process
-		 * exit with no options                      same process
-		 * pwd with no options                       child process
-		 * env with no options or arguments          child process 
-		 */
-		if (cmd->cmd_argv
-			&& cmd->cmd_argv[0]
-			&& is_builtin_function(cmd->cmd_argv[0]))
-		{
-			/* Close all write end? */
-			if (ft_strncmp(cmd->cmd_argv[0], "pwd", 4) == 0)
-				exit_status =  builtin_pwd();
-			else if (ft_strncmp(cmd->cmd_argv[0], "export", 7) == 0)
-				exit_status = builtin_export(cmd->cmd_argv, env);
-			else if (ft_strncmp(cmd->cmd_argv[0], "cd", 3) == 0)
-				exit_status = builtin_cd(cmd->cmd_argv, env);
-			else if (ft_strncmp(cmd->cmd_argv[0], "echo", 5) == 0)
-				exit_status = builtin_echo(cmd->cmd_argv);
-			else if (ft_strncmp(cmd->cmd_argv[0], "env", 4) == 0)
-				exit_status = builtin_env(cmd->cmd_argv, *env);
-			else if (ft_strncmp(cmd->cmd_argv[0], "exit", 5) == 0)
-				builtin_exit(cmd->cmd_argv, *env, cmds, &pipes);
-			else if (ft_strncmp(cmd->cmd_argv[0], "unset", 6) == 0)
-				exit_status = builtin_unset(cmd->cmd_argv, env);
-		}
-		else if (cmd->cmd_argv
-			&& cmd->cmd_argv[0]
-			&& ft_strlen(cmd->cmd_argv[0]) > 0)
+		/* Executes built-ins for main process */
+		if (cmd->argv && cmd->argv[0] && is_builtin_function(cmd->argv[0]))
+			exit_status = exec_builtin_function(cmd->argv, env, cmds, &pipes);
+		else if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
 		{
 			has_child_process = true;
 			id = fork();
@@ -255,10 +209,10 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 
 				envp = env_build_envp(*env);
 				pipes_close_all(&pipes);
-				if (execve(cmd->cmd_argv[0], cmd->cmd_argv, envp) == -1) // [x] free envp when execve fails
+				if (execve(cmd->argv[0], cmd->argv, envp) == -1) // [x] free envp when execve fails
 				{
 					ft_dprintf(STDERR_FILENO, "minishell: %s: "
-						"command not found\n", cmd->cmd_argv[0]);
+						"command not found\n", cmd->argv[0]);
 					rl_clear_history();
 					env_free(env);
 					cmd_list_free(&cmds);
@@ -278,22 +232,14 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	close(stdout_copy);
 
 	/* Get and save exit status */
-	int		wstatus;
+
+	if (has_child_process)
+		exit_status = get_last_child_exit_status(id);
+	// printf("Exit status: %d\n", exit_status);/* Testing */
+
 	char	*exit_status_str;
 	char	*exit_status_name_value;
 
-	if (has_child_process)
-	{
-		exit_status = 0; /* Init for silencing warning */
-		waitpid(id, &wstatus, 0);
-		if (WIFEXITED(wstatus))
-			exit_status = WEXITSTATUS(wstatus);
-	}
-	else
-	{
-		/* Try catch the exit status of built-in functions */
-	}
-	// printf("Exit status: %d\n", exit_status);/* Testing */
 	exit_status_str = ft_itoa(exit_status);
 	exit_status_name_value = ft_format_string("?=%s", exit_status_str);
 	env_update_name_value(env, exit_status_name_value);

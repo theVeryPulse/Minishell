@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:03:40 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/15 20:22:18 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,29 @@ static void	_update_pwd(t_env **env);
  * @brief Changes the current working directory.
  * 
  * @param env A pointer to the pointer to the environment variables.
- * @param cmd_argv An array of strings containing the command arguments.
+ * @param argv An array of strings containing the command arguments.
  * @return 0 if the operation is successful, 1 otherwise.
  */
-int	builtin_cd(char **cmd_argv, t_env **env)
+int	builtin_cd(char **argv, t_env **env)
 {
 	char	*path;
 
-	if (cmd_argv[1] && cmd_argv[2])
+	if (argv[1] && argv[2])
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: cd: too many arguments\n");
 		return (1);
 	}
-	path = _get_path(cmd_argv[1], *env);
+	path = _get_path(argv[1], *env);
 	if (_dir_not_okay(path))
 	{
-		if (path != cmd_argv[1])
+		if (path != argv[1])
 			free(path);
 		return (1);
 	}
 	_update_oldpwd(env);
 	chdir(path);
 	_update_pwd(env);
-	if (path != cmd_argv[1])
+	if (path != argv[1])
 		free(path);
 	return (0);
 }

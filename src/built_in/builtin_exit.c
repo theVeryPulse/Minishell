@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:39:37 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/15 20:44:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void	_exit_free(t_to_free to_free);
  * command argument. If no argument is provided, the shell exits with the 
  * default status of 0.
  * 
- * @param cmd_argv An array of strings containing the command arguments.
+ * @param argv An array of strings containing the command arguments.
  * @param env A pointer to the environment variables.
  * @param cmds A pointer to the command list.
  * @param pipes A pointer to the pipes structure.
  */
-void	builtin_exit(char **cmd_argv, t_env *env, t_cmd_list *cmds,
+void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 			t_pipes *pipes)
 {
 	int			exit_status;
@@ -47,15 +47,15 @@ void	builtin_exit(char **cmd_argv, t_env *env, t_cmd_list *cmds,
 
 	exit_status = 0;
 	to_free = (t_to_free){.cmds = cmds, .env = env, .pipes = pipes};
-	if (cmd_argv[1])
+	if (argv[1])
 	{
-		if (_is_a_number(cmd_argv[1]) == false)
-			_exit_error_handle(cmd_argv[1], to_free, NUMERIC);
-		exit_status = _calc_exit_status(cmd_argv[1]);
-		if (cmd_argv[2])
-			_exit_error_handle(cmd_argv[1], to_free, MANY_ARGS);
+		if (_is_a_number(argv[1]) == false)
+			_exit_error_handle(argv[1], to_free, NUMERIC);
+		exit_status = _calc_exit_status(argv[1]);
+		if (argv[2])
+			_exit_error_handle(argv[1], to_free, MANY_ARGS);
 		if (exit_status < 0 || exit_status > 255)
-			_exit_error_handle(cmd_argv[1], to_free, NUMERIC);
+			_exit_error_handle(argv[1], to_free, NUMERIC);
 		_exit_free(to_free);
 		exit(exit_status);
 	}
