@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 20:28:50 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:37:35 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,9 +258,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				if (execve(cmd->cmd_argv[0], cmd->cmd_argv, envp) == -1) // [x] free envp when execve fails
 				{
 					ft_dprintf(STDERR_FILENO, "minishell: %s: "
-					"command not found\n",
-						cmd->cmd_argv[0]);
-					/* free resources */
+						"command not found\n", cmd->cmd_argv[0]);
 					rl_clear_history();
 					env_free(env);
 					cmd_list_free(&cmds);

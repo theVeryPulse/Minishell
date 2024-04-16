@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:25:19 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:31:38 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,9 @@ int	main(void)
 		{
 			if (history_file != -1)
 				close(history_file);
-			return (0);
-		}
-		/*
-		if (ft_strncmp("exit", line, 5) == 0) // Incomplete, exit should return
-		{
 			env_free(&env);
-			free(line);
-			rl_clear_history();
 			return (0);
 		}
-		*/
 		add_history(line);
 		if (history_file != -1)
 			ft_dprintf(history_file, "\n%s", line);

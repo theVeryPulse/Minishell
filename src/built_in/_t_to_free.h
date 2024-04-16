@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:34:49 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:22:39 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:35:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "../environment_variables/t_env.h"
 # include "../pipes/t_pipes.h"
 
-typedef struct	s_to_free
+typedef struct s_to_free
 {
 	t_cmd_list	*cmds;
 	t_env		*env;

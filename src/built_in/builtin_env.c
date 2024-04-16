@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 20:24:32 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:41:12 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	builtin_env(char **argv, t_env *env)
 	/* |-- search executable in the new environment */
 	else
 	{
-		// [x] search path： search_exec_and_replace_arg_in_cmds.c:47
 		if (!ft_strchr(*arg, '/'))
 			search_exec_and_replace_arg(arg, modified_env);
 		has_child_process = true;
@@ -99,14 +98,13 @@ int	builtin_env(char **argv, t_env *env)
 			char **envp;
 
 			envp = env_build_envp(modified_env);
-			// [ ] close pipes?
-			if (execve(*arg, arg, envp) == -1) // [x] free envp when execve fails
+			if (execve(*arg, arg, envp) == -1)
 			{
 				ft_dprintf(STDERR_FILENO, "env: ‘%s’: ", *arg);
 				perror("");
 				free_string_array_and_null(&envp);
 				rl_clear_history();
-				env_free(&env);
+				env_free(&modified_env);
 				exit (0);
 			}
 		}
