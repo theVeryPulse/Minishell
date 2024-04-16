@@ -6,11 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:28:51 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:34:21 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:48:25 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "t_env.h"
 #include "libft.h"
 
 /**
@@ -18,19 +18,19 @@
  *        environment variables.
  *        The array of strings (envp) is suitable for passing to execve().
  *
- * @param stack A pointer to the head of the linked list of environment 
- *              variables.
- * @return      A pointer to the array of strings (envp) terminated by NULL.
- *              This array should be freed by the caller when no longer needed.
+ * @param list A pointer to the head of the linked list of environment 
+ *             variables.
+ * @return     A pointer to the array of strings (envp) terminated by NULL.
+ *             This array should be freed by the caller when no longer needed.
  */
-char	**env_build_envp(t_env *stack)
+char	**env_build_envp(t_env *list)
 {
 	int		i;
 	int		len;
 	char	**envp;
 	t_env	*node;
 
-	node = stack;
+	node = list;
 	len = 0;
 	while (node)
 	{
@@ -38,12 +38,13 @@ char	**env_build_envp(t_env *stack)
 		len++;
 	}
 	envp = (char **)ft_calloc(len + 1, sizeof(char *));
-	i = len - 1;
-	node = stack;
+	i = 0;
+	node = list;
 	while (node)
 	{
-		envp[i--] = ft_strdup(node->name_value);
+		envp[i] = ft_strdup(node->name_value);
 		node = node->next;
+		i++;
 	}
 	return (envp);
 }

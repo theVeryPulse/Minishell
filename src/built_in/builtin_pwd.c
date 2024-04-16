@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd .c                                     :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chuleung <chuleung@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:57:10 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/10 18:09:53 by chuleung         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:15:01 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
+#include <limits.h>
 
 #define PATH_MAX 4096
 
@@ -24,7 +25,7 @@
  * 
  * @note This function relies on the getcwd() system call.
  */
-int	builtin_pwd(void)
+extern int	builtin_pwd(void)
 {
 	char	cwd[PATH_MAX];
 
@@ -32,7 +33,7 @@ int	builtin_pwd(void)
 		printf("%s\n", cwd);
 	else
 	{
-		perror("No such file or directory");
+		perror("minishell");
 		return (1);
 	}
 	return (0);

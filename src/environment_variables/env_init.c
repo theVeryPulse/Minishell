@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_env.h"
+#include "env.h"
 #include <stddef.h>
 #include <unistd.h>
 
@@ -21,16 +21,16 @@
  * @param stack A pointer to the pointer to the head of the linked list of 
  *              environment variables.
  */
-void	env_init(t_env **stack)
+void	env_init(t_env **env)
 {
 	char	**env_var;
 
-	*stack = NULL;
+	*env = NULL;
 	env_var = __environ;
 	while (env_var && *env_var)
 	{
-		_add_to_env(stack, *env_var);
+		env_update_name_value(env, *env_var);
 		env_var++;
 	}
-	_add_to_env(stack, "?=0");
+	env_update_name_value(env, "?=0");
 }

@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_and_null.h                                    :+:      :+:    :+:   */
+/*   t_to_free.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/07 02:24:40 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 02:25:34 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/15 20:34:49 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 16:39:17 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_AND_NULL_H
-# define FREE_AND_NULL_H
+#ifndef T_TO_FREE_H
+# define T_TO_FREE_H
 
-void	free_and_null(void **ptr);
+# include "../command_list/t_cmd_list.h"
+# include "../environment_variables/t_env.h"
+# include "../pipes/t_pipes.h"
+
+typedef struct s_to_free
+{
+	t_cmd_list	*cmds;
+	t_env		*env;
+	t_pipes		*pipes;
+}	t_to_free;
 
 #endif

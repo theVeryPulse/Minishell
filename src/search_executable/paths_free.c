@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_builtin_function.h                              :+:      :+:    :+:   */
+/*   paths_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 11:26:05 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:27:14 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/15 13:02:15 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 16:12:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IS_BUILTIN_FUNCTION_H
-# define IS_BUILTIN_FUNCTION_H
+#include "t_paths.h"
+#include "../free/free.h"
 
-# include <stdbool.h>
-
-bool	is_builtin_function(const char *cmd);
-
-#endif
+void	paths_free(t_paths *paths)
+{
+	free_string_array_and_null((char ***)paths);
+}

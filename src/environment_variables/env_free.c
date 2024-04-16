@@ -6,28 +6,28 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:28:59 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:17:43 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:48:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "t_env.h"
 #include <stdlib.h>
 
 /**
  * @brief Frees memory of the entire linked list for environment variables.
  *        Resets pointer to NULL.
  *
- * @param stack A pointer to the pointer to the head of the linked list of
- *              environment variables.
+ * @param list A pointer to the pointer to the head of the linked list of
+ *             environment variables.
  */
-void	env_free(t_env **stack)
+void	env_free(t_env **list)
 {
 	t_env	*node;
 	t_env	*next_node;
 
-	if (!stack || !(*stack))
+	if (!list || !(*list))
 		return ;
-	node = *stack;
+	node = *list;
 	while (node)
 	{
 		next_node = node->next;
@@ -35,5 +35,5 @@ void	env_free(t_env **stack)
 		free(node);
 		node = next_node;
 	}
-	*stack = NULL;
+	*list = NULL;
 }

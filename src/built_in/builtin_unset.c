@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _t_pipe.h                                          :+:      :+:    :+:   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/12 20:53:58 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/12 21:20:56 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/12 21:15:26 by chuleung          #+#    #+#             */
+/*   Updated: 2024/04/16 16:34:13 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _T_PIPE_H
-# define _T_PIPE_H
+#include "../environment_variables/env.h"
 
 /**
- * @brief Structure for pipes. `int *pipes` should be a dynamically allocated
- *        array of integers.
+ * @brief Removes environment variables.
  * 
- * @note Pipes is an integer array of length (pipe_count * 2) as each pipe has
- *       two ends.
+ * @param argv String array of the arguments, first one being "unset"
+ * @param env A pointer to the pointer to the environment variables.
+ * @return Always returns 0.
  */
-typedef struct s_pipes
+extern int	builtin_unset(char **argv, t_env **env)
 {
-	int	*pipes;
-	int	pipe_count;
-}	t_pipes;
+	int	i;
 
-#endif
+	i = 0;
+	while (argv[i])
+	{
+		env_remove_by_name(env, argv[i]);
+		i++;
+	}
+	return (0);
+}

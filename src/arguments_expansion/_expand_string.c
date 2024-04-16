@@ -6,16 +6,20 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:02:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:10:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../command_list/cmd_list.h"
+#include "../command_list/t_cmd_list.h"
 #include "../character_list/char_list.h"
 #include "../environment_variables/env.h"
-#include "../free_and_null.h"
+#include "../character_checks/character_checks.h"
+#include "../free/free.h"
 #include "libft.h"
+#include <stdlib.h>
 #include <stddef.h>
+
+bool	_arg_is_env_var(char *arg);
 
 static void	_add_literal_str(t_char_list **char_list, const char *arg,
 				size_t *i);
@@ -25,6 +29,11 @@ static void	_add_env_value(t_char_list **char_list, const char *arg,
 				size_t *i, t_env *env);
 static char	*_get_var_name(const char *str);
 
+/**
+ * 
+ * @note
+ * - A single '$' is seen as a literal character.
+ */
 void	_expand_string(char **arg_ptr, t_env *env)
 {
 	size_t		i;
@@ -41,12 +50,14 @@ void	_expand_string(char **arg_ptr, t_env *env)
 			_add_literal_str(&char_list, arg, &i);
 		else if (arg[i] == '\"')
 			_add_env_expanded_str(&char_list, arg, &i, env);
-		else if (arg[i] == '$')
+		else if (arg[i] == '$' && !ft_isspace(arg[i + 1]))
 			_add_env_value(&char_list, arg, &i, env);
 		else
 			char_list_add_char(&char_list, arg[i++]);
 	}
 	expanded = char_list_to_str(char_list);
+	if (ft_strlen(expanded) == 0 && _arg_is_env_var(*arg_ptr))
+		free_and_null((void **)&expanded);
 	free_and_null((void **)arg_ptr);
 	*arg_ptr = expanded;
 	char_list_free_and_null(&char_list);
@@ -74,7 +85,7 @@ static void	_add_env_expanded_str(t_char_list **char_list, const char *arg,
 	(*i)++;
 	while (arg[*i] != '\"')
 	{
-		if (arg[*i] == '$')
+		if (arg[*i] == '$' && is_variable_name_start(arg[*i + 1]))
 		{
 			(*i)++;
 			name = _get_var_name(&arg[*i]);
@@ -93,6 +104,7 @@ static void	_add_env_expanded_str(t_char_list **char_list, const char *arg,
 	}
 	(*i)++;
 }
+// [x] Expand "$VAR_WITHOUT_VALUE" to empty string, expand $VAR_WITHOUT_VALUE to NULL;
 
 static void	_add_env_value(t_char_list **char_list, const char *arg,
 				size_t *i, t_env *env)
@@ -102,24 +114,55 @@ static void	_add_env_value(t_char_list **char_list, const char *arg,
 
 	name = _get_var_name(&arg[*i]);
 	value = env_get_value_by_name(env, name);
-	char_list_add_str(char_list, value);
+	if (ft_strlen(value) == 0)
+	{
+		free_and_null((void **)&value);
+		value = NULL;
+	}
+	else
+		char_list_add_str(char_list, value);
 	free_and_null((void **)&name);
 	free_and_null((void **)&value);
+	if (ft_strncmp(&arg[*i], "$?", 2) == 0)
+	{
+		(*i) += 2;
+		return ;
+	}
 	(*i)++;
-	while (arg[*i] && ft_isalnum(arg[*i]))
+	while (arg[*i] && is_variable_name_middle(arg[*i])) /* [x] skip var name middle */
 		(*i)++;
 }
 
+/**
+ * @note
+ * - "$?" forms exit status regardless of the following charater;
+ */
 static char	*_get_var_name(const char *str)
 {
 	size_t	start;
 	size_t	end;
 
+	if (ft_strncmp(str, "$?", 2) == 0)
+		return (ft_strdup("?"));
 	start = 0;
 	if (str[start] == '$')
 		start++;
 	end = start;
-	while (str[end] && ft_isalnum(str[end]))
+	if (str[end] && is_variable_name_start(str[end]))
+		end++;
+	while (str[end] && is_variable_name_middle(str[end]))
 		end++;
 	return (ft_strndup(&str[start], end - start));
+}
+
+bool	_arg_is_env_var(char *arg)
+{
+	size_t	i;
+
+	if (arg[0] != '$' || !is_variable_name_start(arg[1]))
+		return (false);
+	i = 2;
+	while (is_variable_name_middle(arg[i]))
+		i++;
+	return (arg[i] == '\0');
 }

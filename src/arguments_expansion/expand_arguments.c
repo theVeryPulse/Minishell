@@ -6,14 +6,16 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:47:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_expand_string.h"
-#include "../command_list/cmd_list.h"
-#include "../environment_variables/env.h"
+#include "../command_list/t_cmd_list.h"
+#include "../environment_variables/t_env.h"
 #include <stddef.h>
+
+static void	_shift_all_following_args_left(char **argv, int i);
 
 /**
  * @brief Expands environment variables in command arguments and redirects.
@@ -31,9 +33,12 @@ void	expand_arguments(t_cmd_list *cmds, t_env *env)
 	while (cmd)
 	{
 		i = 0;
-		while (cmd->cmd_argv && cmd->cmd_argv[i])
+		while (cmd->argv && cmd->argv[i])
 		{
-			_expand_string(&(cmd->cmd_argv[i]), env);
+			_expand_string(&(cmd->argv[i]), env);
+			/* [x] if a $VAR expands to NULL, shifts all args leftward one position */
+			if (cmd->argv[i] == NULL)
+				_shift_all_following_args_left(cmd->argv, i);
 			i++;
 		}
 		i = 0;
@@ -43,5 +48,15 @@ void	expand_arguments(t_cmd_list *cmds, t_env *env)
 			i++;
 		}
 		cmd = cmd->next;
+	}
+}
+
+static void	_shift_all_following_args_left(char **argv, int i)
+{
+	argv[i] = argv[i + 1];
+	while (argv[i])
+	{
+		argv[i] = argv[i + 1];
+		i++;
 	}
 }

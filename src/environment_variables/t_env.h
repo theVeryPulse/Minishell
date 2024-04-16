@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_and_null.c                                    :+:      :+:    :+:   */
+/*   t_env.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/07 02:23:47 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 02:50:46 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 01:02:53 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 01:51:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* [ ] Consider merging file with free_string_array_and_null */
+#ifndef T_ENV_H
+# define T_ENV_H
 
-#include <stdlib.h>
-
-void	free_and_null(void **ptr)
+typedef struct s_env	t_env;
+typedef struct s_env
 {
-	if (!ptr || !(*ptr))
-		return ;
-	free(*ptr);
-	*ptr = NULL;
-}
+	char	*name_value;
+	t_env	*next;
+}	t_env;
+
+#endif

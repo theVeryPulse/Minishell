@@ -6,12 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:27:57 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:31:52 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:45:48 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include <stddef.h>
+#include "t_env.h"
 #include <stdlib.h>
 
 /*
@@ -34,17 +33,17 @@ A->B->NULL
 /**
  * @brief Removes an environment variable by its name from a linked list.
  *
- * @param stack A pointer to a pointer to the head of the linked list of 
+ * @param list  A pointer to a pointer to the head of the linked list of 
  *              environment variables.
  * @param name  The name of the environment variable to remove.
  */
-void	env_remove_by_name(t_env **stack, const char *name)
+void	env_remove_by_name(t_env **list, const char *name)
 {
 	t_env	*node;
 	t_env	*prev;
 	size_t	i;
 
-	node = *stack;
+	node = *list;
 	while (node)
 	{
 		i = 0;
@@ -52,8 +51,8 @@ void	env_remove_by_name(t_env **stack, const char *name)
 			i++;
 		if (node->name_value[i] == '=' && name[i] == '\0')
 		{
-			if (node == *stack)
-				*stack = node->next;
+			if (node == *list)
+				*list = node->next;
 			else
 				prev->next = node->next;
 			return (free(node->name_value), free(node));

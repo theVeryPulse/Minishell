@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:53:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 10:26:46 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	_free_all_nodes_leave_content(t_list **head);
 void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
 		t_list **arguments, t_list **redirects)
 {
-	this_cmd->cmd_argv = _list_to_string_array(*arguments);
+	this_cmd->argv = _list_to_string_array(*arguments);
 	this_cmd->redirects = _list_to_string_array(*redirects);
 	_free_all_nodes_leave_content(arguments);
 	_free_all_nodes_leave_content(redirects);

@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_array.c                                     :+:      :+:    :+:   */
+/*   free_string_array_and_null.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:41:58 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 02:50:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:39:35 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* [ ] Consider merge file with free_and_null() */
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -29,7 +27,7 @@
  * 
 */
 
-void	free_string_array_and_null(char ***string_array)
+extern void	free_string_array_and_null(char ***string_array)
 {
 	char	**iterator;
 
