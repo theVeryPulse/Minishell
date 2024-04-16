@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:09:22 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:22:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define BUILT_IN_H
 
 # include "../environment_variables/t_env.h"
-# include "../command_list/cmd_list.h"
+# include "../command_list/t_cmd_list.h"
 # include "../pipes/t_pipes.h"
 # include <stdbool.h>
 

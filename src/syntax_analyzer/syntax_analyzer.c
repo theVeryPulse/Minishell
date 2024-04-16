@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 10:55:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:24:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_syntax_analyzer.h"
-#include "../command_list/cmd_list.h"
+#include "../command_list/t_cmd_list.h"
 #include "../character_checks/character_checks.h"
 #include "libft.h"
 #include <stddef.h>

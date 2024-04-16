@@ -6,14 +6,14 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:14:02 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:22:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "command_list/cmd_list.h"
+# include "command_list/t_cmd_list.h"
 # include "environment_variables/t_env.h"
 
 /* Working history */
