@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:04:29 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 14:17:16 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 17:58:31 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "./t_minishell.h"
 
-extern void			minishell_init();
-extern t_minishell	*minishell();
+extern void			minishell_init(void);
+extern t_minishell	*minishell(void);
 extern void			minishell_free(void);
 
 #endif

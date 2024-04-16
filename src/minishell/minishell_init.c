@@ -6,13 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:08:23 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 14:13:56 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 17:58:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-extern void	minishell_init()
+extern void	minishell_init(void)
 {
 	*(minishell()) = (t_minishell){0};
 }
