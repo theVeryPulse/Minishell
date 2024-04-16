@@ -6,13 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:03:31 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:12:47 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:11:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "paths.h"
 #include "../environment_variables/t_env.h"
-#include "../free_and_null.h"
+#include "../free/free.h"
 #include "libft.h"
 #include <unistd.h>
 

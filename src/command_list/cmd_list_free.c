@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:21:52 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:11:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_cmd_list.h"
-#include "../string_array.h"
+#include "../free/free.h"
 #include <stdlib.h>
 
 void	cmd_list_free(t_cmd_list **list)

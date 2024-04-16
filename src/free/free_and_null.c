@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_and_null.h                                    :+:      :+:    :+:   */
+/*   free_and_null.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/07 02:24:40 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/07 02:25:34 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/07 02:23:47 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 16:08:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_AND_NULL_H
-# define FREE_AND_NULL_H
+#include <stdlib.h>
 
-void	free_and_null(void **ptr);
-
-#endif
+extern void	free_and_null(void **ptr)
+{
+	if (!ptr || !(*ptr))
+		return ;
+	free(*ptr);
+	*ptr = NULL;
+}

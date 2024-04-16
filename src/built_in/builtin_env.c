@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:01:04 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:17:49 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include "../environment_variables/env.h" /* env_build_envp */
 #include "../pipes/t_pipes.h"
 #include "../search_executable/search_executable.h"
-#include "../free_and_null.h"
-#include "../string_array.h"
+#include "../free/free.h"
 #include "../get_last_child_exit_status.h"
 #include "../free/free.h"
 #include "libft.h"
@@ -30,12 +29,20 @@
 
 void	_print_env(t_env *env);
 
+static void	_env_child_free(char ***envp, t_env **modified_env, t_to_free to_free)
+{
+	free_string_array_and_null(envp);
+	env_free(modified_env);
+	free_cmds_env_pipes_rl_clear_history(to_free);
+}
+
 int	_env_execute_cmd(char **argv, t_env *modified_env, t_to_free to_free)
 {
 	char	**envp;
 	pid_t	id;
 	int		exit_status;
 
+	exit_status = 0;
 	if (!ft_strchr(*argv, '/'))
 		search_exec_and_replace_arg(argv, modified_env);
 	id = fork();
@@ -46,9 +53,7 @@ int	_env_execute_cmd(char **argv, t_env *modified_env, t_to_free to_free)
 		{
 			ft_dprintf(STDERR_FILENO, "env: ‘%s’: ", *argv);
 			perror("");
-			free_string_array_and_null(&envp);
-			env_free(&modified_env);
-			free_cmds_env_pipes_rl_clear_history(to_free);
+			_env_child_free(&envp, &modified_env, to_free);
 			exit(127);
 		}
 	}

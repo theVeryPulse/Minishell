@@ -6,16 +6,15 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:11:34 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "paths.h"
 #include "search_executable.h"
 #include "../environment_variables/env.h"
-#include "../string_array.h"
 #include "../built_in/built_in.h"
-#include "../free_and_null.h"
+#include "../free/free.h"
 #include "libft.h"
 #include <stdbool.h>
 #include <unistd.h>
