@@ -1,6 +1,7 @@
 NAME := minishell
 CC := cc
 CFLAGS := -Wall -Wextra # -Werror
+DEBUG := -g
 
 RED := \033[0;31m
 GREEN := \033[0;32m
@@ -30,7 +31,7 @@ $(LIBFT):
 build/%.o: src/%.c
 	@mkdir -p $(@D)
 	@echo "$(GREEN) $^ $(NC)"
-	@$(CC) $(CFLAGS) -c $< -o $@ -Ilib/libft/inc
+	@$(CC) $(CFLAGS) -c $< -o $@ -Ilib/libft/inc $(DEBUG)
 
 clean:
 	rm -rf build
