@@ -6,21 +6,15 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:38:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 00:43:03 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:04:19 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
+# include "t_env.h"
 # include <stdbool.h>
-// TODO: change env to linked list to solve env order issue.
-typedef struct s_env	t_env;
-typedef struct s_env
-{
-	char	*name_value;
-	t_env	*next;
-}	t_env;
 
 void	env_init(t_env	**env);
 void	env_update_name_value(t_env **env, const char *name_value);

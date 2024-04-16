@@ -8,7 +8,7 @@ SRC_DIR := src
 
 all: $(NAME)
 
-$(NAME): developing
+$(NAME): developing lib/libft/lib/libft.a
 	cc src/*.c \
 	src/lexical_analyzer/*.c \
 	src/syntax_analyzer/*.c \
@@ -24,3 +24,6 @@ $(NAME): developing
 
 developing:
 	@echo "Compiling..."
+
+lib/libft/lib/libft.a:
+	$(MAKE) -C lib/libft

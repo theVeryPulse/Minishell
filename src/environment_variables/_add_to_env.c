@@ -6,11 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:28:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 21:40:57 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:04:49 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "t_env.h"
 #include "libft.h"
 
 void	_add_to_env(t_env **stack, const char *name_value)

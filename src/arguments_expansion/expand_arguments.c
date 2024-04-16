@@ -6,13 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 17:21:25 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:09:06 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_expand_string.h"
 #include "../command_list/cmd_list.h"
-#include "../environment_variables/env.h"
+#include "../environment_variables/t_env.h"
 #include <stddef.h>
 
 static void	_shift_all_following_args_left(char **argv, int i);

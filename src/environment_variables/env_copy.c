@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:49:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 21:30:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:11:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_env.h"
-#include "env.h"
+#include "t_env.h"
 #include <stddef.h>
 
 static void	_add_to_stack(t_env **copy, t_env *node);
@@ -23,11 +23,6 @@ t_env	*env_copy(t_env *env)
 
 	copy = NULL;
 	node = env;
-	/* while (node)
-	{
-		_add_to_env(&copy, node->name_value);
-		node = node->next;
-	} */
 	_add_to_stack(&copy, node);
 	return (copy);
 }

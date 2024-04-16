@@ -6,10 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:28:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 00:01:01 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/16 01:06:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "_env.h"
 #include "libft.h"
 #include <stdlib.h>
