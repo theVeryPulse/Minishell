@@ -6,13 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 21:20:33 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 22:26:15 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 13:13:42 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell/minishell.h"
 #include "../environment_variables/env.h"
-#include "exit_status.h"
+#include "../exit_status.h"
 #include "libft.h"
 #include <unistd.h>
 #include <readline/readline.h>

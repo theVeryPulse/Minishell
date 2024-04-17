@@ -6,11 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:03:40 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 16:33:40 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 14:12:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../environment_variables/env.h"
+#include "../execution/file_check.h"
 #include "libft.h"
 #include <stdbool.h>
 #include <stdio.h> /* printf */
@@ -75,26 +76,24 @@ static char	*_get_path(char *arg, t_env *env)
 
 static bool	_dir_not_okay(const char *path)
 {
-	struct stat	statbuf;
+	t_file_status	status;
 
-	if (stat(path, &statbuf) != 0)
+	status = file_check(path, CHECK_DIRECTORY);
+	if (status == NO_SUCH_FILE_OR_DIRECTORY)
 	{
 		ft_dprintf(STDERR_FILENO,
 			"minishell: cd: no such file or directory: `%s'\n", path);
-		return (true);
 	}
-	else if (!S_ISDIR(statbuf.st_mode))
-	{
+	else if (status == IS_A_FILE)
 		ft_dprintf(STDERR_FILENO, "minishell: cd: %s: Not a directory\n", path);
-		return (true);
-	}
-	else if (!(statbuf.st_mode & S_IXUSR))
+	else if (status == NO_EXECUTION_PERMISSION)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: cd: permission denied: `%s'\n",
-			path);
-		return (true);
+		ft_dprintf(STDERR_FILENO,
+			"minishell: cd: permission denied: `%s'\n", path);
 	}
-	return (false);
+	else if (status == OK)
+		return (false);
+	return (true);
 }
 
 static void	_update_oldpwd(t_env **env)

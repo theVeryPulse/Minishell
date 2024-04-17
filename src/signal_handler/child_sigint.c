@@ -6,11 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 21:11:03 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 21:19:47 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 13:13:15 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exit_status.h"
+#include "../exit_status.h"
 #include "../minishell/minishell.h"
 #include "../free/free.h"
 #include <stdlib.h>

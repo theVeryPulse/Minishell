@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 02:32:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:33:23 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 13:06:36 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdbool.h>
 
 extern bool	is_builtin_function(const char *cmd);
-extern int	exec_builtin_function(char **argv, t_env **env, t_cmd_list *cmds,
+extern int	execute_builtin_function(char **argv, t_env **env, t_cmd_list *cmds,
 				t_pipes *pipes);
 
 /* Individual built-in functions */

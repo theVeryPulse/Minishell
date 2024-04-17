@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_sigint.c                                   :+:      :+:    :+:   */
+/*   exit_status.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 22:30:55 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 13:13:23 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 21:14:36 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/17 13:00:40 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../exit_status.h"
-#include "../minishell/minishell.h"
-#include "../environment_variables/env.h"
-#include <unistd.h>
-#include <readline/readline.h>
+#ifndef EXIT_STATUS_H
+# define EXIT_STATUS_H
 
-extern void	heredoc_sigint(int signal)
-{
-	signal++;
-	rl_done = 1;
-	env_update_exit_status(&(minishell()->env), SIGINT_EXIT_STATUS);
-	minishell()->received_signal = RECEIVED_SIGINT;
-}
+# define SYNTAX_ERROR_EXIT_STATUS 2
+# define IS_A_DIRECTORY_EXIT_STATUS 126
+# define PERMISSION_DENIED_EXIT_STATUS 126
+# define COMMAND_NOT_FOUND_EXIT_STATUS 127
+# define NO_SUCH_FILE_EXIT_STATUS 127
+# define SIGINT_EXIT_STATUS 130
+# define SIGQUIT_EXIT_STATUS 131
+
+#endif

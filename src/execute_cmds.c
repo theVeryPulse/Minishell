@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 12:32:59 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 14:20:44 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ For debugging child process:
 #include "environment_variables/env.h"
 #include "built_in/built_in.h"
 #include "signal_handler/signal_handler.h"
-#include "signal_handler/exit_status.h"
+#include "exit_status.h"
+#include "execution/file_check.h"
 #include "libft.h"
 #include "free/free.h"
 #include "heredoc.h"
@@ -52,6 +53,7 @@ For debugging child process:
 #include <sys/stat.h> /* stat */
 #include <readline/readline.h> /* rl_clear_history */
 #include <signal.h>
+#include <errno.h>
 
 static int	_open_heredoc_temp_file_for_write(void)
 {
@@ -188,6 +190,46 @@ int	execute_shell_script(const char *filepath)
 	return (get_last_child_exit_status(id));
 }
 
+void	_exec_one_cmd(t_cmd_list *cmd, t_env **env)
+{
+	int		stdin_copy;
+	int		exit_status;
+	pid_t	id;
+	char	**envp;
+
+	stdin_copy = dup(STDIN_FILENO);
+	apply_redirects(cmd, stdin_copy);
+	if (cmd->argv && is_builtin_function(cmd->argv[0]))
+		exit_status = execute_builtin_function(cmd->argv, env, cmd, NULL);
+	else if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
+	{
+		signal(SIGQUIT, waiting_child_sigquit);
+		signal(SIGINT, waiting_child_sigint);
+		id = fork();
+		if (id == 0)
+		{
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGINT, SIG_DFL);
+			envp = env_build_envp(*env);
+			// [ ] check if command is a folder
+			if (execve(cmd->argv[0], cmd->argv, envp) == -1) // [x] free envp when execve fails
+			{
+				ft_dprintf(STDERR_FILENO, "minishell: %s: "
+					"command not found\n", cmd->argv[0]);
+				free_cmds_env_pipes_rl_clear_history((t_to_free){.cmds = cmd, .env = *env, .pipes = NULL});
+				free_string_array_and_null(&envp);
+				exit(COMMAND_NOT_FOUND_EXIT_STATUS);
+			}
+		}
+		exit_status = get_last_child_exit_status(id);
+	}
+	if (minishell()->received_signal != NONE)
+		exit_status = minishell()->exit_status;
+	env_update_exit_status(env, exit_status);
+	dup2(stdin_copy, STDIN_FILENO);
+	close(stdin_copy);
+}
+
 void	execute_cmds(t_cmd_list *cmds, t_env **env)
 {
 	t_pipes		pipes;
@@ -201,6 +243,8 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	int			exit_status;
 	bool		last_command_is_child;
 
+	if (cmd_list_len(cmds) == 1)
+		return (_exec_one_cmd(cmds, env));
 	last_command_is_child = false;
 	exit_status = 0;
 	pipes_init(&pipes, cmd_list_len(cmds) - 1);
@@ -247,32 +291,43 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 			break ;
 
 		/* Executes built-ins for main process */
-		if (cmd->argv && cmd->argv[0] && is_builtin_function(cmd->argv[0]))
-			exit_status = exec_builtin_function(cmd->argv, env, cmds, &pipes);
-		else if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
+		
+		if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
 		{
-			if (cmd->next == NULL)
-				last_command_is_child = true;
 			/* signals for parent */
 			signal(SIGQUIT, waiting_child_sigquit);
 			signal(SIGINT, waiting_child_sigint);
 			id = fork();
 			if (id == 0)
 			{
-				char **envp;
-
 				signal(SIGQUIT, SIG_DFL);
 				signal(SIGINT, SIG_DFL);
-				envp = env_build_envp(*env);
 				pipes_close_all(&pipes);
-				// [ ] check if command is a folder
-				if (execve(cmd->argv[0], cmd->argv, envp) == -1) // [x] free envp when execve fails
+				if (is_builtin_function(cmd->argv[0]))
+					exit(execute_builtin_function(cmd->argv, env, cmds, &pipes));
+				// [x] check if command is a folder
+				// [x] try out all the perror messages for this one
+				else // [x] free envp when execve fails
 				{
-					ft_dprintf(STDERR_FILENO, "minishell: %s: "
-						"command not found\n", cmd->argv[0]);
+					char **envp;
+
+					if (access(cmd->argv[0], F_OK) != 0)
+					{
+						ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", cmd->argv[0]);
+						exit(COMMAND_NOT_FOUND_EXIT_STATUS);
+					}
+					else if (file_check(cmd->argv[0], CHECK_EXECUTABLE) == IS_A_DIRECTORY)
+					{
+						ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", cmd->argv[0]);
+						exit(IS_A_DIRECTORY_EXIT_STATUS);
+					}
+					envp = env_build_envp(*env);
+					execve(cmd->argv[0], cmd->argv, envp);
+					ft_dprintf(STDERR_FILENO, "minishell: ");
+					perror(cmd->argv[0]);
 					free_cmds_env_pipes_rl_clear_history((t_to_free){.cmds = cmds, .env = *env, .pipes = &pipes});
 					free_string_array_and_null(&envp);
-					exit(127);
+					exit(PERMISSION_DENIED_EXIT_STATUS);
 				}
 			}
 		}
