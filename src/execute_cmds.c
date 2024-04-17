@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 11:36:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 12:32:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,9 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	read_end = -1;
 	write_end = -1;
 	cmd_idx = 0;
-	if (ft_strchr(cmds->argv[0], '/')
+	if (cmd->argv
+		&& cmd->argv[0]
+		&& ft_strchr(cmds->argv[0], '/')
 		&& ft_strlen(cmds->argv[0]) > 3
 		&& ft_strncmp(ft_strchr(cmd->argv[0], '\0') - 3, ".sh", 3) == 0)
 		return (env_update_exit_status(env, execute_shell_script(cmd->argv[0])));
