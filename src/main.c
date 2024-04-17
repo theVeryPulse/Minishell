@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 23:45:55 by siev             ###   ########.fr       */
+/*   Updated: 2024/04/17 05:59:30 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int	main(void)
 		// print_cmds(cmds); /* Develop */
 		if (analyze_syntax(minishell()->cmds) == 0)
 		{
+			// print_cmds(minishell()->cmds); /* Develop */
 			expand_arguments(minishell()->cmds, minishell()->env);
 			search_exec_and_replace_arg_in_cmds(minishell()->cmds, minishell()->env);
-			// print_cmds(cmds); /* Develop */
 			check_redirect_files(minishell()->cmds);
 			execute_cmds(minishell()->cmds, &(minishell()->env));
 		}

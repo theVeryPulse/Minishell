@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 00:05:27 by siev             ###   ########.fr       */
+/*   Updated: 2024/04/17 06:37:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-/* 
+/*
 
 For debugging child process:
 
@@ -54,7 +54,7 @@ For debugging child process:
 
 static int	_open_heredoc_temp_file_for_write(void)
 {
-	int		fd;
+	int	fd;
 
 	if (access(HEREDOC_FILE, F_OK | R_OK | W_OK) != 0)
 		unlink(HEREDOC_FILE);
@@ -68,9 +68,9 @@ int	empty(void)
 }
 
 /**
- * @brief 
- * 
- * @param delimiter 
+ * @brief
+ *
+ * @param delimiter
  * @note The process itself first finishes heredoc before executing any built-in
  *       or external programs.
  * @todo Handle signals
@@ -79,13 +79,12 @@ void	heredoc(char *delimiter, int stdin_copy)
 {
 	char	*line;
 	int		heredoc_fd;
-	char	*delimiter_nl;
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, heredoc_sigint);
 	rl_event_hook = &empty;
 	dup2(stdin_copy, STDIN_FILENO);
-	delimiter_nl = ft_format_string("%s\n", delimiter);
+	rl_outstream = stderr;
 	heredoc_fd = _open_heredoc_temp_file_for_write();
 	while (minishell()->received_signal == NONE)
 	{
@@ -98,25 +97,23 @@ void	heredoc(char *delimiter, int stdin_copy)
 			break ;
 		}
 		if (minishell()->received_signal == RECEIVED_SIGINT)
-		{
 			break ;
-		}
-		if (ft_strncmp(delimiter_nl, line, ft_strlen(delimiter) + 1) == 0)
+		if (ft_strncmp(delimiter, line, ft_strlen(delimiter) + 1) == 0)
 			break ;
 		if (line)
 			write(heredoc_fd, line, ft_strlen(line));
 		free_and_null((void **)&line);
 	}
 	close(heredoc_fd);
-	free_and_null((void **)&delimiter_nl);
 	free_and_null((void **)&line);
+	rl_outstream = stdout;
 }
 
 /**
- * @brief 
- * 
- * @param 
- * @note Four occasions: 
+ * @brief
+ *
+ * @param
+ * @note Four occasions:
  *       `<`  : dup2(input_file_fd, STDIN_FILENO)
  *       `<<` : dup2(heredoc_temp_file, STDIN_FILENO)
  *       `>`  : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_APPEND
@@ -230,13 +227,14 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				signal(SIGINT, SIG_DFL);
 				envp = env_build_envp(*env);
 				pipes_close_all(&pipes);
+				// [ ] check if command is a folder
 				if (execve(cmd->argv[0], cmd->argv, envp) == -1) // [x] free envp when execve fails
 				{
 					ft_dprintf(STDERR_FILENO, "minishell: %s: "
 						"command not found\n", cmd->argv[0]);
 					free_cmds_env_pipes_rl_clear_history((t_to_free){.cmds = cmds, .env = *env, .pipes = &pipes});
 					free_string_array_and_null(&envp);
-					exit (127);
+					exit(127);
 				}
 			}
 		}
@@ -261,7 +259,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	{
 		;
 	}
-	
+
 	/* Free resources */
 	free_and_null((void **)(&pipes.pipes));
 	minishell()->received_signal = NONE;

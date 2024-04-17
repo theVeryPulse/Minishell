@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _expand_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 00:51:38 by siev             ###   ########.fr       */
+/*   Updated: 2024/04/17 05:58:49 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	_expand_string(char **arg_ptr, t_env *env)
 			_add_literal_str(&char_list, arg, &i);
 		else if (arg[i] == '\"')
 			_add_env_expanded_str(&char_list, arg, &i, env);
-		else if (arg[i] == '$' && is_variable_name_start(arg[i + 1]))
+		else if (arg[i] == '$'
+			&& (is_variable_name_start(arg[i + 1]) || arg[i + 1] == '?'))
 			_add_env_value(&char_list, arg, &i, env);
 		else
 			char_list_add_char(&char_list, arg[i++]);
@@ -83,9 +84,10 @@ static void	_add_env_expanded_str(t_char_list **char_list, const char *arg,
 	char	*value;
 
 	(*i)++;
-	while (arg[*i] != '\"')
+	while (arg[*i] && arg[*i] != '\"')
 	{
-		if (arg[*i] == '$' && is_variable_name_start(arg[*i + 1]))
+		if (arg[*i] == '$'
+			&& (is_variable_name_start(arg[*i + 1]) || arg[*i + 1] == '?'))
 		{
 			(*i)++;
 			name = _get_var_name(&arg[*i]);
