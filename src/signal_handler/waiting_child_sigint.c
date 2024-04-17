@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_cmds_env_pipes_rl_history.c                   :+:      :+:    :+:   */
+/*   waiting_child_sigint.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 15:25:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 18:40:53 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 21:20:33 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 22:26:15 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_to_free.h"
-#include "../command_list/cmd_list.h"
+#include "../minishell/minishell.h"
 #include "../environment_variables/env.h"
+#include "exit_status.h"
+#include "libft.h"
+#include <unistd.h>
 #include <readline/readline.h>
-#include <stdlib.h>
 
-extern void	free_cmds_env_pipes_rl_clear_history(t_to_free to_free)
+extern void	waiting_child_sigint(int signal)
 {
-	if (to_free.cmds)
-		cmd_list_free(&(to_free.cmds));
-	if (to_free.env)
-		env_free(&(to_free.env));
-	if (to_free.pipes && to_free.pipes->pipes)
-		free(to_free.pipes->pipes);
-	rl_clear_history();
+	signal++;
+	minishell()->received_signal = RECEIVED_SIGINT;
+	minishell()->exit_status = SIGINT_EXIT_STATUS;
+	write(STDERR_FILENO, "\n", 1);
+	rl_on_new_line();
 }

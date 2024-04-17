@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_cmds_env_pipes_rl_history.c                   :+:      :+:    :+:   */
+/*   waiting_child_sigquit.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 15:25:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 18:40:53 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 21:07:22 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/16 22:26:39 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_to_free.h"
-#include "../command_list/cmd_list.h"
+#include "../minishell/minishell.h"
 #include "../environment_variables/env.h"
+#include "exit_status.h"
+#include "libft.h"
+#include <unistd.h>
 #include <readline/readline.h>
-#include <stdlib.h>
 
-extern void	free_cmds_env_pipes_rl_clear_history(t_to_free to_free)
+extern void	waiting_child_sigquit(int signal)
 {
-	if (to_free.cmds)
-		cmd_list_free(&(to_free.cmds));
-	if (to_free.env)
-		env_free(&(to_free.env));
-	if (to_free.pipes && to_free.pipes->pipes)
-		free(to_free.pipes->pipes);
-	rl_clear_history();
+	signal++;
+	minishell()->received_signal = RECEIVED_SIGQUIT;
+	minishell()->exit_status = SIGQUIT_EXIT_STATUS;
+	ft_dprintf(STDERR_FILENO, "Quit (core dumped)\n");
+	rl_on_new_line();
 }

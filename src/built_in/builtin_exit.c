@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
+/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:39:37 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 15:29:38 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 00:48:28 by siev             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_t_exit_err.h"
+#include "../minishell/minishell.h"
 #include "../free/free.h"
 #include "../environment_variables/env.h"
 #include "../command_list/cmd_list.h"
@@ -46,6 +47,7 @@ extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 	int			exit_status;
 	t_to_free	to_free;
 
+	printf("exit\n");
 	exit_status = 0;
 	to_free = (t_to_free){.cmds = cmds, .env = env, .pipes = pipes};
 	if (argv[1])
@@ -61,7 +63,7 @@ extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 		exit(exit_status);
 	}
 	free_cmds_env_pipes_rl_clear_history(to_free);
-	exit(0);
+	exit(minishell()->exit_status);
 }
 
 static bool	_is_a_number(char *fir_arg)

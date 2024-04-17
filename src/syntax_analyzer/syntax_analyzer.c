@@ -6,10 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 06:18:13 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell/minishell.h"
+#include "../signal_handler/exit_status.h"
+#include "../environment_variables/env.h"
 #include "_syntax_analyzer.h"
 #include "../command_list/t_cmd_list.h"
 #include "../character_checks/character_checks.h"
@@ -44,10 +47,14 @@ int	analyze_syntax(t_cmd_list *cmds)
 		if (cmd->argv == NULL && cmd->redirects == NULL)
 		{
 			print_error_message(PIPE, NULL);
+			env_update_exit_status(&minishell()->env, SYNTAX_ERROR_EXIT_STATUS);
 			return (1);
 		}
 		if (check_redirects(cmd) != 0)
+		{
+			env_update_exit_status(&minishell()->env, SYNTAX_ERROR_EXIT_STATUS);
 			return (1);
+		}
 		cmd = cmd->next;
 	}
 	return (0);

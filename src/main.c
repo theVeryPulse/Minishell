@@ -6,11 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 14:37:05 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 05:59:30 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/minishell.h"
+#include "signal_handler/signal_handler.h"
 #include "command_list/cmd_list.h"
 #include "libft.h"
 #include "functions.h"
@@ -43,18 +44,12 @@ bool	contains_only_spaces(char *line)
 	return (*line == '\0');
 }
 
-void	prompt_on_new_line()
-{
-	printf("\n%s", rl_prompt);
-}
-
 int	main(void)
 {
 	if (!isatty(STDIN_FILENO))
 		return (0);
 	
-	signal(SIGINT, prompt_on_new_line);
-	// signal(SIGQUIT, SIG_IGN); /* For terminating process while testing */
+	
 	// char	buffer[100];
 	// getcwd(buffer, 100);
 	// printf("%s\n", buffer);
@@ -75,15 +70,23 @@ int	main(void)
 	history_file = read_history_from_file();
 	while (true)
 	{
+		signal(SIGINT, minishell_sigint);
+		signal(SIGQUIT, SIG_IGN);
 		line = readline("minishell $ ");
-		// printf("((%s))\n", rl_line_buffer);
 		if (line == NULL) /* crtl+d EOF */
 		{
 			if (history_file != -1)
 				close(history_file);
+			printf("exit\n");
 			env_free(&(minishell()->env));
 			rl_clear_history();
-			return (0);
+			return (minishell()->exit_status);
+		}
+		if (minishell()->received_signal == RECEIVED_SIGINT)
+		{
+			free(line);
+			minishell()->received_signal = NONE;
+			continue ;
 		}
 		add_history(line);
 		if (history_file != -1)
@@ -94,9 +97,9 @@ int	main(void)
 		// print_cmds(cmds); /* Develop */
 		if (analyze_syntax(minishell()->cmds) == 0)
 		{
+			// print_cmds(minishell()->cmds); /* Develop */
 			expand_arguments(minishell()->cmds, minishell()->env);
 			search_exec_and_replace_arg_in_cmds(minishell()->cmds, minishell()->env);
-			// print_cmds(cmds); /* Develop */
 			check_redirect_files(minishell()->cmds);
 			execute_cmds(minishell()->cmds, &(minishell()->env));
 		}
@@ -104,5 +107,4 @@ int	main(void)
 		free(line);
 		// break;
 	}
-	return 0;
 }
