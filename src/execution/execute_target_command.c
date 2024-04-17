@@ -37,8 +37,7 @@ extern void	_child_execute_target_command(t_cmd_list *cmd, t_env *env,
 	char	**envp;
 	int		exit_status;
 
-	if (!ft_strchr(cmd->argv[0], '/')
-		&& access(cmd->argv[0], F_OK) != 0)
+	if (!ft_strchr(cmd->argv[0], '/') && access(cmd->argv[0], F_OK) != 0)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", cmd->argv[0]);
 		exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:32:07 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 12:25:12 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 19:14:57 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 #include <fcntl.h> /* open */
 #include <readline/readline.h> /* rl_clear_history */
 #include <errno.h>
+
+// [ ] combine this file with _execute_shell_script.c
 
 static bool	contains_only_spaces(char *line)
 {

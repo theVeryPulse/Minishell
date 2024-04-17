@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 18:49:23 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 19:08:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,38 +50,9 @@ For debugging child process:
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
-#include <sys/stat.h> /* stat */
 #include <readline/readline.h> /* rl_clear_history */
 #include <signal.h>
 #include <errno.h>
-
-int	execute_shell_script(const char *filepath)
-{
-	struct stat	statbuf;
-	pid_t	id;
-
-	if (stat(filepath, &statbuf) != 0)
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: No such file or directory\n",
-			filepath);
-		return (NO_SUCH_FILE_EXIT_STATUS);
-	}
-	else if (S_ISDIR(statbuf.st_mode))
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: Is a director\n", filepath);
-		return (IS_A_DIRECTORY_EXIT_STATUS);
-	}
-	else if (!(statbuf.st_mode & S_IXUSR) || !(statbuf.st_mode & S_IRUSR))
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: permission denied\n",
-			filepath);
-		return (PERMISSION_DENIED_EXIT_STATUS);
-	}
-	id = fork();
-	if (id == 0)
-		execute_script_child(filepath);
-	return (get_last_child_exit_status(id));
-}
 
 void	execute_cmds(t_cmd_list *cmds, t_env **env)
 {
@@ -110,7 +81,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 		&& ft_strchr(cmds->argv[0], '/')
 		&& ft_strlen(cmds->argv[0]) > 3
 		&& ft_strncmp(ft_strchr(cmd->argv[0], '\0') - 3, ".sh", 3) == 0)
-		return (env_update_exit_status(env, execute_shell_script(cmd->argv[0])));
+		return (env_update_exit_status(env, _execute_shell_script(cmd->argv[0])));
 	while (cmd && minishell()->received_signal == NONE)
 	{
 		/* Reset STDIN and STDOUT for the process */
@@ -141,8 +112,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 		if (minishell()->received_signal != NONE)
 			break ;
 
-		/* Executes built-ins for main process */
-		
+		/* Execution */
 		if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
 		{
 			/* signals for parent */
