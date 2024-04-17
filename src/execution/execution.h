@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:32:31 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 18:10:40 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:48:38 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include "../environment_variables/t_env.h"
 # include "../pipes/t_pipes.h"
 # include <sys/types.h>
-
-# define HEREDOC_FILE "./.heredoc_temp"
 
 extern void	execute_script_child(const char *filepath);
 extern void	_child_execute_target_command(t_cmd_list *cmd, t_env *env,

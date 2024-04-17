@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 18:11:50 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:49:23 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ For debugging child process:
 
 #include "execution.h"
 #include "file_check.h"
+#include "_heredoc.h" /* HEREDOC_FILE */
 #include "../functions.h"
 #include "../minishell/minishell.h"
 #include "../pipes/pipes.h"
