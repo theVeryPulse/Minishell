@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:40:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 14:03:50 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:49:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef enum	e_file_status
 	IS_A_DIRECTORY,
 	IS_A_FILE,
 	NO_EXECUTION_PERMISSION,
-	OK = 0,
+	OK,
 }	t_file_status;
 
 typedef enum	e_check
