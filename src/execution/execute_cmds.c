@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 19:08:56 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 23:42:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,34 +54,80 @@ For debugging child process:
 #include <signal.h>
 #include <errno.h>
 
+
+void	_set_up_pipes(t_pipes *pipes, int cmd_idx)
+{
+	int	read_end;
+	int	write_end;
+
+	read_end = cmd_idx * 2 - 2;
+	write_end = cmd_idx * 2 + 1;
+	if (write_end >= 0 && write_end < pipes->pipe_count * 2)
+	{
+		dup2(pipes->pipes[write_end], STDOUT_FILENO);
+		close(pipes->pipes[write_end]);
+	}
+	if (read_end >= 0 && read_end < pipes->pipe_count * 2)
+	{
+		dup2(pipes->pipes[read_end], STDIN_FILENO);
+		close(pipes->pipes[read_end]);
+	}
+}
+
+// [ ] Left here: env and cmds can also be sent as arguments
+pid_t	_fort_and_execute_command(t_cmd_list *cmd, t_pipes *pipes)
+{
+	pid_t	id;
+	int		exit_status;
+
+	exit_status = 0;
+	signal(SIGQUIT, waiting_child_sigquit);
+	signal(SIGINT, waiting_child_sigint);
+	id = fork();
+	if (id == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		pipes_close_all(pipes);
+		if (is_builtin_function(cmd->argv[0]))
+		{
+			exit_status = execute_builtin_function(cmd->argv, minishell()->env,
+				minishell()->cmds, pipes);
+			rl_clear_history();
+			free_cmds_env_pipes_rl_clear_history((t_to_free){.pipes = pipes,
+				.cmds = minishell()->cmds, .env = minishell()->env});
+			exit(exit_status);
+		}
+		else // [x] free envp when execve fails
+			_child_execute_target_command(cmd, *env, &pipes);
+	}
+
+}
+
 void	execute_cmds(t_cmd_list *cmds, t_env **env)
 {
 	t_pipes		pipes;
 	t_cmd_list	*cmd;
 	int			stdin_copy;
 	int			stdout_copy;
-	int			read_end;
-	int			write_end;
 	int			cmd_idx;
 	pid_t		id;
 	int			exit_status;
 
-	if (cmd_list_len(cmds) == 1)
-		return (_execute_one_command(cmds, env));
-	exit_status = 0;
-	pipes_init(&pipes, cmd_list_len(cmds) - 1);
 	cmd = cmds;
-	stdin_copy = dup(STDIN_FILENO);
-	stdout_copy = dup(STDOUT_FILENO);
-	read_end = -1;
-	write_end = -1;
-	cmd_idx = 0;
 	if (cmd->argv
 		&& cmd->argv[0]
 		&& ft_strchr(cmds->argv[0], '/')
 		&& ft_strlen(cmds->argv[0]) > 3
 		&& ft_strncmp(ft_strchr(cmd->argv[0], '\0') - 3, ".sh", 3) == 0)
 		return (env_update_exit_status(env, _execute_shell_script(cmd->argv[0])));
+	if (cmd_list_len(cmds) == 1)
+		return (_execute_one_command(cmds, env));
+	exit_status = 0;
+	pipes_init(&pipes, cmd_list_len(cmds) - 1);
+	stdin_copy = dup(STDIN_FILENO);
+	stdout_copy = dup(STDOUT_FILENO);
+	cmd_idx = 0;
 	while (cmd && minishell()->received_signal == NONE)
 	{
 		/* Reset STDIN and STDOUT for the process */
@@ -94,20 +140,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 			cmd = cmd->next;
 			continue ;
 		}
-
-		/* Set up pipes and redirects before fork and execute */
-		read_end = cmd_idx * 2 - 2;
-		write_end = cmd_idx * 2 + 1;
-		if (write_end >= 0 && write_end < pipes.pipe_count * 2)
-		{
-			dup2(pipes.pipes[write_end], STDOUT_FILENO);
-			close(pipes.pipes[write_end]);
-		}
-		if (read_end >= 0 && read_end < pipes.pipe_count * 2)
-		{
-			dup2(pipes.pipes[read_end], STDIN_FILENO);
-			close(pipes.pipes[read_end]);
-		}
+		_set_up_pipes(&pipes, cmd_idx);
 		_apply_redirects(cmd, stdin_copy);
 		if (minishell()->received_signal != NONE)
 			break ;
@@ -115,6 +148,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 		/* Execution */
 		if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
 		{
+			// REFACTOR
 			/* signals for parent */
 			signal(SIGQUIT, waiting_child_sigquit);
 			signal(SIGINT, waiting_child_sigint);
@@ -134,6 +168,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 				}
 				else // [x] free envp when execve fails
 					_child_execute_target_command(cmd, *env, &pipes);
+				// REFACTOR
 			}
 		}
 		cmd = cmd->next;

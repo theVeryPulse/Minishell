@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:59:40 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 17:14:05 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 23:39:36 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * 
  * @param argv arguments for the function.
  * @param env a pointer to the pointer to the environment variables.
- * @param cmds the complete command list.
+ * @param cmds the complete command list for free before a child process exits.
  * @param pipes pointer to the pipes struct which may need to be freed.
  * @return `int` the exit status of target built-in function.
  */
