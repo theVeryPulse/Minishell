@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 17:53:07 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:11:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ For debugging child process:
 
  */
 
-#include "functions.h"
-#include "minishell/minishell.h"
-#include "pipes/pipes.h"
-#include "command_list/cmd_list.h"
-#include "environment_variables/env.h"
-#include "built_in/built_in.h"
-#include "signal_handler/signal_handler.h"
-#include "exit_status.h"
-#include "execution/file_check.h"
+#include "execution.h"
+#include "file_check.h"
+#include "../functions.h"
+#include "../minishell/minishell.h"
+#include "../pipes/pipes.h"
+#include "../command_list/cmd_list.h"
+#include "../environment_variables/env.h"
+#include "../built_in/built_in.h"
+#include "../signal_handler/signal_handler.h"
+#include "../exit_status.h"
+#include "../free/free.h"
 #include "libft.h"
-#include "free/free.h"
-#include "get_last_child_exit_status.h"
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -54,10 +54,10 @@ For debugging child process:
 #include <signal.h>
 #include <errno.h>
 
-#include "execution/execution.h"
 int	execute_shell_script(const char *filepath)
 {
 	struct stat	statbuf;
+	pid_t	id;
 
 	if (stat(filepath, &statbuf) != 0)
 	{
@@ -76,9 +76,6 @@ int	execute_shell_script(const char *filepath)
 			filepath);
 		return (PERMISSION_DENIED_EXIT_STATUS);
 	}
-
-	pid_t	id;
-
 	id = fork();
 	if (id == 0)
 		execute_script_child(filepath);
@@ -120,7 +117,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 		dup2(stdout_copy, STDOUT_FILENO);
 
 		/* Skip commands that have redirect issues */
-		if (cmd->should_execute == false)
+		if (cmd->has_invalid_redirects)
 		{
 			cmd = cmd->next;
 			continue ;

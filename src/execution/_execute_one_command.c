@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:35:39 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 17:56:10 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:11:46 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../command_list/cmd_list.h"
 #include "../environment_variables/env.h"
 #include "../minishell/minishell.h"
-#include "../get_last_child_exit_status.h"
 #include "../signal_handler/signal_handler.h"
 #include "../built_in/built_in.h"
 #include <signal.h> /* signal */

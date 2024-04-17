@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 20:50:07 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:10:31 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:03:16 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static bool	_check_file_for_redirect(const char *redirect,
 /**
  * @brief Check if files for redirect read/write is accessible. Create the file 
  *        for write if it cannot be found. If any of the redirect files has 
- *        error, set that command's `should_execute` to false.
+ *        error, set that command's `has_invalid_directs` to true.
  * 
  * @param cmds Head of the command lined list.
  * @note In line with bash:
@@ -53,7 +53,7 @@ void	check_redirect_files(t_cmd_list *cmds)
 		}
 		if (_file_not_okay(*redirect))
 		{
-			cmd->should_execute = false;
+			cmd->has_invalid_redirects = true;
 			break ;
 		}
 		redirect++;

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 13:06:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:11:40 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../pipes/t_pipes.h"
 #include "../search_executable/search_executable.h"
 #include "../free/free.h"
-#include "../get_last_child_exit_status.h"
+#include "../execution/execution.h"
 #include "libft.h"
 #include <stddef.h> /* NULL */
 #include <stdlib.h> /* exit */
