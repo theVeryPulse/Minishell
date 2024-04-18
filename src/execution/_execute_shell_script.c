@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:06:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 19:59:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/18 20:21:29 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <sys/types.h> /* pid_t */
 #include <unistd.h> /* STDERR_FILENO, fork */
 
-int	_execute_shell_script(const char *filepath, t_env **env)
+void	_execute_shell_script(const char *filepath, t_env **env)
 {
 	struct stat	statbuf;
 	pid_t	id;
@@ -27,18 +27,18 @@ int	_execute_shell_script(const char *filepath, t_env **env)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: No such file or directory\n",
 			filepath);
-		return (NO_SUCH_FILE_EXIT_STATUS);
+		return (env_update_exit_status(env, NO_SUCH_FILE_EXIT_STATUS));
 	}
 	else if (S_ISDIR(statbuf.st_mode))
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: Is a director\n", filepath);
-		return (IS_A_DIRECTORY_EXIT_STATUS);
+		return (env_update_exit_status(env, IS_A_DIRECTORY_EXIT_STATUS));
 	}
 	else if (!(statbuf.st_mode & S_IXUSR) || !(statbuf.st_mode & S_IRUSR))
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: permission denied\n",
 			filepath);
-		return (PERMISSION_DENIED_EXIT_STATUS);
+		return env_update_exit_status(env, PERMISSION_DENIED_EXIT_STATUS);
 	}
 	id = fork();
 	if (id == 0)

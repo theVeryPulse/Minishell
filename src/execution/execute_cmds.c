@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 19:58:13 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/18 20:26:42 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ For debugging child process:
 #include <errno.h>
 
 
-void	_set_up_pipes(t_pipes *pipes, int cmd_idx)
+void	_apply_pipes(t_pipes *pipes, int cmd_idx)
 {
 	int	read_end;
 	int	write_end;
@@ -75,7 +75,6 @@ void	_set_up_pipes(t_pipes *pipes, int cmd_idx)
 	}
 }
 
-// [ ] Left here: env and cmds can also be sent as arguments
 pid_t	_fork_and_execute_command(t_cmd_list *cmd, t_cmd_list *cmds, t_env **env, t_pipes *pipes)
 {
 	pid_t	id;
@@ -168,10 +167,13 @@ bool	_is_shell_script(const char **argv)
 		&& ft_strncmp(ft_strchr(argv[0], '\0') - 3, ".sh", 3) == 0);
 }
 
-void	_execute_multiple_commands() // [ ] Left here
+pid_t	_execute_commands_with_pipes_redirects(t_cmd_list *cmds, t_env **env, t_pipes *pipes)
 {
-	pipes_init(&pipes, cmd_list_len(cmds) - 1);
-	_stdin_stdout(BACKUP);
+	t_cmd_list	*cmd;
+	int			cmd_idx;
+	pid_t		id;
+
+	cmd = cmds;
 	cmd_idx = 0;
 	while (cmd && minishell()->received_signal == NONE)
 	{
@@ -179,17 +181,31 @@ void	_execute_multiple_commands() // [ ] Left here
 		if (cmd->has_invalid_redirects)
 		{
 			cmd = cmd->next;
+			cmd_idx++;
 			continue ;
 		}
-		_set_up_pipes(&pipes, cmd_idx);
+		_apply_pipes(pipes, cmd_idx);
 		_apply_redirects(cmd);
 		if (minishell()->received_signal != NONE)
 			break ;
 		if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
-			id = _fork_and_execute_command(cmd, cmds, env, &pipes);
+			id = _fork_and_execute_command(cmd, cmds, env, pipes);
 		cmd = cmd->next;
 		cmd_idx++;
 	}
+	return (id);
+}
+
+void	_execute_multiple_commands(t_cmd_list *cmds, t_env **env)
+{
+	t_pipes		pipes;
+	int			cmd_idx;
+	pid_t		id;
+
+	pipes_init(&pipes, cmd_list_len(cmds) - 1);
+	_stdin_stdout(BACKUP);
+	cmd_idx = 0;
+	id = _execute_commands_with_pipes_redirects(cmds, env, &pipes);
 	_stdin_stdout(RESET_FROM_BACKUP);
 	_stdin_stdout(CLOSE_BACKUP);
 	env_update_exit_status(env, _exit_status(id));
@@ -200,49 +216,12 @@ void	_execute_multiple_commands() // [ ] Left here
 	unlink(HEREDOC_FILE);
 }
 
-// [ ] start debugging stdin_stdout functions from here
 void	execute_cmds(t_cmd_list *cmds, t_env **env)
 {
-	t_pipes		pipes;
-	t_cmd_list	*cmd;
-	int			cmd_idx;
-	pid_t		id;
-
-	cmd = cmds;
-	if (_is_shell_script((const char **)cmd->argv))
-		return (_execute_shell_script(cmd->argv[0], env));
+	if (_is_shell_script((const char **)cmds->argv))
+		_execute_shell_script(cmds->argv[0], env);
 	else if (cmd_list_len(cmds) == 1)
-		return (_execute_one_command(cmds, env));
+		_execute_one_command(cmds, env);
 	else
-		_execute_multiple_commands();
-	// <<<<<<
-	pipes_init(&pipes, cmd_list_len(cmds) - 1);
-	_stdin_stdout(BACKUP);
-	cmd_idx = 0;
-	while (cmd && minishell()->received_signal == NONE)
-	{
-		_stdin_stdout(RESET_FROM_BACKUP);
-		if (cmd->has_invalid_redirects)
-		{
-			cmd = cmd->next;
-			continue ;
-		}
-		_set_up_pipes(&pipes, cmd_idx);
-		_apply_redirects(cmd);
-		if (minishell()->received_signal != NONE)
-			break ;
-		if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
-			id = _fork_and_execute_command(cmd, cmds, env, &pipes);
-		cmd = cmd->next;
-		cmd_idx++;
-	}
-	_stdin_stdout(RESET_FROM_BACKUP);
-	_stdin_stdout(CLOSE_BACKUP);
-	env_update_exit_status(env, _exit_status(id));
-	while (wait(NULL) != -1)
-		;
-	free_and_null((void **)(&pipes.pipes));
-	minishell()->received_signal = NONE;
-	unlink(HEREDOC_FILE);
-	// <<<<<<
+		_execute_multiple_commands(cmds, env);
 }
