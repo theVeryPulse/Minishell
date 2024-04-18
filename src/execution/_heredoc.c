@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 18:31:53 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 18:51:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/18 18:47:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@
 #include <fcntl.h> /* open */
 #include <unistd.h>
 
-extern void	_heredoc(char *delimiter, int stdin_copy);
-static void	heredoc_setup(int stdin_copy);
+#include "t_fd_action.h"
+/* Temporary */int	_stdin_stdout(t_fd_action action);
+
+extern void	_heredoc(char *delimiter);
+static void	heredoc_setup(void);
 static int	_open_heredoc_temp_file_for_write(void);
 static int	end_readline(void);
 
@@ -34,12 +37,12 @@ static int	end_readline(void);
  * @note The process itself first finishes heredoc before executing any built-in
  *       or external programs.
  */
-extern void	_heredoc(char *delimiter, int stdin_copy)
+extern void	_heredoc(char *delimiter)
 {
 	char	*line;
 	int		heredoc_fd;
 
-	heredoc_setup(stdin_copy);
+	heredoc_setup();
 	heredoc_fd = _open_heredoc_temp_file_for_write();
 	while (minishell()->received_signal == NONE)
 	{
@@ -61,13 +64,13 @@ extern void	_heredoc(char *delimiter, int stdin_copy)
 	rl_outstream = stdout;
 }
 
-static void	heredoc_setup(int stdin_copy)
+static void	heredoc_setup()
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, heredoc_sigint);
 	rl_event_hook = &end_readline;
 	rl_outstream = stderr;
-	dup2(stdin_copy, STDIN_FILENO);
+	dup2(_stdin_stdout(LOOKUP_STDIN), STDIN_FILENO);
 }
 
 static int	_open_heredoc_temp_file_for_write(void)

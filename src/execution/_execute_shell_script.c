@@ -6,18 +6,19 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:06:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 23:20:02 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/18 19:59:33 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "../exit_status.h"
+#include "../environment_variables/env.h"
 #include "libft.h" /* ft_dprintf */
 #include <sys/stat.h> /* stat */
 #include <sys/types.h> /* pid_t */
 #include <unistd.h> /* STDERR_FILENO, fork */
 
-int	_execute_shell_script(const char *filepath)
+int	_execute_shell_script(const char *filepath, t_env **env)
 {
 	struct stat	statbuf;
 	pid_t	id;
@@ -42,5 +43,5 @@ int	_execute_shell_script(const char *filepath)
 	id = fork();
 	if (id == 0)
 		execute_script_child(filepath);
-	return (get_last_child_exit_status(id));
+	env_update_exit_status(env, _exit_status(id));
 }

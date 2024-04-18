@@ -21,6 +21,17 @@
 #include <stdlib.h> /* exit */
 #include <readline/readline.h> /* rl_clear_history */
 
+int	_command_not_found(const char *command)
+{
+	ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", command);
+	return (COMMAND_NOT_FOUND_EXIT_STATUS);
+}
+
+int	_is_a_directory(const char *command)
+{
+	ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", command);
+	return (IS_A_DIRECTORY_EXIT_STATUS);
+}
 
 /**
  * @brief Executes the target command. This function exits the process and frees
@@ -38,15 +49,9 @@ extern void	_child_execute_target_command(t_cmd_list *cmd, t_env *env,
 	int		exit_status;
 
 	if (!ft_strchr(cmd->argv[0], '/') && access(cmd->argv[0], F_OK) != 0)
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", cmd->argv[0]);
-		exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
-	}
+		exit_status = _command_not_found(cmd->argv[0]);
 	else if (file_check(cmd->argv[0], CHECK_EXECUTABLE) == IS_A_DIRECTORY)
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", cmd->argv[0]);
-		exit_status = IS_A_DIRECTORY_EXIT_STATUS;
-	}
+		exit_status = _is_a_directory(cmd->argv[0]);
 	else
 	{
 		envp = env_build_envp(env);

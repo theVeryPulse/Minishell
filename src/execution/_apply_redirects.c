@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:42:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 18:48:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/18 18:44:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include <fcntl.h> /* open */
 #include <unistd.h> /* STDIN_FILENO */
 
-extern void	_apply_redirects(t_cmd_list *cmd, int stdin_copy);
-static int	_open_file_or_heredoc(char **redirect, int stdin_copy);
+extern void	_apply_redirects(t_cmd_list *cmd);
+static int	_open_file_or_heredoc(char **redirect);
 
 /**
  * @brief
@@ -30,7 +30,7 @@ static int	_open_file_or_heredoc(char **redirect, int stdin_copy);
  *       `>`  : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_APPEND
  *       `>>` : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_TRUNC
  */
-extern void	_apply_redirects(t_cmd_list *cmd, int stdin_copy)
+extern void	_apply_redirects(t_cmd_list *cmd)
 {
 	char	**redirect;
 	int		fd;
@@ -41,14 +41,14 @@ extern void	_apply_redirects(t_cmd_list *cmd, int stdin_copy)
 	redirect = cmd->redirects;
 	while (*redirect && minishell()->received_signal == NONE)
 	{
-		_open_file_or_heredoc(redirect, stdin_copy);
+		_open_file_or_heredoc(redirect);
 		if (fd != -1)
 			close(fd);
 		redirect++;
 	}
 }
 
-static int	_open_file_or_heredoc(char **redirect, int stdin_copy)
+static int	_open_file_or_heredoc(char **redirect)
 {
 	int	fd;
 
@@ -57,7 +57,7 @@ static int	_open_file_or_heredoc(char **redirect, int stdin_copy)
 	{
 		if ((*redirect)[1] == '<')
 		{
-			_heredoc(&(*redirect)[2], stdin_copy);
+			_heredoc(&(*redirect)[2]);
 			if (minishell()->received_signal != NONE)
 				return (-1);
 			fd = open(HEREDOC_FILE, O_RDONLY);

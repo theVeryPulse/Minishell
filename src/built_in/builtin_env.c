@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 18:11:40 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/18 14:19:23 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ static int	_env_execute_cmd(
 		}
 	}
 	else
-		exit_status = get_last_child_exit_status(id);
+		exit_status = _exit_status(id);
 	if (exit_status != 0)
 		exit_status = 127;
 	return (exit_status);

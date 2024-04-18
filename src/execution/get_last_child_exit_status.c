@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_last_child_exit_status.c                       :+:      :+:    :+:   */
+/*   _exit_status.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell/minishell.h"
 #include <sys/types.h>
 #include <wait.h>
 
-int	get_last_child_exit_status(pid_t id)
+int	_exit_status(pid_t id)
 {
 	int	wstatus;
 	int	exit_status;
@@ -22,5 +23,7 @@ int	get_last_child_exit_status(pid_t id)
 	waitpid(id, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
+	if (minishell()->received_signal != NONE)
+		exit_status = minishell()->exit_status;
 	return (exit_status);
 }
