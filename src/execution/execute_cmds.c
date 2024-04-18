@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 23:42:09 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/18 12:43:22 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	_set_up_pipes(t_pipes *pipes, int cmd_idx)
 }
 
 // [ ] Left here: env and cmds can also be sent as arguments
-pid_t	_fort_and_execute_command(t_cmd_list *cmd, t_pipes *pipes)
+pid_t	_fork_and_execute_command(t_cmd_list *cmd, t_cmd_list *cmds, t_env **env, t_pipes *pipes)
 {
 	pid_t	id;
 	int		exit_status;
@@ -91,17 +91,16 @@ pid_t	_fort_and_execute_command(t_cmd_list *cmd, t_pipes *pipes)
 		pipes_close_all(pipes);
 		if (is_builtin_function(cmd->argv[0]))
 		{
-			exit_status = execute_builtin_function(cmd->argv, minishell()->env,
-				minishell()->cmds, pipes);
+			exit_status = execute_builtin_function(cmd->argv, env, cmds, pipes);
 			rl_clear_history();
 			free_cmds_env_pipes_rl_clear_history((t_to_free){.pipes = pipes,
-				.cmds = minishell()->cmds, .env = minishell()->env});
+				.cmds =cmds, .env = *env});
 			exit(exit_status);
 		}
-		else // [x] free envp when execve fails
-			_child_execute_target_command(cmd, *env, &pipes);
+		else
+			_child_execute_target_command(cmd, *env, pipes);
 	}
-
+	return (id);
 }
 
 void	execute_cmds(t_cmd_list *cmds, t_env **env)
@@ -147,30 +146,7 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 
 		/* Execution */
 		if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
-		{
-			// REFACTOR
-			/* signals for parent */
-			signal(SIGQUIT, waiting_child_sigquit);
-			signal(SIGINT, waiting_child_sigint);
-			id = fork();
-			if (id == 0)
-			{
-				signal(SIGQUIT, SIG_DFL);
-				signal(SIGINT, SIG_DFL);
-				pipes_close_all(&pipes);
-
-				if (is_builtin_function(cmd->argv[0]))
-				{
-					exit_status = execute_builtin_function(cmd->argv, env, cmds, &pipes);
-					rl_clear_history();
-					free_cmds_env_pipes_rl_clear_history((t_to_free){.cmds = cmds, .env = *env, .pipes = &pipes});
-					exit(exit_status);
-				}
-				else // [x] free envp when execve fails
-					_child_execute_target_command(cmd, *env, &pipes);
-				// REFACTOR
-			}
-		}
+			id = _fork_and_execute_command(cmd, cmds, env, &pipes);
 		cmd = cmd->next;
 		cmd_idx++;
 	}
@@ -180,10 +156,13 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 	close(stdin_copy);
 	close(stdout_copy);
 
-	exit_status = get_last_child_exit_status(id);
+	// [ ] _exit_status
+	// <<<<<<
+	exit_status = get_last_child_exit_status(id); 
 	if (minishell()->received_signal != NONE)
 		exit_status = minishell()->exit_status;
 	env_update_exit_status(env, exit_status);
+	// <<<<<<
 
 	/* waits for all child processes to finish before ending function */
 	while (wait(NULL) != -1)

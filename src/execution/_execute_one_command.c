@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:35:39 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 18:11:46 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/18 12:46:24 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ void	_execute_one_command(t_cmd_list *cmd, t_env **env)
 			signal(SIGINT, SIG_DFL);
 			_child_execute_target_command(cmd, *env, NULL);
 		}
+		// [ ] _exit_status
+		// <<<<<<
 		exit_status = get_last_child_exit_status(id);
 		if (minishell()->received_signal != NONE)
 			exit_status = minishell()->exit_status;
+		// <<<<<<
 	}
 	env_update_exit_status(env, exit_status);
 	dup2(stdin_copy, STDIN_FILENO);
