@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:46:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 05:28:27 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 00:13:40 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_cmd_list	*analyze_lexemes(const char *line)
 			_add_redirect_and_update_i(&redirects, line, &i);
 		else
 			_add_argument_and_update_i(&arguments, line, &i);
-		_skip_spaces(line, &i);
 	}
 	_add_this_cmd_to_list(&cmds, this_cmd, &arguments, &redirects);
 	return (cmds);
@@ -139,7 +138,7 @@ static void	_add_redirect_and_update_i(
 	free(redirect_symbols);
 	free(word);
 	*i = i_copy;
-	printf("\"%s\" added to list\n", (char *)ft_lstlast(*redirects)->content); /* Test */
+	// printf("\"%s\" added to list\n", (char *)ft_lstlast(*redirects)->content); /* Test */
 }
 
 static void	_add_argument_and_update_i(

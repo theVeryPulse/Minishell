@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 05:59:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 00:07:34 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 // signal
 #include <signal.h>
 
+// [ ] Temporary
+void	execute_line(char *line);
+
 bool	contains_only_spaces(char *line)
 {
 	while (ft_isspace(*line))
@@ -44,67 +47,52 @@ bool	contains_only_spaces(char *line)
 	return (*line == '\0');
 }
 
+void	_eof_exit(int history_file)
+{
+	if (history_file != -1)
+		close(history_file);
+	printf("exit\n");
+	env_free(&(minishell()->env));
+	rl_clear_history();
+	exit(minishell()->exit_status);
+}
+
+void	_read_and_execute_line(int history_file)
+{
+	char	*line;
+
+	signal(SIGINT, minishell_sigint);
+	signal(SIGQUIT, SIG_IGN);
+	line = readline("minishell $ ");
+	if (line == NULL)
+		_eof_exit(history_file);
+	if (minishell()->received_signal == RECEIVED_SIGINT)
+	{
+		free(line);
+		minishell()->received_signal = NONE;
+		return ;
+	}
+	add_history(line);
+	if (history_file != -1)
+		ft_dprintf(history_file, "\n%s", line);
+	if (contains_only_spaces(line))
+	{
+		free(line);
+		return ;
+	}
+	execute_line(line);
+	free(line);
+}
+
 int	main(void)
 {
+	int	history_file;
+
 	if (!isatty(STDIN_FILENO))
 		return (0);
-	
-	
-	// char	buffer[100];
-	// getcwd(buffer, 100);
-	// printf("%s\n", buffer);
-	// printf("%s\n", *__environ);
-	// printf("ttyname: %s\n", ttyname(STDIN_FILENO));
-	// printf("STDIN isatty = %d\n", isatty(STDIN_FILENO));
-	// printf("STDOUT isatty = %d\n", isatty(STDOUT_FILENO));
-	// printf("STDERR isatty = %d\n", isatty(STDERR_FILENO));
-
-	// add_history("Second to latest command");
-	// add_history("Latest command");
-
-	char		*line;
-	int			history_file;
-
 	minishell_init();
 	env_init(&(minishell()->env));
 	history_file = read_history_from_file();
 	while (true)
-	{
-		signal(SIGINT, minishell_sigint);
-		signal(SIGQUIT, SIG_IGN);
-		line = readline("minishell $ ");
-		if (line == NULL) /* crtl+d EOF */
-		{
-			if (history_file != -1)
-				close(history_file);
-			printf("exit\n");
-			env_free(&(minishell()->env));
-			rl_clear_history();
-			return (minishell()->exit_status);
-		}
-		if (minishell()->received_signal == RECEIVED_SIGINT)
-		{
-			free(line);
-			minishell()->received_signal = NONE;
-			continue ;
-		}
-		add_history(line);
-		if (history_file != -1)
-			ft_dprintf(history_file, "\n%s", line);
-		if (contains_only_spaces(line))
-			continue ;
-		minishell()->cmds = analyze_lexemes(line);
-		// print_cmds(cmds); /* Develop */
-		if (analyze_syntax(minishell()->cmds) == 0)
-		{
-			// print_cmds(minishell()->cmds); /* Develop */
-			expand_arguments(minishell()->cmds, minishell()->env);
-			search_exec_and_replace_arg_in_cmds(minishell()->cmds, minishell()->env);
-			check_redirect_files(minishell()->cmds);
-			execute_cmds(minishell()->cmds, &(minishell()->env));
-		}
-		cmd_list_free(&(minishell()->cmds));
-		free(line);
-		// break;
-	}
+		_read_and_execute_line(history_file);
 }

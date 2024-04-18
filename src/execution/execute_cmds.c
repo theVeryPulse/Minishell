@@ -6,10 +6,9 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 20:26:42 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 00:14:30 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /*
 
@@ -54,7 +53,6 @@ For debugging child process:
 #include <readline/readline.h> /* rl_clear_history */
 #include <signal.h>
 #include <errno.h>
-
 
 void	_apply_pipes(t_pipes *pipes, int cmd_idx)
 {
@@ -199,12 +197,10 @@ pid_t	_execute_commands_with_pipes_redirects(t_cmd_list *cmds, t_env **env, t_pi
 void	_execute_multiple_commands(t_cmd_list *cmds, t_env **env)
 {
 	t_pipes		pipes;
-	int			cmd_idx;
 	pid_t		id;
 
 	pipes_init(&pipes, cmd_list_len(cmds) - 1);
 	_stdin_stdout(BACKUP);
-	cmd_idx = 0;
 	id = _execute_commands_with_pipes_redirects(cmds, env, &pipes);
 	_stdin_stdout(RESET_FROM_BACKUP);
 	_stdin_stdout(CLOSE_BACKUP);

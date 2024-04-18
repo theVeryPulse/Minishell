@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 05:58:49 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 00:26:14 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,12 @@ static void	_add_env_expanded_str(t_char_list **char_list, const char *arg,
 		if (arg[*i] == '$'
 			&& (is_variable_name_start(arg[*i + 1]) || arg[*i + 1] == '?'))
 		{
-			(*i)++;
 			name = _get_var_name(&arg[*i]);
+			(*i) += ft_strlen(name) + 1;
 			value = env_get_value_by_name(env, name);
 			char_list_add_str(char_list, value);
 			free_and_null((void **)&name);
 			free_and_null((void **)&value);
-			while (arg[*i] && ft_isalnum(arg[*i]))
-				(*i)++;
 		}
 		else
 		{
