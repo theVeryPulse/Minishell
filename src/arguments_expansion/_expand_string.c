@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 00:26:14 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 00:59:37 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,22 @@ static char	*_get_var_name(const char *str);
 void	_expand_string(char **arg_ptr, t_env *env)
 {
 	size_t		i;
-	char		*arg;
 	t_char_list	*char_list;
 	char		*expanded;
 
 	char_list = NULL;
-	arg = *arg_ptr;
 	i = 0;
-	while (arg[i])
+	while ((*arg_ptr)[i])
 	{
-		if (arg[i] == '\'')
-			_add_literal_str(&char_list, arg, &i);
-		else if (arg[i] == '\"')
-			_add_env_expanded_str(&char_list, arg, &i, env);
-		else if (arg[i] == '$'
-			&& (is_variable_name_start(arg[i + 1]) || arg[i + 1] == '?'))
-			_add_env_value(&char_list, arg, &i, env);
+		if ((*arg_ptr)[i] == '\'')
+			_add_literal_str(&char_list, (*arg_ptr), &i);
+		else if ((*arg_ptr)[i] == '\"')
+			_add_env_expanded_str(&char_list, (*arg_ptr), &i, env);
+		else if ((*arg_ptr)[i] == '$' && ((*arg_ptr)[i + 1] == '?'
+			|| is_variable_name_start((*arg_ptr)[i + 1])))
+			_add_env_value(&char_list, *arg_ptr, &i, env);
 		else
-			char_list_add_char(&char_list, arg[i++]);
+			char_list_add_char(&char_list, (*arg_ptr)[i++]);
 	}
 	expanded = char_list_to_str(char_list);
 	if (ft_strlen(expanded) == 0 && _arg_is_env_var(*arg_ptr))
