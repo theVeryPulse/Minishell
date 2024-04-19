@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 23:41:00 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 21:15:22 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 22:15:07 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	execute_line(char *line)
 		search_exec_and_replace_arg_in_cmds(minishell()->cmds,
 			minishell()->env);
 		check_redirect_files(minishell()->cmds);
-		execute_cmds(minishell()->cmds, &(minishell()->env));
+		execute_commands(minishell()->cmds, &(minishell()->env));
 	}
 	cmd_list_free(&(minishell()->cmds));
 }

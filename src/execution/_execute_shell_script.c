@@ -6,19 +6,30 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:06:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 21:10:29 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 00:36:18 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
-#include "../exit_status.h"
-#include "../environment_variables/env.h"
+#include "_execution.h"
+#include "../minishell/minishell.h" /* minishell */
+#include "../signal_handler/signal_handler.h" /* sigint_sigquit_handler */
+#include "../exit_status.h" /* _exit_status */
+#include "../environment_variables/env.h" /* env_update_exit_status */
 #include "libft.h" /* ft_dprintf */
 #include <sys/stat.h> /* stat */
 #include <sys/types.h> /* pid_t */
 #include <unistd.h> /* STDERR_FILENO, fork */
+#include <fcntl.h> /* open */
+#include <readline/readline.h> /* rl_clear_history */
+#include <stdio.h> /* perror */
+#include <stdlib.h> /* exit, free */
 
-void	_execute_shell_script(const char *filepath, t_env **env)
+extern void	_execute_shell_script(const char *filepath, t_env **env);
+static void	_execute_script_child(const char *filepath);
+static void	_read_line_from_file_and_execute(int file);
+static bool	contains_only_spaces(char *line);
+
+extern void	_execute_shell_script(const char *filepath, t_env **env)
 {
 	struct stat	statbuf;
 	pid_t		id;
@@ -42,6 +53,55 @@ void	_execute_shell_script(const char *filepath, t_env **env)
 	}
 	id = fork();
 	if (id == 0)
-		execute_script_child(filepath);
+		_execute_script_child(filepath);
 	env_update_exit_status(env, _exit_status(id));
+}
+
+static void	_execute_script_child(const char *filepath)
+{
+	int	file;
+
+	ft_dprintf(STDERR_FILENO, "executing %s\n", filepath);
+	rl_clear_history();
+	file = open(filepath, O_RDONLY);
+	if (file == -1)
+	{
+		perror(filepath);
+		exit(1);
+	}
+	minishell_free();
+	minishell_init();
+	while (true)
+		_read_line_from_file_and_execute(file);
+}
+
+static void	_read_line_from_file_and_execute(int file)
+{
+	char	*line_without_nl;
+	char	*line;
+
+	sigint_sigquit_handler(DEFAULT);
+	line = get_next_line(file);
+	if (line == NULL)
+	{
+		env_free(&(minishell()->env));
+		exit (minishell()->exit_status);
+	}
+	if (contains_only_spaces(line))
+	{
+		free(line);
+		return ;
+	}
+	line_without_nl = ft_strtrim(line, "\n");
+	ft_dprintf(STDERR_FILENO, "$ %s\n", line_without_nl);
+	execute_line(line_without_nl);
+	free(line_without_nl);
+	free(line);
+}
+
+static bool	contains_only_spaces(char *line)
+{
+	while (ft_isspace(*line))
+		line++;
+	return (*line == '\0');
 }

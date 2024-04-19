@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 19:56:04 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 00:49:15 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@
 // signal
 #include <signal.h>
 
-// [ ] Temporary
-void	execute_line(char *line);
+#include "execution/execution.h"
 
 bool	contains_only_spaces(char *line)
 {

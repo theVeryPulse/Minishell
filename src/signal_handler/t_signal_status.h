@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_sigint.c                                   :+:      :+:    :+:   */
+/*   t_signal_status.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 22:30:55 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 19:09:50 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/19 22:24:57 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/19 22:25:39 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../exit_status.h"
-#include "../minishell/minishell.h"
-#include "../environment_variables/env.h"
-#include <unistd.h>
-#include <readline/readline.h>
+#ifndef T_SIGNAL_STATUS_H
+# define T_SIGNAL_STATUS_H
 
-extern void	heredoc_sigint(int signal)
+typedef enum e_signal_status
 {
-	signal++;
-	rl_done = 1;
-	env_update_exit_status(&(minishell()->env), SIGINT_EXIT_STATUS);
-	minishell()->received_signal = RECEIVED_SIGINT;
-}
+	WAITING_CHILD,
+	HEREDOC,
+	DEFAULT,
+	MINISHELL
+}	t_signal_status;
+
+#endif

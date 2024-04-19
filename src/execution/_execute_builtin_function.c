@@ -1,17 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_builtin_function.c                         :+:      :+:    :+:   */
+/*   _execute_builtin_function.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:59:40 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 23:39:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 00:45:33 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
-#include "../pipes/t_pipes.h"
+#include "../built_in/built_in.h"
+#include "../pipes/t_pipes.h" /* t_pipes */
+
+extern int	_execute_builtin_function(char **argv, t_env **env,
+				t_cmd_list *cmds, t_pipes *pipes);
 
 /**
  * @brief Executes the built-in function. This function does not exit the
@@ -23,8 +26,8 @@
  * @param pipes pointer to the pipes struct which may need to be freed.
  * @return `int` the exit status of target built-in function.
  */
-extern int	execute_builtin_function(char **argv, t_env **env, t_cmd_list *cmds,
-	t_pipes *pipes)
+extern int	_execute_builtin_function(char **argv, t_env **env,
+	t_cmd_list *cmds, t_pipes *pipes)
 {
 	int	exit_status;
 

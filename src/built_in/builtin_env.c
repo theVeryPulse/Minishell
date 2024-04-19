@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 14:19:23 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 00:39:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../pipes/t_pipes.h"
 #include "../search_executable/search_executable.h"
 #include "../free/free.h"
-#include "../execution/execution.h"
+#include "../execution/_execution.h" /* _exit_status */
 #include "libft.h"
 #include <stddef.h> /* NULL */
 #include <stdlib.h> /* exit */
@@ -73,7 +73,7 @@ extern int	builtin_env(char **argv, t_env *env, t_cmd_list *cmds,
 	if (*arg == NULL)
 		return (_print_env(modified_env), env_free(&modified_env), 0);
 	if (is_builtin_function(*arg))
-		exit_status = execute_builtin_function(arg, &modified_env, cmds, pipes);
+		exit_status = _execute_builtin_function(arg, &modified_env, cmds, pipes);
 	else
 	{
 		exit_status = _env_execute_cmd(arg, modified_env,

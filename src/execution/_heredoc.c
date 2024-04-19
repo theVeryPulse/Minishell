@@ -6,28 +6,26 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 18:31:53 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 21:13:28 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 00:47:43 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "_execution.h"
 #include "_heredoc.h"
 #include "../minishell/minishell.h" /* minishell */
 #include "../signal_handler/signal_handler.h" /* heredoc_sigint */
-#include "../free/free.h"
+#include "../free/free.h" /* free_and_null */
+#include "t_fd_action.h"
 #include "libft.h" /* ft_strlen, ft_dprintf */
 #include <readline/readline.h> /* rl_event_hook, rl_outstream */
 #include <signal.h> /* signal  */
 #include <fcntl.h> /* open */
 #include <unistd.h>
 
-#include "t_fd_action.h"
-
-int			_stdin_stdout(t_fd_action action); /* [ ] Temporary */
-
 extern void	_heredoc(char *delimiter);
-static void	heredoc_setup(void);
+static void	_heredoc_setup(void);
 static int	_open_heredoc_temp_file_for_write(void);
-static int	end_readline(void);
+static int	_end_readline(void);
 
 /**
  * @brief Reads input from stdin and writes to a temporary file defined by 
@@ -43,7 +41,7 @@ extern void	_heredoc(char *delimiter)
 	char	*line;
 	int		heredoc_fd;
 
-	heredoc_setup();
+	_heredoc_setup();
 	heredoc_fd = _open_heredoc_temp_file_for_write();
 	while (minishell()->received_signal == NONE)
 	{
@@ -65,10 +63,10 @@ extern void	_heredoc(char *delimiter)
 	rl_outstream = stdout;
 }
 
-static void	heredoc_setup(void)
+static void	_heredoc_setup(void)
 {
 	sigint_sigquit_handler(HEREDOC);
-	rl_event_hook = &end_readline;
+	rl_event_hook = &_end_readline;
 	rl_outstream = stderr;
 	dup2(_stdin_stdout(LOOKUP_STDIN), STDIN_FILENO);
 }
@@ -83,7 +81,7 @@ static int	_open_heredoc_temp_file_for_write(void)
 	return (fd);
 }
 
-static int	end_readline(void)
+static int	_end_readline(void)
 {
 	return (0);
 }

@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:42:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 18:51:50 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 00:32:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h" /* _heredoc */
-#include "_heredoc.h"
+#include "_execution.h" /* _heredoc */
+#include "_heredoc.h" /* HEREDOC_FILE */
 #include "../command_list/t_cmd_list.h" /* t_cmd_list */
 #include "../minishell/minishell.h" /* minishell */
 #include <fcntl.h> /* open */
