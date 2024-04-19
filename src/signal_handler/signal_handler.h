@@ -6,12 +6,22 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 21:03:16 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 12:36:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:18:03 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNAL_HANDLER_H
 # define SIGNAL_HANDLER_H
+
+typedef enum e_signal_status
+{
+	WAITING_CHILD,
+	HEREDOC,
+	DEFAULT,
+	MINISHELL
+}	t_signal_status;
+
+void		sigint_sigquit_handler(t_signal_status status);
 
 /* Input stage */
 

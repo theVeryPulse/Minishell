@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:32:07 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 00:07:32 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:15:10 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../environment_variables/env.h"
 #include "../search_executable/search_executable.h"
 #include "../command_list/cmd_list.h"
+#include "../signal_handler/signal_handler.h"
 #include "libft.h"
 #include <stdbool.h>
 #include <stdlib.h> /* free */
@@ -25,7 +26,6 @@
 #include <errno.h>
 
 // [ ] combine this file with _execute_shell_script.c
-
 
 void	execute_line(char *line); /* [ ] Temporary */
 
@@ -41,10 +41,9 @@ void	_read_line_from_file_and_execute(int file)
 	char	*line_without_nl;
 	char	*line;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	sigint_sigquit_handler(DEFAULT);
 	line = get_next_line(file);
-	if (line == NULL) /* EOF */
+	if (line == NULL)
 	{
 		env_free(&(minishell()->env));
 		exit (minishell()->exit_status);

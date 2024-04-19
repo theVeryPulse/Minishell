@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 00:59:37 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:19:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-bool	_arg_is_env_var(char *arg);
+bool		_arg_is_env_var(char *arg);
 
 static void	_add_literal_str(t_char_list **char_list, const char *arg,
 				size_t *i);
@@ -102,7 +102,6 @@ static void	_add_env_expanded_str(t_char_list **char_list, const char *arg,
 	}
 	(*i)++;
 }
-// [x] Expand "$VAR_WITHOUT_VALUE" to empty string, expand $VAR_WITHOUT_VALUE to NULL;
 
 static void	_add_env_value(t_char_list **char_list, const char *arg,
 				size_t *i, t_env *env)
@@ -127,7 +126,7 @@ static void	_add_env_value(t_char_list **char_list, const char *arg,
 		return ;
 	}
 	(*i)++;
-	while (arg[*i] && is_variable_name_middle(arg[*i])) /* [x] skip var name middle */
+	while (arg[*i] && is_variable_name_middle(arg[*i]))
 		(*i)++;
 }
 

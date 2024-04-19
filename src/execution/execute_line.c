@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 23:41:00 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 23:48:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:15:22 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@
 void	execute_line(char *line)
 {
 	minishell()->cmds = analyze_lexemes(line);
-	// print_cmds(cmds); /* Develop */
 	if (analyze_syntax(minishell()->cmds) == 0)
 	{
-		// print_cmds(minishell()->cmds); /* Develop */
 		expand_arguments(minishell()->cmds, minishell()->env);
-		search_exec_and_replace_arg_in_cmds(minishell()->cmds, minishell()->env);
+		search_exec_and_replace_arg_in_cmds(minishell()->cmds,
+			minishell()->env);
 		check_redirect_files(minishell()->cmds);
 		execute_cmds(minishell()->cmds, &(minishell()->env));
 	}

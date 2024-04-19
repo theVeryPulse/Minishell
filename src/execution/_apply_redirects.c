@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:42:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 18:44:20 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 18:51:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ extern void	_apply_redirects(t_cmd_list *cmd)
 	redirect = cmd->redirects;
 	while (*redirect && minishell()->received_signal == NONE)
 	{
-		_open_file_or_heredoc(redirect);
+		fd = _open_file_or_heredoc(redirect);
 		if (fd != -1)
 			close(fd);
 		redirect++;

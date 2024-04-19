@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 00:14:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:14:34 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,18 @@ void	_apply_pipes(t_pipes *pipes, int cmd_idx)
 	}
 }
 
-pid_t	_fork_and_execute_command(t_cmd_list *cmd, t_cmd_list *cmds, t_env **env, t_pipes *pipes)
+pid_t	_fork_and_execute_command(t_cmd_list *cmd, t_cmd_list *cmds,
+			t_env **env, t_pipes *pipes)
 {
 	pid_t	id;
 	int		exit_status;
 
 	exit_status = 0;
-	signal(SIGQUIT, waiting_child_sigquit);
-	signal(SIGINT, waiting_child_sigint);
+	sigint_sigquit_handler(WAITING_CHILD);
 	id = fork();
 	if (id == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
+		sigint_sigquit_handler(DEFAULT);
 		pipes_close_all(pipes);
 		if (is_builtin_function(cmd->argv[0]))
 		{
@@ -136,17 +135,17 @@ void	_execute_one_command(t_cmd_list *cmd, t_env **env)
 	exit_status = 0;
 	_stdin_stdout(BACKUP);
 	_apply_redirects(cmd);
-	if (cmd->argv && cmd->argv[0] && is_builtin_function(cmd->argv[0]))
+	if (minishell()->received_signal != NONE)
+		exit_status = minishell()->exit_status;
+	else if (cmd->argv && cmd->argv[0] && is_builtin_function(cmd->argv[0]))
 		exit_status = execute_builtin_function(cmd->argv, env, cmd, NULL);
 	else if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
 	{
-		signal(SIGQUIT, waiting_child_sigquit);
-		signal(SIGINT, waiting_child_sigint);
+		sigint_sigquit_handler(WAITING_CHILD);
 		id = fork();
 		if (id == 0)
 		{
-			signal(SIGQUIT, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
+			sigint_sigquit_handler(DEFAULT);
 			_child_execute_target_command(cmd, *env, NULL);
 		}
 		exit_status = _exit_status(id);
@@ -165,7 +164,8 @@ bool	_is_shell_script(const char **argv)
 		&& ft_strncmp(ft_strchr(argv[0], '\0') - 3, ".sh", 3) == 0);
 }
 
-pid_t	_execute_commands_with_pipes_redirects(t_cmd_list *cmds, t_env **env, t_pipes *pipes)
+pid_t	_execute_commands_with_pipes_redirects(t_cmd_list *cmds, t_env **env,
+			t_pipes *pipes)
 {
 	t_cmd_list	*cmd;
 	int			cmd_idx;
@@ -208,7 +208,6 @@ void	_execute_multiple_commands(t_cmd_list *cmds, t_env **env)
 	while (wait(NULL) != -1)
 		;
 	free_and_null((void **)(&pipes.pipes));
-	minishell()->received_signal = NONE;
 	unlink(HEREDOC_FILE);
 }
 
@@ -220,4 +219,5 @@ void	execute_cmds(t_cmd_list *cmds, t_env **env)
 		_execute_one_command(cmds, env);
 	else
 		_execute_multiple_commands(cmds, env);
+	minishell()->received_signal = NONE;
 }

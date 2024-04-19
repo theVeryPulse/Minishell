@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:06:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 20:21:29 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:10:29 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 void	_execute_shell_script(const char *filepath, t_env **env)
 {
 	struct stat	statbuf;
-	pid_t	id;
+	pid_t		id;
 
 	if (stat(filepath, &statbuf) != 0)
 	{
@@ -38,7 +38,7 @@ void	_execute_shell_script(const char *filepath, t_env **env)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: permission denied\n",
 			filepath);
-		return env_update_exit_status(env, PERMISSION_DENIED_EXIT_STATUS);
+		return (env_update_exit_status(env, PERMISSION_DENIED_EXIT_STATUS));
 	}
 	id = fork();
 	if (id == 0)

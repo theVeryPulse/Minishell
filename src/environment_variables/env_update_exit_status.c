@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:42:11 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 22:29:14 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:18:54 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ extern void	env_update_exit_status(t_env **env, int exit_status)
 	minishell()->exit_status = exit_status;
 	exit_status_str = ft_itoa(exit_status);
 	exit_status_name_value = ft_format_string("?=%s", exit_status_str);
-	// ft_dprintf(2, "updating %s to nev\n", exit_status_name_value); /* debug */
 	env_update_name_value(env, exit_status_name_value);
 	free_and_null((void **)&exit_status_str);
 	free_and_null((void **)&exit_status_name_value);

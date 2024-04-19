@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 18:31:53 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 18:47:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:13:28 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 #include <unistd.h>
 
 #include "t_fd_action.h"
-/* Temporary */int	_stdin_stdout(t_fd_action action);
+
+int			_stdin_stdout(t_fd_action action); /* [ ] Temporary */
 
 extern void	_heredoc(char *delimiter);
 static void	heredoc_setup(void);
@@ -50,7 +51,7 @@ extern void	_heredoc(char *delimiter)
 		if (!line)
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: warning: here-document"
-				" delimited by end-of-line (wanted `END')\n");
+				" delimited by end-of-line (wanted `%s')\n", delimiter);
 			break ;
 		}
 		if (minishell()->received_signal == RECEIVED_SIGINT
@@ -64,10 +65,9 @@ extern void	_heredoc(char *delimiter)
 	rl_outstream = stdout;
 }
 
-static void	heredoc_setup()
+static void	heredoc_setup(void)
 {
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, heredoc_sigint);
+	sigint_sigquit_handler(HEREDOC);
 	rl_event_hook = &end_readline;
 	rl_outstream = stderr;
 	dup2(_stdin_stdout(LOOKUP_STDIN), STDIN_FILENO);

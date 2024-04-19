@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 00:07:34 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 19:56:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	_read_and_execute_line(int history_file)
 {
 	char	*line;
 
-	signal(SIGINT, minishell_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	sigint_sigquit_handler(MINISHELL);
 	line = readline("minishell $ ");
 	if (line == NULL)
 		_eof_exit(history_file);
