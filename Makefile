@@ -13,7 +13,8 @@ SRC_DIR := src
 # Temporary
 FILES := \
 	$(wildcard src/*.c) \
-	$(wildcard src/*/*.c)
+	$(wildcard src/*/*.c) \
+	$(wildcard src/*/*/*.c)
 
 OFILES := $(patsubst src/%.c, build/%.o, $(FILES))
 LIBFT := lib/libft/lib/libft.a

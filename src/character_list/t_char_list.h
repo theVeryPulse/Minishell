@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_list_add_str.c                                :+:      :+:    :+:   */
+/*   t_char_list.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 10:11:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:30:08 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/20 14:24:28 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/20 14:25:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "char_list.h"
+#ifndef T_CHAR_LIST_H
+# define T_CHAR_LIST_H
 
 /**
- * @brief Adds all characters of a string to the character list.
+ * @brief A linked list where each node saves one character.
  * 
- * @param list Pointer to the pointer to the character list.
- * @param str String providing characters to add.
  */
-void	char_list_add_str(t_char_list **list, char *str)
+typedef struct s_char_list	t_char_list;
+struct s_char_list
 {
-	if (!str)
-		return ;
-	if (*str == '\0')
-		char_list_add_char(list, *str);
-	while (*str)
-	{
-		char_list_add_char(list, *str);
-		str++;
-	}
-}
+	char		c;
+	t_char_list	*next;
+};
+
+#endif
