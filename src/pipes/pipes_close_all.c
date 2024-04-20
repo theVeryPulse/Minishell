@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 20:50:29 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 20:11:09 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:07:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * 
  * @param pipes A pointer to a t_pipes structure containing the pipes array.
  */
-void	pipes_close_all(t_pipes *pipes)
+extern void	pipes_close_all(t_pipes *pipes)
 {
 	int	i;
 
