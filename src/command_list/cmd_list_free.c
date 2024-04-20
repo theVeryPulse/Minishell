@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:21:52 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:11:56 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:46:17 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include "../free/free.h"
 #include <stdlib.h>
 
+/**
+ * @brief Frees the command list and resets the pointer to NULL.
+ * 
+ * @param list Pointer to the pointer to the command list.
+ */
 void	cmd_list_free(t_cmd_list **list)
 {
 	t_cmd_list	*node;

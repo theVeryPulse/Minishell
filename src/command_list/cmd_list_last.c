@@ -6,12 +6,18 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:21:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:20:08 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:45:35 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_cmd_list.h"
 
+/**
+ * @brief Finds the last node of a command list and return its address
+ * 
+ * @param list The command list to find last node.
+ * @return `t_cmd_list*` The last node of the command list.
+ */
 t_cmd_list	*cmd_list_last(t_cmd_list *list)
 {
 	while (list->next)

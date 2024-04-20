@@ -6,14 +6,14 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 01:44:46 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:20:12 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:44:36 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_cmd_list.h"
 
 /**
- * @brief Get the length of the command list.
+ * @brief Counts the length of the command list.
  * 
  * @param cmds Pointer to the head of the command list.
  * @return `int` The number of elements in the command list.
