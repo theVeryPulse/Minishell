@@ -6,28 +6,24 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 16:49:03 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:19:45 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "paths.h"
 #include "search_executable.h"
-#include "../environment_variables/env.h"
-#include "../execution/built_in/built_in.h"
-#include "../free/free.h"
+#include "../environment_variables/t_env.h"
+#include "../execution/built_in/built_in.h" /* is_builtin_function */
 #include "libft.h"
-#include <stdbool.h>
-#include <unistd.h>
 
 /**
  * @brief Searches for executable files in the directories specified by the PATH
  *        environment variable. If executable is found, the file path will
- *        replace the original argument. Skips built-in functions.
+ *        replace the original argument. Built-in functions will be skipped.
  *
  * @param cmds A pointer to the head of the linked list of command nodes.
- * @param env  A pointer to the head of the linked list of environment variables.
+ * @param env A pointer to the head of the linked list of environment variables.
  */
-void	search_executable_in_commands(t_cmd_list *cmds, t_env *env)
+extern void	search_executable_in_commands(t_cmd_list *cmds, t_env *env)
 {
 	t_cmd_list	*cmd;
 
