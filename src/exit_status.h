@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   waiting_child_sigquit.c                            :+:      :+:    :+:   */
+/*   exit_status.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 21:07:22 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 22:26:39 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 21:14:36 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/17 13:00:40 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell/minishell.h"
-#include "../environment_variables/env.h"
-#include "exit_status.h"
-#include "libft.h"
-#include <unistd.h>
-#include <readline/readline.h>
+#ifndef EXIT_STATUS_H
+# define EXIT_STATUS_H
 
-extern void	waiting_child_sigquit(int signal)
-{
-	signal++;
-	minishell()->received_signal = RECEIVED_SIGQUIT;
-	minishell()->exit_status = SIGQUIT_EXIT_STATUS;
-	ft_dprintf(STDERR_FILENO, "Quit (core dumped)\n");
-	rl_on_new_line();
-}
+# define SYNTAX_ERROR_EXIT_STATUS 2
+# define IS_A_DIRECTORY_EXIT_STATUS 126
+# define PERMISSION_DENIED_EXIT_STATUS 126
+# define COMMAND_NOT_FOUND_EXIT_STATUS 127
+# define NO_SUCH_FILE_EXIT_STATUS 127
+# define SIGINT_EXIT_STATUS 130
+# define SIGQUIT_EXIT_STATUS 131
+
+#endif

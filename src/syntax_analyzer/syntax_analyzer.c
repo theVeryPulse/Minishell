@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 06:18:13 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 13:13:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell/minishell.h"
-#include "../signal_handler/exit_status.h"
+#include "../exit_status.h"
 #include "../environment_variables/env.h"
 #include "_syntax_analyzer.h"
 #include "../command_list/t_cmd_list.h"

@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_sigquit.c                                    :+:      :+:    :+:   */
+/*   _is_variable_name.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 21:11:03 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 21:30:41 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/20 02:03:59 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/20 02:06:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exit_status.h"
-#include "../minishell/minishell.h"
-#include "../free/free.h"
-#include "libft.h"
-#include <unistd.h>
-#include <stdlib.h>
+#include "../character_checks/character_checks.h"
+#include <stdbool.h>
+#include <stddef.h>
 
-extern void	child_sigquit(int signal)
+extern bool	_is_variable_name(char *arg)
 {
-	signal++;
-	free_cmds_env_pipes_rl_clear_history((t_to_free){.cmds = minishell()->cmds,
-		.env = minishell()->env});
-	exit(SIGQUIT_EXIT_STATUS);
+	size_t	i;
+
+	if (arg[0] != '$' || !is_variable_name_start(arg[1]))
+		return (false);
+	i = 2;
+	while (is_variable_name_middle(arg[i]))
+		i++;
+	return (arg[i] == '\0');
 }

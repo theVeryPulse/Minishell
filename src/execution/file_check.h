@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.h                                      :+:      :+:    :+:   */
+/*   file_check.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 21:14:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 12:37:09 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/17 13:40:37 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/19 21:11:27 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXIT_STATUS_H
-# define EXIT_STATUS_H
+#ifndef FILE_CHECK_H
+# define FILE_CHECK_H
 
-# define SYNTAX_ERROR_EXIT_STATUS 2
-# define IS_A_DIRECTORY_EXIT_STATUS 126
-# define PERMISSION_DENIED_EXIT_STATUS 126
-# define NO_SUCH_FILE_EXIT_STATUS 127
-# define SIGINT_EXIT_STATUS 130
-# define SIGQUIT_EXIT_STATUS 131
+typedef enum e_file_status
+{
+	NO_SUCH_FILE_OR_DIRECTORY,
+	IS_A_DIRECTORY,
+	IS_A_FILE,
+	NO_EXECUTION_PERMISSION,
+	OK,
+}	t_file_status;
+
+typedef enum e_check
+{
+	CHECK_EXECUTABLE,
+	CHECK_FILE,
+	CHECK_DIRECTORY
+}	t_check;
+
+extern t_file_status	file_check(const char *filepath, t_check check);
 
 #endif

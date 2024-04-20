@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:05:13 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 22:33:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:17:24 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@
 # include "../environment_variables/t_env.h"
 # include <stdbool.h>
 
-typedef enum	e_received_signal
+typedef enum e_received_signal
 {
 	NONE = 0,
 	RECEIVED_SIGINT,
 	RECEIVED_SIGQUIT,
 }	t_received_signal;
-
 
 typedef struct s_minishell
 {

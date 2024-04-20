@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:18:43 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:02:36 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ struct s_cmd_list
 	// Null terminated array of redirects
 	// Example: `{"<infile", "<<delimiter", ">outfile", ">>outfile"}`
 	char		**redirects;
-	bool		should_execute;
+	bool		has_invalid_redirects;
 	t_cmd_list	*next;
 };
 

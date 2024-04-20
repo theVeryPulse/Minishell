@@ -6,16 +6,20 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:43:07 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 16:34:03 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 12:10:10 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../environment_variables/env.h"
 #include "../character_checks/character_checks.h"
 #include "libft.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdbool.h>
+#include <stdlib.h> /* free */
+#include <unistd.h> /* STDERR_FILENO */
+#include <stdbool.h> /* bool */
+
+extern int	builtin_export(char **argv, t_env **env);
+static bool	_is_append_value_to_name_value(char *name_value);
+static void	_append_value_to_name_value(char *name_value, t_env **env);
 
 /**
  * @brief Updates environment variables or exports new ones.
@@ -43,9 +47,46 @@ extern int	builtin_export(char **argv, t_env **env)
 				"identifier\n", name_value);
 			exit_status = 1;
 		}
+		else if (_is_append_value_to_name_value(name_value))
+			_append_value_to_name_value(name_value, env);
 		else if (ft_strchr(name_value, '='))
 			env_update_name_value(env, name_value);
 		i++;
 	}
 	return (exit_status);
+}
+
+static bool	_is_append_value_to_name_value(char *name_value)
+{
+	size_t	i;
+
+	i = 0;
+	while (name_value[i] && name_value[i] != '+')
+		i++;
+	if (name_value[i] == '\0')
+		return (false);
+	else if (name_value[i] == '+' && name_value[i + 1] == '=')
+		return (true);
+	else
+		return (false);
+}
+
+static void	_append_value_to_name_value(char *name_value, t_env **env)
+{
+	char	*name;
+	size_t	name_len;
+	char	*new_name_value;
+	char	*old_value;
+
+	name_len = 0;
+	while (name_value[name_len] && name_value[name_len] != '+')
+		name_len++;
+	name = ft_strndup(name_value, name_len);
+	old_value = env_get_value_by_name(*env, name);
+	new_name_value = ft_format_string("%s=%s%s", name, old_value,
+			&name_value[name_len + 2]);
+	env_update_name_value(env, new_name_value);
+	free(name);
+	free(old_value);
+	free(new_name_value);
 }

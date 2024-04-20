@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   waiting_child_sigint.c                             :+:      :+:    :+:   */
+/*   t_fd_action.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 21:20:33 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 22:26:15 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/18 18:39:06 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/19 21:14:06 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell/minishell.h"
-#include "../environment_variables/env.h"
-#include "exit_status.h"
-#include "libft.h"
-#include <unistd.h>
-#include <readline/readline.h>
+#ifndef T_FD_ACTION_H
+# define T_FD_ACTION_H
 
-extern void	waiting_child_sigint(int signal)
+typedef enum e_fd_action
 {
-	signal++;
-	minishell()->received_signal = RECEIVED_SIGINT;
-	minishell()->exit_status = SIGINT_EXIT_STATUS;
-	write(STDERR_FILENO, "\n", 1);
-	rl_on_new_line();
-}
+	BACKUP,
+	RESET_FROM_BACKUP,
+	CLOSE_BACKUP,
+	LOOKUP_STDIN
+}	t_fd_action;
+
+#endif

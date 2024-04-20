@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_last_child_exit_status.c                       :+:      :+:    :+:   */
+/*   _heredoc.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 02:25:57 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:12:53 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/17 18:47:09 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/18 18:44:42 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <wait.h>
+#ifndef _HEREDOC_H
+# define _HEREDOC_H
 
-int	get_last_child_exit_status(pid_t id)
-{
-	int	wstatus;
-	int	exit_status;
+# define HEREDOC_FILE "./.heredoc_temp"
 
-	exit_status = 0;
-	waitpid(id, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		exit_status = WEXITSTATUS(wstatus);
-	return (exit_status);
-}
+extern void	_heredoc(char *delimiter);
+
+#endif

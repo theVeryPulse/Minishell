@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:16:06 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 14:25:58 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 02:07:15 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@
 
 void	print_cmds(t_cmd_list *cmds)
 {
-	int		argv_idx;
-	int		redirect_idx;
+	int			argv_idx;
+	int			redirect_idx;
 	t_cmd_list	*cmd;
-	t_cmd_list	*next_cmd;
 
 	cmd = cmds;
 	while (cmd)
 	{
-		next_cmd = cmd->next;
 		printf("Command\n");
 		printf("  Arguments\n");
 		argv_idx = 0;
@@ -40,6 +38,6 @@ void	print_cmds(t_cmd_list *cmds)
 			printf("    %d: %s\n", redirect_idx, cmd->redirects[redirect_idx]);
 			redirect_idx++;
 		}
-		cmd = next_cmd;
+		cmd = cmd->next;
 	}
 }

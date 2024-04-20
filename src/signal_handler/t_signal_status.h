@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.h                                          :+:      :+:    :+:   */
+/*   t_signal_status.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 18:21:32 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/11 18:22:15 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/19 22:24:57 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/19 22:25:39 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEREDOC_H
-# define HEREDOC_H
+#ifndef T_SIGNAL_STATUS_H
+# define T_SIGNAL_STATUS_H
 
-# define HEREDOC_FILE "./.heredoc_temp"
+typedef enum e_signal_status
+{
+	WAITING_CHILD,
+	HEREDOC,
+	DEFAULT,
+	MINISHELL
+}	t_signal_status;
 
-#endif 
+#endif

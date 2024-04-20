@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:08:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 02:06:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define _EXPAND_STRING_H
 
 # include "../environment_variables/t_env.h"
+# include <stdbool.h>
 
-void	_expand_string(char **arg_ptr, t_env *env);
+extern void	_expand_string(char **arg_ptr, t_env *env);
+extern bool	_is_variable_name(char *arg);
 
 #endif

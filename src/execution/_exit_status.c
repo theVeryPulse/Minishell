@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_sigint.c                                     :+:      :+:    :+:   */
+/*   _exit_status.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 21:11:03 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 21:19:47 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/16 02:25:57 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/20 00:04:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exit_status.h"
 #include "../minishell/minishell.h"
-#include "../free/free.h"
-#include <stdlib.h>
+#include <sys/types.h>
+#include <wait.h>
 
-extern void	child_sigint(int signal)
+extern int	_exit_status(pid_t id)
 {
-	signal++;
-	free_cmds_env_pipes_rl_clear_history((t_to_free){.cmds = minishell()->cmds,
-		.env = minishell()->env});
-	exit(SIGINT_EXIT_STATUS);
+	int	wstatus;
+	int	exit_status;
+
+	exit_status = 0;
+	waitpid(id, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		exit_status = WEXITSTATUS(wstatus);
+	if (minishell()->received_signal != NONE)
+		exit_status = minishell()->exit_status;
+	return (exit_status);
 }
