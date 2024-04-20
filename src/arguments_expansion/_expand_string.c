@@ -6,10 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 21:19:26 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 02:05:36 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "_expand_string.h"
 #include "../command_list/t_cmd_list.h"
 #include "../character_list/char_list.h"
 #include "../environment_variables/env.h"
@@ -18,8 +19,6 @@
 #include "libft.h"
 #include <stdlib.h>
 #include <stddef.h>
-
-bool		_arg_is_env_var(char *arg);
 
 static void	_add_literal_str(t_char_list **char_list, const char *arg,
 				size_t *i);
@@ -55,7 +54,7 @@ void	_expand_string(char **arg_ptr, t_env *env)
 			char_list_add_char(&char_list, (*arg_ptr)[i++]);
 	}
 	expanded = char_list_to_str(char_list);
-	if (ft_strlen(expanded) == 0 && _arg_is_env_var(*arg_ptr))
+	if (ft_strlen(expanded) == 0 && _is_variable_name(*arg_ptr))
 		free_and_null((void **)&expanded);
 	free_and_null((void **)arg_ptr);
 	*arg_ptr = expanded;
@@ -150,16 +149,4 @@ static char	*_get_var_name(const char *str)
 	while (str[end] && is_variable_name_middle(str[end]))
 		end++;
 	return (ft_strndup(&str[start], end - start));
-}
-
-bool	_arg_is_env_var(char *arg)
-{
-	size_t	i;
-
-	if (arg[0] != '$' || !is_variable_name_start(arg[1]))
-		return (false);
-	i = 2;
-	while (is_variable_name_middle(arg[i]))
-		i++;
-	return (arg[i] == '\0');
 }

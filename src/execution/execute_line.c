@@ -6,10 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 23:41:00 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 22:15:07 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 02:10:24 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execution.h"
 #include "../minishell/minishell.h"
 #include "../functions.h"
 #include "../command_list/cmd_list.h"

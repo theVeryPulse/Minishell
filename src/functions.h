@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:43:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 22:15:07 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 02:09:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,6 @@ t_cmd_list	*analyze_lexemes(const char *line);
 
 int			analyze_syntax(t_cmd_list *cmds);
 
-/* Search executable */
-
-// void		search_executable(t_cmd_list *cmds, t_env *env);
-
 /* Expand argument */
 
 void		expand_arguments(t_cmd_list *cmds, t_env *env);
@@ -39,10 +35,6 @@ void		expand_arguments(t_cmd_list *cmds, t_env *env);
 /*  */
 
 void		check_redirect_files(t_cmd_list *cmds);
-
-/* Execute commands */
-
-void		execute_commands(t_cmd_list *cmds, t_env **env);
 
 /* Test functions */
 

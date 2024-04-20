@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:39:09 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 02:08:14 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ extern int	builtin_env(char **argv, t_env *env, t_cmd_list *cmds,
 	if (*arg == NULL)
 		return (_print_env(modified_env), env_free(&modified_env), 0);
 	if (is_builtin_function(*arg))
-		exit_status = _execute_builtin_function(arg, &modified_env, cmds, pipes);
+	{
+		exit_status = _execute_builtin_function(arg, &modified_env, cmds,
+				pipes);
+	}
 	else
 	{
 		exit_status = _env_execute_cmd(arg, modified_env,

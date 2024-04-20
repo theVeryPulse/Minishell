@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _expand_string.h                                   :+:      :+:    :+:   */
+/*   _is_variable_name.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 10:55:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 02:06:11 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/20 02:03:59 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/20 02:06:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _EXPAND_STRING_H
-# define _EXPAND_STRING_H
+#include "../character_checks/character_checks.h"
+#include <stdbool.h>
+#include <stddef.h>
 
-# include "../environment_variables/t_env.h"
-# include <stdbool.h>
+extern bool	_is_variable_name(char *arg)
+{
+	size_t	i;
 
-extern void	_expand_string(char **arg_ptr, t_env *env);
-extern bool	_is_variable_name(char *arg);
-
-#endif
+	if (arg[0] != '$' || !is_variable_name_start(arg[1]))
+		return (false);
+	i = 2;
+	while (is_variable_name_middle(arg[i]))
+		i++;
+	return (arg[i] == '\0');
+}
