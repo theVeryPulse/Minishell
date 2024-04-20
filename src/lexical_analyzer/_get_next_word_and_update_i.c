@@ -6,17 +6,27 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:49:41 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/14 10:54:57 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:42:53 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../character_checks/character_checks.h"
 #include "libft.h"
 
+extern char	*_get_next_word_and_update_i(const char *line, size_t *i);
 static void	_set_end_idx_to_close_quote(const char *line, size_t *end_idx);
 static void	_set_end_idx_to_word_end(const char *line, size_t *end_idx);
 
-char	*_get_next_word_and_update_i(const char *line, size_t *i)
+/**
+ * @brief Finds the next word in line starting from index `i`, sets `i` to the
+ *        end of next word and returns a copy of the word. Words are delimited
+ *        by metacharacters as defined in `is_metacharacter` (character_checks)
+ * 
+ * @param line Input line meant for execution.
+ * @param i Pointer to the index current index value.
+ * @return `char*` A copy of the next word.
+ */
+extern char	*_get_next_word_and_update_i(const char *line, size_t *i)
 {
 	size_t	i_copy;
 	char	*word;

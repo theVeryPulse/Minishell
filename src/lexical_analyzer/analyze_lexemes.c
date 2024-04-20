@@ -6,18 +6,18 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:46:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 21:18:44 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:38:22 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_lexical_analyzer.h"
-#include "../character_checks/character_checks.h"
-#include "../command_list/cmd_list.h"
-#include "libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
+#include "../character_checks/character_checks.h" /* is_redirect */
+#include "../command_list/cmd_list.h" /* cmd_list_new */
+#include "libft.h" /* ft_strndup, ft_isspace */
+#include <stdarg.h> /* va_list */
+#include <stdlib.h> /* free */
 
+extern t_cmd_list	*analyze_lexemes(const char *line);
 static void	_set_to_null(int n, ...);
 static void	_skip_spaces(const char *line, size_t *i);
 static void	_add_argument_and_update_i(t_list **arguments, const char *line,
@@ -55,14 +55,14 @@ analyze_lexemes
  *         arguments and redirects as string arrays.
  * @note Lexical analysis, also known as tokenizer or lexer.
  *       Example:
- *       `>output echo<"$USER" |ls|$USER >>END | echo "$PATH"`
+ *           `>output echo<"$USER" |ls|$USER >>END | echo "$PATH"`
  *       will be divided into
- *       `echo`, `>output`, `<$"USER"`
- *       `ls`
- *       `$USER`, `>>END`
- *       `echo`, `"$PATH"`
+ *           `{echo, >output, <$"USER"}`,
+ *           `{ls}`,
+ *           `{$USER, >>END}`,
+ *           `{echo, "$PATH"}`
  */
-t_cmd_list	*analyze_lexemes(const char *line)
+extern t_cmd_list	*analyze_lexemes(const char *line)
 {
 	size_t		i;
 	t_cmd_list	*cmds;
