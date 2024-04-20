@@ -6,14 +6,19 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 10:49:20 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 17:59:46 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:18:19 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 
-// `|`, `<`, or `>`, space, tab, newline
-bool	is_metacharacter(char c)
+/**
+ * @brief Checks if a character is a metacharacter: `|`, `<`, or `>`, space,
+ *        tab, and newline
+ * 
+ * @param c Character to check.
+ */
+extern bool	is_metacharacter(char c)
 {
 	return (c == '<'
 		|| c == '>'
