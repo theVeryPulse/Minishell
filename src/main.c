@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:52:10 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:49:15 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 11:03:52 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(void)
 	if (!isatty(STDIN_FILENO))
 		return (0);
 	minishell_init();
-	env_init(&(minishell()->env));
+	// env_init(&(minishell()->env));
 	history_file = read_history_from_file();
 	while (true)
 		_read_and_execute_line(history_file);

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:59:30 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:38:11 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 10:47:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ extern void	_child_execute_target_command(t_cmd_list *cmd, t_env *env,
 
 static int	_command_not_found(const char *command)
 {
-	ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", command);
+	ft_dprintf(STDERR_FILENO, "%s: command not found\n", command);
 	return (COMMAND_NOT_FOUND_EXIT_STATUS);
 }
 

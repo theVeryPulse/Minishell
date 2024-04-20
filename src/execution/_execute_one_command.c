@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 23:40:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:35:27 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 10:41:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ extern void	_execute_one_command(t_cmd_list *cmd, t_env **env)
 		exit_status = minishell()->exit_status;
 	else if (cmd->argv && cmd->argv[0] && is_builtin_function(cmd->argv[0]))
 		exit_status = _execute_builtin_function(cmd->argv, env, cmd, NULL);
-	else if (cmd->argv && cmd->argv[0] && ft_strlen(cmd->argv[0]) > 0)
+	else if (cmd->argv && cmd->argv[0])
 	{
 		sigint_sigquit_handler(WAITING_CHILD);
 		id = fork();
