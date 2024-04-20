@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 01:44:46 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:44:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:55:21 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param cmds Pointer to the head of the command list.
  * @return `int` The number of elements in the command list.
  */
-int	cmd_list_len(t_cmd_list *cmds)
+extern int	cmd_list_len(t_cmd_list *cmds)
 {
 	int			len;
 	t_cmd_list	*cmd;

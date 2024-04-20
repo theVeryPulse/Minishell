@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:21:52 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:46:17 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:54:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * 
  * @param list Pointer to the pointer to the command list.
  */
-void	cmd_list_free(t_cmd_list **list)
+extern void	cmd_list_free(t_cmd_list **list)
 {
 	t_cmd_list	*node;
 	t_cmd_list	*next_node;

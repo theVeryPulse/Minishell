@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:21:45 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:47:17 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:54:56 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param list Pointer to the pointer to the command list.
  * @param node The node to append to list.
  */
-void	cmd_list_append(t_cmd_list **list, t_cmd_list *node)
+extern void	cmd_list_append(t_cmd_list **list, t_cmd_list *node)
 {
 	if (!list)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:21:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:44:06 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:55:17 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * 
  * @return `t_cmd_list*` A dynamically allocated command list node.
  */
-t_cmd_list	*cmd_list_new(void)
+extern t_cmd_list	*cmd_list_new(void)
 {
 	t_cmd_list	*new;
 
