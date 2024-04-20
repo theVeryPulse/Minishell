@@ -6,14 +6,20 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 02:25:57 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:04:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:01:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell/minishell.h"
-#include <sys/types.h>
-#include <wait.h>
+#include <sys/types.h> /* pid_t */
+#include <wait.h> /* waitpid */
 
+/**
+ * @brief Returns the exit status of target process.
+ * 
+ * @param id Process from which to get exit status.
+ * @return `int` Exit status.
+ */
 extern int	_exit_status(pid_t id)
 {
 	int	wstatus;

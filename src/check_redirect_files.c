@@ -6,21 +6,23 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 20:50:07 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 21:17:02 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 20:19:21 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "command_list/t_cmd_list.h"
-#include "character_checks/character_checks.h"
-#include "free/free.h"
-#include "libft.h"
+#include "minishell/minishell.h"
+#include "command_list/t_cmd_list.h" /* t_cmd_list */
+#include "character_checks/character_checks.h" /* is_redirct */
+#include "exit_status.h"
+#include "environment_variables/env.h"
+#include "libft.h" /* bool, ft_strncmp */
 #include <errno.h>
-#include <fcntl.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include <fcntl.h> /* F_OK, O_WRONLY */
+#include <stdio.h> /* perror */
+#include <stdlib.h> /* free */
+#include <unistd.h> /* access */
 
+extern void	check_redirect_files(t_cmd_list *cmds);
 static bool	_file_not_okay(const char *redirect);
 static bool	_check_file_for_redirect(const char *redirect,
 				const char *file_path, const char *arg);
@@ -30,12 +32,12 @@ static bool	_check_file_for_redirect(const char *redirect,
  *        for write if it cannot be found. If any of the redirect files has 
  *        error, set that command's `has_invalid_directs` to true.
  * 
- * @param cmds Head of the command lined list.
+ * @param cmds Command list.
  * @note In line with bash:
  *       Order: from last command to first command, for each command, from first
  *       redirect to last, if any redirect has error, skip the rest redirects.
  */
-void	check_redirect_files(t_cmd_list *cmds)
+extern void	check_redirect_files(t_cmd_list *cmds)
 {
 	t_cmd_list	*cmd;
 	char		**redirect;
@@ -54,6 +56,8 @@ void	check_redirect_files(t_cmd_list *cmds)
 		if (_file_not_okay(*redirect))
 		{
 			cmd->has_invalid_redirects = true;
+			env_update_exit_status(&(minishell()->env),
+				REDIRECT_FILE_PERMISSION_DENIED);
 			break ;
 		}
 		redirect++;
@@ -67,7 +71,7 @@ static bool	_check_file_for_redirect(const char *redirect,
 	bool	not_okay;
 
 	not_okay = false;
-	if (redirect[0] == '<' && access(file_path, F_OK | O_RDONLY) != 0)
+	if (redirect[0] == '<' && access(file_path, F_OK | R_OK) != 0)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: ");
 		perror(arg);

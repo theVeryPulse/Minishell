@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:40:37 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 21:11:27 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 15:31:30 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef enum e_file_status
 typedef enum e_check
 {
 	CHECK_EXECUTABLE,
-	CHECK_FILE,
 	CHECK_DIRECTORY
 }	t_check;
 

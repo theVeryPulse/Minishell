@@ -6,12 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 02:27:57 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:45:48 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 15:07:53 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_env.h"
-#include <stdlib.h>
+#include <stdlib.h> /* free, size_t */
 
 /*
 3 cases of removing a node:
@@ -31,13 +31,12 @@ A->B->NULL
  */
 
 /**
- * @brief Removes an environment variable by its name from a linked list.
+ * @brief Removes an environment variable by name.
  *
- * @param list  A pointer to a pointer to the head of the linked list of 
- *              environment variables.
- * @param name  The name of the environment variable to remove.
+ * @param list Pointer to a pointer to the environment variables.
+ * @param name The name of the environment variable to remove.
  */
-void	env_remove_by_name(t_env **list, const char *name)
+extern void	env_remove_by_name(t_env **list, const char *name)
 {
 	t_env	*node;
 	t_env	*prev;

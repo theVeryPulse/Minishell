@@ -6,13 +6,12 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:43:07 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/20 12:10:10 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:11:55 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../environment_variables/env.h"
-#include "../character_checks/character_checks.h"
-#include "libft.h"
+#include "../../environment_variables/env.h" /* env_update_name_value */
+#include "libft.h" /* ft_dprintf */
 #include <stdlib.h> /* free */
 #include <unistd.h> /* STDERR_FILENO */
 #include <stdbool.h> /* bool */
@@ -22,11 +21,11 @@ static bool	_is_append_value_to_name_value(char *name_value);
 static void	_append_value_to_name_value(char *name_value, t_env **env);
 
 /**
- * @brief Updates environment variables or exports new ones.
+ * @brief Updates environment variables or adds new ones.
  * 
- * @param env A pointer to the pointer to the stack of environment variables.
- * @param argv An array of strings containing the command arguments.
- * @return The exit status of the function, 0 if successful, 1 otherwise.
+ * @param env Pointer to the pointer to the stack of environment variables.
+ * @param argv Array of strings containing the command arguments.
+ * @return 0 if successful, 1 otherwise.
  */
 extern int	builtin_export(char **argv, t_env **env)
 {

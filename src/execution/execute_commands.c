@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:44:35 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 20:08:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,26 @@
 extern void	execute_commands(t_cmd_list *cmds, t_env **env);
 static bool	_is_shell_script(const char **argv);
 
+/**
+ * @brief Executes the commands in command list. Shell scripts are executed in
+ *        child minishell processes. Single built-in commands are executed in
+ *        parent process. Commands connected by pipes are all executed in child
+ *        minishell processes.
+ * 
+ * @param cmds Command list to execute.
+ * @param env Pointer to the pointer to the environment variables.
+ */
 extern void	execute_commands(t_cmd_list *cmds, t_env **env)
 {
 	if (_is_shell_script((const char **)cmds->argv))
 		_execute_shell_script(cmds->argv[0], env);
 	else if (cmd_list_len(cmds) == 1)
-		_execute_one_command(cmds, env);
+	{
+		if (!cmds->has_invalid_redirects)
+			_execute_one_command(cmds, env);
+	}
 	else
-		_execute_multiple_commands(cmds, env);
+		_execute_piped_commands(cmds, env);
 	minishell()->received_signal = NONE;
 }
 

@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:53:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 02:12:51 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:50:27 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,21 @@
 #include "libft.h"
 #include <stdlib.h>
 
+extern void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
+				t_list **arguments, t_list **redirects);
 static char	**_list_to_string_array(t_list *list);
 static void	_free_all_nodes_leave_content(t_list **head);
 
-void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
+/**
+ * @brief Add a command tto the list with current arguments and redirects, then
+ *        free the memory for arguments and redirects.
+ * 
+ * @param cmds Pointer to the pointer to the command list.
+ * @param this_cmd Command node to add add to list.
+ * @param arguments List of arguments to be converted to string arrays.
+ * @param redirects List of redirects to be converted to string arrays.
+ */
+extern void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
 		t_list **arguments, t_list **redirects)
 {
 	this_cmd->argv = _list_to_string_array(*arguments);

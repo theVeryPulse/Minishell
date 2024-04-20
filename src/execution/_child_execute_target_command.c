@@ -6,21 +6,21 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:59:30 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 10:47:26 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:09:17 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "file_check.h" /* file_check */
 #include "../minishell/minishell.h" /* minishell */
 #include "../command_list/t_cmd_list.h" /* t_cmd_list */
 #include "../environment_variables/env.h" /* env_build_envp */
-#include "../exit_status.h" /* exit_status */
 #include "../pipes/t_pipes.h" /* t_pipes */
-#include "../free/free.h" /*  */
-#include "file_check.h" /* file_check */
+#include "../exit_status.h" /* exit_status */
+#include "../free/free.h" /* free_string_array_and_null */
 #include "libft.h" /* ft_dprintf */
-#include <unistd.h> /* access, F_OK, STDERR_FILENO, execve */
-#include <stdlib.h> /* exit */
 #include <readline/readline.h> /* rl_clear_history */
+#include <stdlib.h> /* exit */
+#include <unistd.h> /* access, F_OK, STDERR_FILENO, execve */
 
 extern void	_child_execute_target_command(t_cmd_list *cmd, t_env *env,
 				t_pipes *pipes);
@@ -29,12 +29,12 @@ static int	_is_a_directory(const char *command);
 
 /**
  * @brief Executes the target command. This function exits the process and frees
- *        all dynamically allocated memory, and should only be used in child
- *        processes when pipes are used.
+ *        all dynamically allocated memory. This function should only be used in
+ *        child processes when pipes are used.
  * 
- * @param cmd A pointer to the command to execute.
- * @param env A pointer to the environment variables
- * @param pipes A pointer to the pipes structure
+ * @param cmd Pointer to the command to execute.
+ * @param env Pointer to the environment variables
+ * @param pipes Pointer to the pipes structure
  */
 extern void	_child_execute_target_command(t_cmd_list *cmd, t_env *env,
 				t_pipes *pipes)

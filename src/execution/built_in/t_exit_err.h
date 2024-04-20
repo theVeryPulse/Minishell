@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _t_exit_err.h                                      :+:      :+:    :+:   */
+/*   t_exit_err.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:23:27 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/15 20:09:35 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:08:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _T_EXIT_ERR_H
-# define _T_EXIT_ERR_H
+#ifndef T_EXIT_ERR_H
+# define T_EXIT_ERR_H
 
 typedef enum e_exit_err
 {

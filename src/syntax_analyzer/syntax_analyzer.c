@@ -6,23 +6,22 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:04:02 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 13:13:56 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:36:29 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "t_unexpected_character.h" /* t_unexpected_character */
 #include "../minishell/minishell.h"
-#include "../exit_status.h"
-#include "../environment_variables/env.h"
-#include "_syntax_analyzer.h"
 #include "../command_list/t_cmd_list.h"
-#include "../character_checks/character_checks.h"
-#include "libft.h"
-#include <stddef.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "../environment_variables/env.h" /* env_update_exit_status */
+#include "../character_checks/character_checks.h" /* is_redirect */
+#include "../exit_status.h"
+#include "libft.h" /* ft_dprintf */
+#include <unistd.h> /* STDERR_FILENO` */
 
 static char	last_character_of_string(char *str);
-static void	print_error_message(t_type unexpected, char *next_redirect);
+static void	print_error_message(t_unexpected_character unexpected,
+				char *next_redirect);
 static int	check_redirects(t_cmd_list *cmd);
 
 /**
@@ -60,9 +59,6 @@ int	analyze_syntax(t_cmd_list *cmds)
 	return (0);
 }
 
-/**
- * Internal helper function for `check_redirects()`
- */
 static char	last_character_of_string(char *str)
 {
 	while (*(str + 1))
@@ -71,15 +67,14 @@ static char	last_character_of_string(char *str)
 }
 
 /**
- * Internal helper function for `check_redirects()`.
- * 
  * @brief Prints the error message to STDERR
  * 
  * @param unexpected The unexpected character after redirect symbol
  * @param next_redirect The following redirect, use NULL when unexpected
  *                      character is not `<` or `>`
  */
-static void	print_error_message(t_type unexpected, char *next_redirect)
+static void	print_error_message(t_unexpected_character unexpected,
+	char *next_redirect)
 {
 	char	unexpected_redirect_symbols[3];
 
@@ -107,8 +102,6 @@ static void	print_error_message(t_type unexpected, char *next_redirect)
 }
 
 /* 
-Internal helper function for `analyze_syntax()`
-
 Three possible incorrect inputs:
 | Input                       | Expected output                                |
 | ----------------------------| ---------------------------------------------- |

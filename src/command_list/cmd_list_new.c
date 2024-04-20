@@ -6,15 +6,19 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:21:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 18:03:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:55:17 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_cmd_list.h"
 #include "libft.h"
-#include <stddef.h>
 
-t_cmd_list	*cmd_list_new(void)
+/**
+ * @brief Creates a new command list node and return its address.
+ * 
+ * @return `t_cmd_list*` A dynamically allocated command list node.
+ */
+extern t_cmd_list	*cmd_list_new(void)
 {
 	t_cmd_list	*new;
 

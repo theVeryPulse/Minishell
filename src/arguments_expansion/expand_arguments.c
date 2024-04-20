@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 00:49:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 12:37:30 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,48 +18,19 @@
 #include "libft.h"
 #include <stddef.h>
 
+extern void	expand_arguments(t_cmd_list *cmd, t_env *env);
 static void	_shift_all_following_args_left(char **argv, int i);
-
-void	_add_to_char_list_until(t_char_list **char_list, char end, char *arg,
-			size_t *i)
-{
-	(*i)++;
-	while (arg[*i] && arg[*i] != end)
-		char_list_add_char(char_list, arg[(*i)++]);
-	(*i)++;
-}
-
-void	_expand_delimeter(char **arg_ptr)
-{
-	size_t		i;
-	char		*arg;
-	t_char_list	*char_list;
-	char		*expanded;
-
-	char_list = NULL;
-	arg = *arg_ptr;
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == '\'' || arg[i] == '\"')
-			_add_to_char_list_until(&char_list, arg[i], arg, &i);
-		else
-			char_list_add_char(&char_list, arg[i++]);
-	}
-	expanded = char_list_to_str(char_list);
-	free_and_null((void **)arg_ptr);
-	*arg_ptr = expanded;
-	char_list_free_and_null(&char_list);
-}
+static void	_add_to_char_list_until(t_char_list **char_list, char end,
+				char *arg, size_t *i);
+static void	_expand_delimeter(char **arg_ptr);
 
 /**
  * @brief Expands environment variables in command arguments and redirects.
  *
- * @param cmds A pointer to the head of the linked list of command nodes.
- * @param env  A pointer to the head of the linked list of environment
- *             variables.
+ * @param cmds Pointer to commands.
+ * @param env  Pointer to the environment variables.
  */
-void	expand_arguments(t_cmd_list *cmd, t_env *env)
+extern void	expand_arguments(t_cmd_list *cmd, t_env *env)
 {
 	int	i;
 
@@ -86,6 +57,10 @@ void	expand_arguments(t_cmd_list *cmd, t_env *env)
 	}
 }
 
+/**
+ * @note This function make sure that empty string "\0" is preserved in the
+ *       argv, but NULL are skipped and only acts as string array terminator.
+ */
 static void	_shift_all_following_args_left(char **argv, int i)
 {
 	argv[i] = argv[i + 1];
@@ -94,4 +69,40 @@ static void	_shift_all_following_args_left(char **argv, int i)
 		argv[i] = argv[i + 1];
 		i++;
 	}
+}
+
+static void	_add_to_char_list_until(t_char_list **char_list, char end,
+			char *arg, size_t *i)
+{
+	(*i)++;
+	while (arg[*i] && arg[*i] != end)
+		char_list_add_char(char_list, arg[(*i)++]);
+	(*i)++;
+}
+
+/**
+ * @note expands single and double quotes, but does not expand environment
+ *       variables.
+ */
+static void	_expand_delimeter(char **arg_ptr)
+{
+	size_t		i;
+	char		*arg;
+	t_char_list	*char_list;
+	char		*expanded;
+
+	char_list = NULL;
+	arg = *arg_ptr;
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '\'' || arg[i] == '\"')
+			_add_to_char_list_until(&char_list, arg[i], arg, &i);
+		else
+			char_list_add_char(&char_list, arg[i++]);
+	}
+	expanded = char_list_to_str(char_list);
+	free_and_null((void **)arg_ptr);
+	*arg_ptr = expanded;
+	char_list_free_and_null(&char_list);
 }

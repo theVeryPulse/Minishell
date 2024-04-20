@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 02:05:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 12:25:21 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+extern void	_expand_string(char **arg_ptr, t_env *env);
 static void	_add_literal_str(t_char_list **char_list, const char *arg,
 				size_t *i);
 static void	_add_env_expanded_str(t_char_list **char_list, const char *arg,
@@ -32,8 +33,10 @@ static char	*_get_var_name(const char *str);
  * 
  * @note
  * - A single '$' is seen as a literal character.
+ * - '$' not followed by letter, digit, or underscore is not interpreted as
+ *   environment variable.
  */
-void	_expand_string(char **arg_ptr, t_env *env)
+extern void	_expand_string(char **arg_ptr, t_env *env)
 {
 	size_t		i;
 	t_char_list	*char_list;

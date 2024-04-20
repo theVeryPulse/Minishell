@@ -3,43 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siev <siev@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:39:37 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/17 00:48:28 by siev             ###   ########.fr       */
+/*   Updated: 2024/04/20 17:28:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_t_exit_err.h"
-#include "../minishell/minishell.h"
-#include "../free/free.h"
-#include "../environment_variables/env.h"
-#include "../command_list/cmd_list.h"
-#include "../pipes/pipes.h"
+#include "t_exit_err.h"
+#include "../../minishell/minishell.h" /* minishell */
+#include "../../free/free.h" /* free_cmds_env_pipes_rl_clear_history */
+#include "../../environment_variables/t_env.h" /* t_env */
+#include "../../command_list/t_cmd_list.h" /* t_cmd_list */
+#include "../../pipes/t_pipes.h" /* t_pipes */
 #include "libft.h"
+#include <stdbool.h>
+#include <stdio.h> /* printf */
 #include <stdlib.h> /* exit, free */
 #include <unistd.h> /* STDERR_FILENO */
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdbool.h>
 
 extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 				t_pipes *pipes);
-static bool	_is_a_number(char *fir_arg);
+static bool	_is_a_number(char *str);
 static void	_exit_error_handle(char *arg, t_to_free to_free,
 				t_exit_err err_case);
-static int	_calc_exit_status(char *c);
+static int	_calculate_exit_status(char *c);
 
 /**
- * @brief Exits the shell with a specified exit status or the default status.
- * This function exits the shell with a specified exit status if provided as a
- * command argument. If no argument is provided, the shell exits with the 
- * default status of 0.
+ * @brief Exits the shell with a specified exit status or the latest recorded
+ *        exit status.
  * 
- * @param argv An array of strings containing the command arguments.
- * @param env A pointer to the environment variables.
- * @param cmds A pointer to the command list.
- * @param pipes A pointer to the pipes structure.
+ * @param argv Array of strings containing the command arguments.
+ * @param env Pointer to the environment variables.
+ * @param cmds Pointer to the commands.
+ * @param pipes Pointer to the pipes structure.
  */
 extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 			t_pipes *pipes)
@@ -54,27 +51,27 @@ extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 	{
 		if (_is_a_number(argv[1]) == false)
 			_exit_error_handle(argv[1], to_free, NUMERIC);
-		exit_status = _calc_exit_status(argv[1]);
+		exit_status = _calculate_exit_status(argv[1]);
 		if (argv[2])
 			_exit_error_handle(argv[1], to_free, MANY_ARGS);
 		if (exit_status < 0 || exit_status > 255)
 			_exit_error_handle(argv[1], to_free, NUMERIC);
-		free_cmds_env_pipes_rl_clear_history(to_free);
+		free_minishell_resources(to_free);
 		exit(exit_status);
 	}
-	free_cmds_env_pipes_rl_clear_history(to_free);
+	free_minishell_resources(to_free);
 	exit(minishell()->exit_status);
 }
 
-static bool	_is_a_number(char *fir_arg)
+static bool	_is_a_number(char *str)
 {
-	if (*fir_arg != '-' || *fir_arg != '+')
-		fir_arg++;
-	while (*fir_arg)
+	if (*str != '-' || *str != '+')
+		str++;
+	while (*str)
 	{
-		if (!ft_isdigit(*fir_arg))
+		if (!ft_isdigit(*str))
 			return (false);
-		fir_arg++;
+		str++;
 	}
 	return (true);
 }
@@ -86,18 +83,18 @@ static void	_exit_error_handle(char *arg, t_to_free to_free,
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: numeric argument "
 			"required\n", arg);
-		free_cmds_env_pipes_rl_clear_history(to_free);
+		free_minishell_resources(to_free);
 		exit(2);
 	}
 	else if (err_case == MANY_ARGS)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: exit: too many arguments\n");
-		free_cmds_env_pipes_rl_clear_history(to_free);
+		free_minishell_resources(to_free);
 		exit(1);
 	}
 }
 
-static int	_calc_exit_status(char *c)
+static int	_calculate_exit_status(char *c)
 {
 	long long	value_aft_atoi;
 

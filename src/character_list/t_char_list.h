@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _syntax_analyzer.h                                 :+:      :+:    :+:   */
+/*   t_char_list.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/06 01:23:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:04:15 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/20 14:24:28 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/20 14:25:50 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _SYNTAX_ANALYZER_H
-# define _SYNTAX_ANALYZER_H
+#ifndef T_CHAR_LIST_H
+# define T_CHAR_LIST_H
 
 /**
- * Internal helper type for `analyze_syntax()`.
- * 
- * @brief Define unexpected characters after redirect symbols
+ * @brief A linked list where each node saves one character.
  * 
  */
-typedef enum e_type
+typedef struct s_char_list	t_char_list;
+struct s_char_list
 {
-	/* Missing filename/delimiter/command: `>>|` `>|` `<|` `<<|` `|` */
-	PIPE,
-	/* Missing filename/delimiter: `>>` `>` `<` `<<` */
-	NEWLINE,
-	/* Missing filename/delimiter: `>>>` `>>>>` `<<>` `<<<<` etc. */
-	REDIRECT,
-}	t_type;
+	char		c;
+	t_char_list	*next;
+};
 
 #endif

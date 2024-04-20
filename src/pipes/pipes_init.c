@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 20:49:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/15 20:11:14 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:07:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
  * 
  * @param pipes A pointer to the t_pipes structure to initialize.
  * @param pipe_count The number of pipes to create.
+ * @note  Each pipe has two ends, every two processes need one pipe to
+ *        communicate.
  */
-void	pipes_init(t_pipes *pipes, int pipe_count)
+extern void	pipes_init(t_pipes *pipes, int pipe_count)
 {
 	int	i;
 

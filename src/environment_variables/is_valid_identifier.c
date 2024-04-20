@@ -6,30 +6,31 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:55:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 12:08:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:54:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../character_checks/character_checks.h"
-#include <stddef.h>
-#include <stdbool.h>
+#include "../character_checks/character_checks.h" /* is_variable_name_start */
+#include <stddef.h> /* size_t */
+#include <stdbool.h> /* bool */
 
 /**
- * @brief Checks if an argument is not a valid identifier, in the format of
- *        `name=value` or `name+=value`
+ * @brief Checks if an argument is not a valid identifier, which should have
+ *        format of `name=value` or `name+=value`.
  * 
  * @param identifier Argument to check
  * @return `true` if identifier is invalid, else `false` 
  * @note 
  * Invalid identifiers include:
- * - a '?' anywhere before '=', e.g. "?=1"
- * - a '$' 
- * - no name before '=', e.g. "==3"
+ * - a '?' anywhere before '=', e.g. "?=1".
+ * - a single '$' as name.
+ * - missing name before '=', e.g. "==3".
  * 
  * Special case:
- * - when there is no '=' in the identifier, it is valid but has no effect
+ * - when the name is valid but there is no '=' in the identifier, the whole
+ *   identifier is valid but has no effect during minishell's export.
  */
-bool	is_valid_identifier(const char *identifier)
+extern bool	is_valid_identifier(const char *identifier)
 {
 	size_t	i;
 

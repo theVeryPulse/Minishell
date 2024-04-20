@@ -6,24 +6,22 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:59:40 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:45:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:07:06 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../built_in/built_in.h"
+#include "built_in/built_in.h"
 #include "../pipes/t_pipes.h" /* t_pipes */
-
-extern int	_execute_builtin_function(char **argv, t_env **env,
-				t_cmd_list *cmds, t_pipes *pipes);
+#include "libft.h" /* ft_strncmp */
 
 /**
  * @brief Executes the built-in function. This function does not exit the
- *        process or frees any dynamically allocated memory.
+ *        process or frees command list or environment variables.
  * 
- * @param argv arguments for the function.
- * @param env a pointer to the pointer to the environment variables.
- * @param cmds the complete command list for free before a child process exits.
- * @param pipes pointer to the pipes struct which may need to be freed.
+ * @param argv Arguments for the function.
+ * @param env Pointer to the pointer to the environment variables.
+ * @param cmds The complete command list for free before a child process exits.
+ * @param pipes Pointer to the pipes struct which may need to be freed.
  * @return `int` the exit status of target built-in function.
  */
 extern int	_execute_builtin_function(char **argv, t_env **env,

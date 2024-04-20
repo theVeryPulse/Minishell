@@ -6,15 +6,21 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:49:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 01:53:24 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 15:14:14 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_env.h"
+#include "_env_append.h"
 #include "t_env.h"
-#include <stddef.h>
+#include <stddef.h> /* NULL */
 
-t_env	*env_copy(t_env *env)
+/**
+ * @brief Creates a copy of the environment variables.
+ * 
+ * @param env The environment variables to copy.
+ * @return `t_env*` A copy of the environment variables.
+ */
+extern t_env	*env_copy(t_env *env)
 {
 	t_env	*node;
 	t_env	*copy;
@@ -23,7 +29,7 @@ t_env	*env_copy(t_env *env)
 	node = env;
 	while (node)
 	{
-		_add_to_env(&copy, node->name_value);
+		_env_append(&copy, node->name_value);
 		node = node->next;
 	}
 	return (copy);

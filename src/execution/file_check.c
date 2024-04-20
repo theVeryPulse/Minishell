@@ -6,19 +6,22 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:09:53 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/17 14:01:55 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 15:33:34 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "file_check.h"
 #include <sys/stat.h> /* stat */
-#include "../exit_status.h"
 
 /**
- * @brief 
+ * @brief Checks the status of a file/folder.
  * 
- * @param filepath 
+ * @param filepath the file/folder to check.
  * @param check 
+ * `CHECK_EXECUTABLE`: checks file exists, is not a folder, and allows execute
+ *                    permission.
+ * `CHECK_DIRECTORY`: checks folder exists, is not a file, and allows execute
+ *                    permission (to change into directory).
  * @return t_file_status `NO_SUCH_FILE_OR_DIRECTORY`, `IS_A_DIRECTORY`,
  *         `IS_A_FILE`, `NO_EXECUTION_PERMISSION`
  */

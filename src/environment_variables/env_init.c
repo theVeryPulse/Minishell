@@ -10,18 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include <stddef.h>
-#include <unistd.h>
+#include "env.h" /* env_update_name_value */
+#include <unistd.h> /* __environ, NULL */
 
 /**
- * @brief Initializes an environment variable linked list with the current 
- *        environment variables.
+ * @brief Initializes the environment variables from `__environ`.
  *
- * @param stack A pointer to the pointer to the head of the linked list of 
- *              environment variables.
+ * @param env Pointer to the pointer to environment variables.
  */
-void	env_init(t_env **env)
+extern void	env_init(t_env **env)
 {
 	char	**env_var;
 

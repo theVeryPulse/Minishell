@@ -6,14 +6,19 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:09:41 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:03:17 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:28:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "char_list.h"
-#include <stdlib.h>
-#include <stddef.h>
+#include "t_char_list.h"
+#include <stdlib.h> /* free, NULL */
 
+/**
+ * @brief Frees the memory taken by the character list and reset pointer to
+ *        NULL.
+ * 
+ * @param list Pointer to the pointer to the character list.
+ */
 void	char_list_free_and_null(t_char_list **list)
 {
 	t_char_list	*node;

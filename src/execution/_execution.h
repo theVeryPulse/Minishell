@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 23:59:54 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:46:16 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:04:28 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 extern void	_execute_shell_script(const char *filepath, t_env **env);
 extern void	_execute_one_command(t_cmd_list *cmd, t_env **env);
-extern void	_execute_multiple_commands(t_cmd_list *cmds, t_env **env);
+extern void	_execute_piped_commands(t_cmd_list *cmds, t_env **env);
 extern int	_exit_status(pid_t id);
 extern void	_apply_redirects(t_cmd_list *cmd);
 extern int	_execute_builtin_function(char **argv, t_env **env,

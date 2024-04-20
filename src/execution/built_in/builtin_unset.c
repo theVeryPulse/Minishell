@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_list_len.c                                     :+:      :+:    :+:   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 01:44:46 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:55:21 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/12 21:15:26 by chuleung          #+#    #+#             */
+/*   Updated: 2024/04/20 14:11:48 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_cmd_list.h"
+#include "../../environment_variables/env.h" /* env_remove_by_name */
 
 /**
- * @brief Counts the length of the command list.
+ * @brief Removes environment variables.
  * 
- * @param cmds Pointer to the head of the command list.
- * @return `int` The number of elements in the command list.
+ * @param argv Array of the arguments, first argument being "unset"
+ * @param env Pointer to the pointer to the environment variables.
+ * @return Always returns 0.
  */
-extern int	cmd_list_len(t_cmd_list *cmds)
+extern int	builtin_unset(char **argv, t_env **env)
 {
-	int			len;
-	t_cmd_list	*cmd;
+	int	i;
 
-	cmd = cmds;
-	len = 0;
-	while (cmd)
+	i = 0;
+	while (argv[i])
 	{
-		len++;
-		cmd = cmd->next;
+		env_remove_by_name(env, argv[i]);
+		i++;
 	}
-	return (len);
+	return (0);
 }
