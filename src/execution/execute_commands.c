@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:31:36 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:04:28 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 20:08:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ extern void	execute_commands(t_cmd_list *cmds, t_env **env)
 	if (_is_shell_script((const char **)cmds->argv))
 		_execute_shell_script(cmds->argv[0], env);
 	else if (cmd_list_len(cmds) == 1)
-		_execute_one_command(cmds, env);
+	{
+		if (!cmds->has_invalid_redirects)
+			_execute_one_command(cmds, env);
+	}
 	else
 		_execute_piped_commands(cmds, env);
 	minishell()->received_signal = NONE;

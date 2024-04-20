@@ -6,13 +6,20 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:11:35 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 17:57:36 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 20:19:10 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**list_to_string_array(t_list *list)
+/**
+ * @brief Converts a linked list to an string array.
+ * 
+ * @param list Linked list to convert.
+ * @return `char**` String array
+ * @note There should only be strings or NULL in the linked list
+ */
+extern char	**list_to_string_array(t_list *list)
 {
 	int		list_len;
 	int		i;

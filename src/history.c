@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:39:15 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/10 01:12:06 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 20:15:49 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * @return `int` The file descriptor of the opened history file, or -1 upon
  *         error.
  */
-int	read_history_from_file(void)
+extern int	read_history_from_file(void)
 {
 	int		history;
 	char	*line;

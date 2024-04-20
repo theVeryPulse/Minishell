@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:46:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:51:16 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:49:32 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 extern t_cmd_list	*analyze_lexemes(const char *line);
 static void			_set_to_null(int n, ...);
-static void			_skip_spaces(const char *line, size_t *i);
+static int			_skip_spaces(const char *line, size_t *i);
 static void			_add_argument_and_update_i(t_list **arguments,
 						const char *line, size_t *i);
 static void			_add_redirect_and_update_i(t_list **redirects,
@@ -73,9 +73,8 @@ extern t_cmd_list	*analyze_lexemes(const char *line)
 	_set_to_null(3, &arguments, &redirects, &cmds);
 	this_cmd = cmd_list_new();
 	i = 0;
-	while (line[i])
+	while (_skip_spaces(line, &i))
 	{
-		_skip_spaces(line, &i);
 		if (line[i] == '|')
 		{
 			_add_this_cmd_to_list(&cmds, this_cmd, &arguments, &redirects);
@@ -106,7 +105,7 @@ static void	_set_to_null(int n, ...)
 	va_end(ap);
 }
 
-static void	_skip_spaces(const char *line, size_t *i)
+static int	_skip_spaces(const char *line, size_t *i)
 {
 	size_t	i_copy;
 
@@ -114,6 +113,7 @@ static void	_skip_spaces(const char *line, size_t *i)
 	while (line[i_copy] && ft_isspace(line[i_copy]))
 		i_copy++;
 	*i = i_copy;
+	return (line[*i]);
 }
 
 static void	_add_redirect_and_update_i(
