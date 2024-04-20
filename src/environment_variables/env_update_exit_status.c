@@ -6,19 +6,20 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:42:11 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/19 21:18:54 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 15:04:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "../minishell/minishell.h"
-#include "../free/free.h"
-#include "libft.h"
+#include "env.h" /* env_update_name_value */
+#include "../minishell/minishell.h" /* minishell */
+#include "../free/free.h" /* free_and_null */
+#include "libft.h" /* ft_itoa */
 
 /**
- * @brief Updates the exit status ($?) saved in environment.
+ * @brief Updates the exit status ($?) in environment and minishell static
+ *        struct.
  * 
- * @param env Pointer to the environment variables list.
+ * @param env         Pointer to the environment variables list.
  * @param exit_status Exit status to save into environment.
  */
 extern void	env_update_exit_status(t_env **env, int exit_status)
