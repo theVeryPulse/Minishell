@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:46:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:38:22 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:51:16 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 #include <stdlib.h> /* free */
 
 extern t_cmd_list	*analyze_lexemes(const char *line);
-static void	_set_to_null(int n, ...);
-static void	_skip_spaces(const char *line, size_t *i);
-static void	_add_argument_and_update_i(t_list **arguments, const char *line,
-				size_t *i);
-static void	_add_redirect_and_update_i(t_list **redirects, const char *line,
-				size_t *i);
+static void			_set_to_null(int n, ...);
+static void			_skip_spaces(const char *line, size_t *i);
+static void			_add_argument_and_update_i(t_list **arguments,
+						const char *line, size_t *i);
+static void			_add_redirect_and_update_i(t_list **redirects,
+						const char *line, size_t *i);
 
 /*
 analyze_lexemes

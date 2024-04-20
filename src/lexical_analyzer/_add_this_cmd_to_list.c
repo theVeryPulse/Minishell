@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:53:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:45:01 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:50:27 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 extern void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
-		t_list **arguments, t_list **redirects);
+				t_list **arguments, t_list **redirects);
 static char	**_list_to_string_array(t_list *list);
 static void	_free_all_nodes_leave_content(t_list **head);
 
