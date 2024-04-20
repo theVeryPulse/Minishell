@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:39:37 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/20 14:12:01 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:28:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 			_exit_error_handle(argv[1], to_free, MANY_ARGS);
 		if (exit_status < 0 || exit_status > 255)
 			_exit_error_handle(argv[1], to_free, NUMERIC);
-		free_cmds_env_pipes_rl_clear_history(to_free);
+		free_minishell_resources(to_free);
 		exit(exit_status);
 	}
-	free_cmds_env_pipes_rl_clear_history(to_free);
+	free_minishell_resources(to_free);
 	exit(minishell()->exit_status);
 }
 
@@ -83,13 +83,13 @@ static void	_exit_error_handle(char *arg, t_to_free to_free,
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: numeric argument "
 			"required\n", arg);
-		free_cmds_env_pipes_rl_clear_history(to_free);
+		free_minishell_resources(to_free);
 		exit(2);
 	}
 	else if (err_case == MANY_ARGS)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: exit: too many arguments\n");
-		free_cmds_env_pipes_rl_clear_history(to_free);
+		free_minishell_resources(to_free);
 		exit(1);
 	}
 }

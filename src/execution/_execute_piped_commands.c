@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 23:45:13 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:06:09 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:28:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static pid_t	_fork_and_execute_command(t_cmd_list *cmd, t_cmd_list *cmds,
 			exit_status = _execute_builtin_function(cmd->argv, env, cmds,
 					pipes);
 			rl_clear_history();
-			free_cmds_env_pipes_rl_clear_history((t_to_free){.pipes = pipes,
+			free_minishell_resources((t_to_free){.pipes = pipes,
 				.cmds = cmds, .env = *env});
 			exit(exit_status);
 		}

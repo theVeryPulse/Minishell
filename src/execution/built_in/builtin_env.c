@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 16:47:04 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:28:20 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,5 @@ static void	_env_child_free(char ***envp, t_env **modified_env,
 {
 	free_string_array_and_null(envp);
 	env_free(modified_env);
-	free_cmds_env_pipes_rl_clear_history(to_free);
+	free_minishell_resources(to_free);
 }

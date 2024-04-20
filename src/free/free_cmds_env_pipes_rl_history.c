@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:25:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 18:40:53 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:30:12 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,14 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 
-extern void	free_cmds_env_pipes_rl_clear_history(t_to_free to_free)
+/**
+ * @brief Frees resources that minishell allocates dynamically: command list,
+ *        environment variables, pipes, readline history.
+ * 
+ * @param to_free The structure that holds pointers to command list, environment
+ *                variables, and pipes.
+ */
+extern void	free_minishell_resources(t_to_free to_free)
 {
 	if (to_free.cmds)
 		cmd_list_free(&(to_free.cmds));
