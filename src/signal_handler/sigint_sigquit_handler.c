@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:42:32 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:25:45 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:29:47 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ static void	waiting_child_sigquit(int signal);
 static void	minishell_sigint(int signal);
 static void	heredoc_sigint(int signal);
 
+/**
+ * @brief Changes how sigint and sigquit are handled for the process.
+ * 
+ * @param status 
+ * `MINISHELL`: main process waiting for user input.
+ * `WAITING_CHILD`: main process while waiting for a child to finish.
+ * `HEREDOC`: main process while executing heredoc
+ * `DEFAULT`: default way of handling sigint and sigquit
+ */
 extern void	sigint_sigquit_handler(t_signal_status status)
 {
 	if (status == WAITING_CHILD)

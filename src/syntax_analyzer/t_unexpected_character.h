@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _syntax_analyzer.h                                 :+:      :+:    :+:   */
+/*   t_unexpected_character.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:23:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/09 11:04:15 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 19:34:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _SYNTAX_ANALYZER_H
-# define _SYNTAX_ANALYZER_H
+#ifndef T_UNEXPECTED_CHARACTER_H
+# define T_UNEXPECTED_CHARACTER_H
 
 /**
  * Internal helper type for `analyze_syntax()`.
@@ -19,7 +19,7 @@
  * @brief Define unexpected characters after redirect symbols
  * 
  */
-typedef enum e_type
+typedef enum e_unexpected_character
 {
 	/* Missing filename/delimiter/command: `>>|` `>|` `<|` `<<|` `|` */
 	PIPE,
@@ -27,6 +27,6 @@ typedef enum e_type
 	NEWLINE,
 	/* Missing filename/delimiter: `>>>` `>>>>` `<<>` `<<<<` etc. */
 	REDIRECT,
-}	t_type;
+}	t_unexpected_character;
 
 #endif
