@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:06:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:36:18 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:13:33 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ static void	_execute_script_child(const char *filepath);
 static void	_read_line_from_file_and_execute(int file);
 static bool	contains_only_spaces(char *line);
 
+/**
+ * @brief Checks shell script file status, then fork a child process to read and
+ *        execute the file line by line.
+ * 
+ * @param filepath Shell scrip file path.
+ * @param env Pointer to the pointer to the environment variables.
+ */
 extern void	_execute_shell_script(const char *filepath, t_env **env)
 {
 	struct stat	statbuf;

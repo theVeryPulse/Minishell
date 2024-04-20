@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _execute_multiple_commands.c                       :+:      :+:    :+:   */
+/*   _execute_piped_commands.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 23:45:13 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:08:52 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:06:09 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_execution.h" /* _exit_status, */
+#include "built_in/built_in.h" /* is_builtin_function */
+#include "_heredoc.h" /* HEREDOC_FILE */
 #include "../minishell/minishell.h" /* minishell */
 #include "../command_list/cmd_list.h" /* cmd_list_len */
 #include "../environment_variables/env.h" /* env_update_exit_status */
 #include "../pipes/pipes.h" /* pipes_init */
-#include "built_in/built_in.h" /* is_builtin_function */
 #include "../signal_handler/signal_handler.h"
-#include "t_fd_action.h" /* sigint_sigquit_handler */
 #include "../free/free.h" /* free_and_null */
-#include "_heredoc.h" /* HEREDOC_FILE */
 #include "libft.h" /* ft_strlen */
 #include <readline/readline.h> /* rl_clear_history */
 #include <stdlib.h> /* exit */
@@ -27,14 +26,21 @@
 #include <sys/wait.h> /* wait */
 #include <unistd.h> /* STDIN_FILENO, STDOUT_FILENO */
 
-extern void		_execute_multiple_commands(t_cmd_list *cmds, t_env **env);
+extern void		_execute_piped_commands(t_cmd_list *cmds, t_env **env);
 static pid_t	_execute_commands_with_pipes_redirects(t_cmd_list *cmds,
 					t_env **env, t_pipes *pipes);
 static pid_t	_fork_and_execute_command(t_cmd_list *cmd, t_cmd_list *cmds,
 					t_env **env, t_pipes *pipes);
 static void		_apply_pipes(t_pipes *pipes, int cmd_idx);
 
-extern void	_execute_multiple_commands(t_cmd_list *cmds, t_env **env)
+/**
+ * @brief Sets up pipes and redirects and executes each command in a child
+ *        process.
+ * 
+ * @param cmds Command list to execute.
+ * @param env Pointer to the pointer to environment variables.
+ */
+extern void	_execute_piped_commands(t_cmd_list *cmds, t_env **env)
 {
 	t_pipes		pipes;
 	pid_t		id;

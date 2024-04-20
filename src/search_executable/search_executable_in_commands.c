@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   search_exec_and_replace_arg_in_cmds.c              :+:      :+:    :+:   */
+/*   search_executable_in_commands.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:27:01 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:09:40 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 16:49:03 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  * @param cmds A pointer to the head of the linked list of command nodes.
  * @param env  A pointer to the head of the linked list of environment variables.
  */
-void	search_exec_and_replace_arg_in_cmds(t_cmd_list *cmds, t_env *env)
+void	search_executable_in_commands(t_cmd_list *cmds, t_env *env)
 {
 	t_cmd_list	*cmd;
 
@@ -41,7 +41,7 @@ void	search_exec_and_replace_arg_in_cmds(t_cmd_list *cmds, t_env *env)
 			&& !ft_strchr(cmd->argv[0], '/')
 			&& !is_builtin_function(cmd->argv[0])
 			&& ft_strlen(cmd->argv[0]) > 0)
-			search_exec_and_replace_arg(&(cmd->argv[0]), env);
+			search_executable(&(cmd->argv[0]), env);
 		cmd = cmd->next;
 	}
 }

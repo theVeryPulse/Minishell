@@ -6,21 +6,19 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 18:31:53 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:47:43 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:00:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_execution.h"
-#include "_heredoc.h"
+#include "_execution.h" /* _stdin_stdou */
+#include "_heredoc.h" /* HEREDOC_FILE */
 #include "../minishell/minishell.h" /* minishell */
-#include "../signal_handler/signal_handler.h" /* heredoc_sigint */
+#include "../signal_handler/signal_handler.h" /* sigint_sigquit_handler */
 #include "../free/free.h" /* free_and_null */
-#include "t_fd_action.h"
 #include "libft.h" /* ft_strlen, ft_dprintf */
 #include <readline/readline.h> /* rl_event_hook, rl_outstream */
-#include <signal.h> /* signal  */
 #include <fcntl.h> /* open */
-#include <unistd.h>
+#include <unistd.h> /* STDIN_FILENO */
 
 extern void	_heredoc(char *delimiter);
 static void	_heredoc_setup(void);
@@ -31,10 +29,9 @@ static int	_end_readline(void);
  * @brief Reads input from stdin and writes to a temporary file defined by 
  *        macro HEREDOC_FILE.
  *
- * @param delimiter A string noting the end of heredoc.
- * @param stdin_copy A copy of stdin used to reset fildes to read from terminal.
- * @note The process itself first finishes heredoc before executing any built-in
- *       or external programs.
+ * @param delimiter String noting the end of heredoc.
+ * @note The minishell main process first finishes heredoc before executing a
+ *       built-in or external programs.
  */
 extern void	_heredoc(char *delimiter)
 {
@@ -68,7 +65,7 @@ static void	_heredoc_setup(void)
 	sigint_sigquit_handler(HEREDOC);
 	rl_event_hook = &_end_readline;
 	rl_outstream = stderr;
-	dup2(_stdin_stdout(LOOKUP_STDIN), STDIN_FILENO);
+	dup2(_stdin_stdout(LOOKUP_STDIN_COPY), STDIN_FILENO);
 }
 
 static int	_open_heredoc_temp_file_for_write(void)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   search_exec_and_replace_arg.c                      :+:      :+:    :+:   */
+/*   search_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:03:31 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:11:41 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 16:49:05 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 #include <unistd.h>
 
-void	search_exec_and_replace_arg(char **arg, t_env *env)
+void	search_executable(char **arg, t_env *env)
 {
 	char	*exe;
 	char	**path;

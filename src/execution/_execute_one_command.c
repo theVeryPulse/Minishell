@@ -6,19 +6,18 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 23:40:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:08:59 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:02:44 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_execution.h" /* _apply_redirects */
+#include "built_in/built_in.h" /* is_builtin_function */
 #include "../minishell/minishell.h" /* minishell */
 #include "../command_list/t_cmd_list.h" /* t_cmd_list */
 #include "../environment_variables/env.h" /* env_update_exit_status */
-#include "built_in/built_in.h" /* is_builtin_function */
 #include "../signal_handler/signal_handler.h" /* sigint_sigquit_handler */
 #include <sys/types.h> /* pid_t */
-#include <stddef.h> /* NULL */
-#include <unistd.h> /* fork */
+#include <unistd.h> /* fork, NULL */
 
 extern void	_execute_one_command(t_cmd_list *cmd, t_env **env)
 {

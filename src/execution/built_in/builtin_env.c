@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 14:12:06 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 16:47:04 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static int	_execute_command_with_modified_env(
 
 	exit_status = 0;
 	if (!ft_strchr(*argv, '/'))
-		search_exec_and_replace_arg(argv, modified_env);
+		search_executable(argv, modified_env);
 	id = fork();
 	if (id == 0)
 	{

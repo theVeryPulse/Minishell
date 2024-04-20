@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:42:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:32:56 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:11:58 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@ extern void	_apply_redirects(t_cmd_list *cmd);
 static int	_open_file_or_heredoc(char **redirect);
 
 /**
- * @brief
+ * @brief Applies the redirection for current command.
+ *        `<`: input file
+ *        `<<`: heredoc
+ *        `>`: output file overwrite
+ *        `>>`: output file append
  *
- * @param
- * @note Four occasions:
- *       `<`  : dup2(input_file_fd, STDIN_FILENO)
- *       `<<` : dup2(heredoc_temp_file, STDIN_FILENO)
- *       `>`  : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_APPEND
- *       `>>` : dup2(output_file_fd, STDOUT_FILENO) O_WRONLY | O_TRUNC
+ * @param cmd Command to apply redirects to.
  */
 extern void	_apply_redirects(t_cmd_list *cmd)
 {
