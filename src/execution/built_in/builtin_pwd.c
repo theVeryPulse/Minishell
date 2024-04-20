@@ -6,23 +6,19 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:57:10 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/16 17:15:01 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:11:51 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <limits.h>
+#include <stdio.h> /* perror */
+#include <unistd.h> /* getcwd */
 
 #define PATH_MAX 4096
 
 /**
  * @brief Prints the current working directory.
  *
- * This function retrieves the current working directory and prints it to stdout.
- *
  * @return 0 upon successful execution, 1 if an error occurs.
- * 
  * @note This function relies on the getcwd() system call.
  */
 extern int	builtin_pwd(void)

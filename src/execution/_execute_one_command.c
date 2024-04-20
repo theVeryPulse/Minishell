@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 23:40:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 10:41:55 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:08:59 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../minishell/minishell.h" /* minishell */
 #include "../command_list/t_cmd_list.h" /* t_cmd_list */
 #include "../environment_variables/env.h" /* env_update_exit_status */
-#include "../built_in/built_in.h" /* is_builtin_function */
+#include "built_in/built_in.h" /* is_builtin_function */
 #include "../signal_handler/signal_handler.h" /* sigint_sigquit_handler */
 #include <sys/types.h> /* pid_t */
 #include <stddef.h> /* NULL */

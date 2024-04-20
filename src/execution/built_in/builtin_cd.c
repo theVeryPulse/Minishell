@@ -6,17 +6,16 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 13:03:40 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/17 14:12:46 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:12:14 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../environment_variables/env.h"
-#include "../execution/file_check.h"
-#include "libft.h"
+#include "../../environment_variables/env.h"
+#include "../file_check.h" /* file_check */
+#include "libft.h" /* ft_dprintf */
 #include <stdbool.h>
 #include <stdio.h> /* printf */
 #include <stdlib.h> /* free */
-#include <sys/stat.h> /* stat */
 #include <unistd.h> /* chdir, getcwd */
 
 #define PATH_MAX 4096
@@ -30,8 +29,8 @@ static void	_update_pwd(t_env **env);
 /**
  * @brief Changes the current working directory.
  * 
- * @param env A pointer to the pointer to the environment variables.
- * @param argv An array of strings containing the command arguments.
+ * @param env Pointer to the pointer to the environment variables.
+ * @param argv Array of strings containing the command arguments.
  * @return 0 if the operation is successful, 1 otherwise.
  */
 extern int	builtin_cd(char **argv, t_env **env)

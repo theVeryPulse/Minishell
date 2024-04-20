@@ -6,12 +6,11 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 02:03:18 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/16 16:33:50 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:12:11 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+#include <stdio.h> /* printf */
 #include <stdbool.h>
 
 extern int	builtin_echo(char **argv);
@@ -23,9 +22,7 @@ static bool	_is_flag_for_no_newline(const char *arg);
  * @param argv An array of strings containing the flags and arguments to be 
  *             printed.
  * @return Always returns 0. 
- * @note
- * bash `echo -nnnnnn` is handled as `echo -n`, hence comparing 2 in ft_strncmp;
- * Flag: '-' followed by any number of n's.
+ * @note   Flag: '-' followed by any number of n's.
  */
 extern int	builtin_echo(char **argv)
 {
@@ -52,6 +49,9 @@ extern int	builtin_echo(char **argv)
 	return (0);
 }
 
+/**
+ * @note valid flag begins with `-` followed by any number of `n`
+ */
 static bool	_is_flag_for_no_newline(const char *arg)
 {
 	size_t	i;

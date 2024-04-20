@@ -6,55 +6,47 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:08:38 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 02:08:14 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:12:06 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "../command_list/t_cmd_list.h"
-#include "../environment_variables/env.h" /* env_build_envp */
-#include "../pipes/t_pipes.h"
-#include "../search_executable/search_executable.h"
-#include "../free/free.h"
-#include "../execution/_execution.h" /* _exit_status */
+#include "../../command_list/t_cmd_list.h" /* t_cmd_list */
+#include "../../environment_variables/env.h" /* env_build_envp */
+#include "../../pipes/t_pipes.h" /* t_pipe */
+#include "../../search_executable/search_executable.h"
+#include "../../free/free.h" /* free_string_array_and_null */
+#include "../_execution.h" /* _exit_status */
 #include "libft.h"
 #include <stddef.h> /* NULL */
-#include <stdlib.h> /* exit */
 #include <stdio.h> /* printf, perror */
-#include <unistd.h> /* execve, fork */
+#include <stdlib.h> /* exit */
+#include <readline/readline.h> /* rl_clear_history */
 #include <sys/types.h> /* pid_t */
 #include <sys/wait.h> /* wait */
-#include <readline/readline.h> /* rl_clear_history */
+#include <unistd.h> /* execve, fork */
 
 extern int		builtin_env(char **argv, t_env *env, t_cmd_list *cmds,
 					t_pipes *pipes);
 static void		_print_env(t_env *env);
 static t_env	*_create_modified_env(t_env *env, char **name_value_pairs);
-static int		_env_execute_cmd(char **argv, t_env *modified_env,
-					t_to_free to_free);
+static int		_execute_command_with_modified_env(char **argv,
+					t_env *modified_env, t_to_free to_free);
 static void		_env_child_free(char ***envp, t_env **modified_env,
 					t_to_free to_free);
 
 /**
- * @brief 
+ * @brief Runs a program in a modified environment
  * 
- * @param env 
- * @param argv 
- * @return int 
+ * @param argv Arguments starting with "env"
+ * @param env Pointer environment variables
+ * @param cmds Pointer to list of commands
+ * @param pipes Pipes structure (in case of needing free)
+ * @return `int` 0 upon success, 127 when target program returns error.
  * @note
- * - env stops recording variables upon first arg without a '='.
- * - env's exit status is 127 when child's exit code is not 0.
- * - env, cmds, and pipes need to be freed in forked child when execve fails
- */
-
-/**
- * @brief run a program in a modified environment
- * 
- * @param argv arguments starting with "env"
- * @param env environment variable structure
- * @param cmds linked list of commands
- * @param pipes pipes structure (in case of needing free)
- * @return `int` 0 upon success, 127 when target program cannot run correctly.
+ * - stops recording variables upon first arg without a '='.
+ * - exit status is 127 when child's exit code is not 0.
+ * - env, cmds, and pipes shall be freed in forked child when execve fails.
  */
 extern int	builtin_env(char **argv, t_env *env, t_cmd_list *cmds,
 	t_pipes *pipes)
@@ -79,7 +71,7 @@ extern int	builtin_env(char **argv, t_env *env, t_cmd_list *cmds,
 	}
 	else
 	{
-		exit_status = _env_execute_cmd(arg, modified_env,
+		exit_status = _execute_command_with_modified_env(arg, modified_env,
 				(t_to_free){.cmds = cmds, .env = env, .pipes = pipes});
 	}
 	return (env_free(&modified_env), exit_status);
@@ -112,7 +104,7 @@ static t_env	*_create_modified_env(t_env *env, char **name_value_pairs)
 	return (modified_env);
 }
 
-static int	_env_execute_cmd(
+static int	_execute_command_with_modified_env(
 	char **argv, t_env *modified_env, t_to_free to_free)
 {
 	char	**envp;

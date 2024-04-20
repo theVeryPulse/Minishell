@@ -6,12 +6,13 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 01:59:40 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:45:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:08:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../built_in/built_in.h"
+#include "built_in/built_in.h"
 #include "../pipes/t_pipes.h" /* t_pipes */
+#include "libft.h" /* ft_strncmp */
 
 extern int	_execute_builtin_function(char **argv, t_env **env,
 				t_cmd_list *cmds, t_pipes *pipes);

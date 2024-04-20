@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 23:45:13 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 00:46:06 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:08:52 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../command_list/cmd_list.h" /* cmd_list_len */
 #include "../environment_variables/env.h" /* env_update_exit_status */
 #include "../pipes/pipes.h" /* pipes_init */
-#include "../built_in/built_in.h" /* is_builtin_function */
+#include "built_in/built_in.h" /* is_builtin_function */
 #include "../signal_handler/signal_handler.h"
 #include "t_fd_action.h" /* sigint_sigquit_handler */
 #include "../free/free.h" /* free_and_null */
