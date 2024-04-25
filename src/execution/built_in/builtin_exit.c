@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:39:37 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/25 23:07:26 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 23:10:00 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static bool	_is_a_number(char *str)
 {
 	if (*str == '-' || *str == '+')
 		str++;
+	if (*str == '\0')
+		return (false);
 	while (*str)
 	{
 		if (!ft_isdigit(*str))
