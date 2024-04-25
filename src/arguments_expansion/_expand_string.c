@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 12:25:21 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:01:33 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ static void	_add_env_expanded_str(t_char_list **char_list, const char *arg,
 			(*i)++;
 		}
 	}
-	(*i)++;
+	if (arg[*i])
+		(*i)++;
 }
 
 static void	_add_env_value(t_char_list **char_list, const char *arg,
