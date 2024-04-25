@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:42:21 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:11:58 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 23:37:10 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <unistd.h> /* STDIN_FILENO */
 
 extern void	_apply_redirects(t_cmd_list *cmd);
-static int	_open_file_or_heredoc(char **redirect);
+static int	_open_file_or_heredoc(char **redirect, char *heredoc);
 
 /**
  * @brief Applies the redirection for current command.
@@ -40,14 +40,14 @@ extern void	_apply_redirects(t_cmd_list *cmd)
 	redirect = cmd->redirects;
 	while (*redirect && minishell()->received_signal == NONE)
 	{
-		fd = _open_file_or_heredoc(redirect);
+		fd = _open_file_or_heredoc(redirect, cmd->heredoc);
 		if (fd != -1)
 			close(fd);
 		redirect++;
 	}
 }
 
-static int	_open_file_or_heredoc(char **redirect)
+static int	_open_file_or_heredoc(char **redirect, char *heredoc)
 {
 	int	fd;
 
@@ -56,10 +56,10 @@ static int	_open_file_or_heredoc(char **redirect)
 	{
 		if ((*redirect)[1] == '<')
 		{
-			_heredoc(&(*redirect)[2]);
+			_heredoc(&(*redirect)[2], heredoc);
 			if (minishell()->received_signal != NONE)
 				return (-1);
-			fd = open(HEREDOC_FILE, O_RDONLY);
+			fd = open(heredoc, O_RDONLY);
 		}
 		else
 			fd = open(&(*redirect)[1], O_RDONLY);

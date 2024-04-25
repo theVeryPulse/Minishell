@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:53:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:50:27 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 23:28:41 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ extern void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
 				t_list **arguments, t_list **redirects);
 static char	**_list_to_string_array(t_list *list);
 static void	_free_all_nodes_leave_content(t_list **head);
+static int	_heredoc_index(void);
 
 /**
  * @brief Add a command tto the list with current arguments and redirects, then
@@ -31,8 +32,15 @@ static void	_free_all_nodes_leave_content(t_list **head);
 extern void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
 		t_list **arguments, t_list **redirects)
 {
+	char	*heredoc;
+	char	*heredoc_index;
+
+	heredoc_index = ft_itoa(_heredoc_index());
+	heredoc = ft_format_string(".heredoc%s", heredoc_index);
+	free(heredoc_index);
 	this_cmd->argv = _list_to_string_array(*arguments);
 	this_cmd->redirects = _list_to_string_array(*redirects);
+	this_cmd->heredoc = heredoc;
 	_free_all_nodes_leave_content(arguments);
 	_free_all_nodes_leave_content(redirects);
 	cmd_list_append(cmds, this_cmd);
@@ -75,4 +83,11 @@ static void	_free_all_nodes_leave_content(t_list **head)
 		node = next_node;
 	}
 	*head = NULL;
+}
+
+static int	_heredoc_index(void)
+{
+	static int	index;
+
+	return (index++);
 }

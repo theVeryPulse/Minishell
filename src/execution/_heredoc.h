@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 18:47:09 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/18 18:44:42 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 23:34:02 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # define HEREDOC_FILE "./.heredoc_temp"
 
-extern void	_heredoc(char *delimiter);
+extern void	_heredoc(char *delimiter, char *heredoc);
 
 #endif

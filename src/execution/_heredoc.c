@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 18:31:53 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:00:26 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 23:35:37 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 #include <fcntl.h> /* open */
 #include <unistd.h> /* STDIN_FILENO */
 
-extern void	_heredoc(char *delimiter);
+extern void	_heredoc(char *delimiter, char *heredoc);
 static void	_heredoc_setup(void);
-static int	_open_heredoc_temp_file_for_write(void);
+static int	_open_heredoc_temp_file_for_write(char *heredoc);
 static int	_end_readline(void);
 
 /**
@@ -33,13 +33,13 @@ static int	_end_readline(void);
  * @note The minishell main process first finishes heredoc before executing a
  *       built-in or external programs.
  */
-extern void	_heredoc(char *delimiter)
+extern void	_heredoc(char *delimiter, char *heredoc)
 {
 	char	*line;
 	int		heredoc_fd;
 
 	_heredoc_setup();
-	heredoc_fd = _open_heredoc_temp_file_for_write();
+	heredoc_fd = _open_heredoc_temp_file_for_write(heredoc);
 	while (minishell()->received_signal == NONE)
 	{
 		line = readline("> ");
@@ -68,13 +68,13 @@ static void	_heredoc_setup(void)
 	dup2(_stdin_stdout(LOOKUP_STDIN_COPY), STDIN_FILENO);
 }
 
-static int	_open_heredoc_temp_file_for_write(void)
+static int	_open_heredoc_temp_file_for_write(char *heredoc)
 {
 	int	fd;
 
-	if (access(HEREDOC_FILE, F_OK | R_OK | W_OK) != 0)
-		unlink(HEREDOC_FILE);
-	fd = open(HEREDOC_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0755);
+	if (access(heredoc, F_OK | R_OK | W_OK) != 0)
+		unlink(heredoc);
+	fd = open(heredoc, O_CREAT | O_WRONLY | O_TRUNC, 0755);
 	return (fd);
 }
 
