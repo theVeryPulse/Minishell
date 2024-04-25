@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:59:30 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 17:09:17 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:29:21 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ extern void	_child_execute_target_command(t_cmd_list *cmd, t_env *env,
 	char	**envp;
 	int		exit_status;
 
-	if (!ft_strchr(cmd->argv[0], '/') && access(cmd->argv[0], F_OK) != 0)
+	if (!ft_strchr(cmd->argv[0], '/'))
 		exit_status = _command_not_found(cmd->argv[0]);
 	else if (file_check(cmd->argv[0], CHECK_EXECUTABLE) == IS_A_DIRECTORY)
 		exit_status = _is_a_directory(cmd->argv[0]);
