@@ -13,6 +13,7 @@ FILES := \
 	src/arguments_expansion/expand_arguments.c \
 	src/arguments_expansion/_expand_string.c \
 	src/arguments_expansion/_is_variable_name.c \
+	src/arguments_expansion/_replace_arg.c \
 	src/character_checks/is_metacharacter.c \
 	src/character_checks/is_quotation_mark.c \
 	src/character_checks/is_redirect.c \
@@ -95,7 +96,7 @@ $(LIBFT):
 
 build/%.o: src/%.c
 	@mkdir -p $(@D)
-	@echo "$(GREEN)  $^$(NC)"
+	@echo "$(GREEN)* $^$(NC)"
 	@$(CC) $(CFLAGS) -c $< -o $@ -Ilib/libft/inc $(DEBUG)
 
 clean:

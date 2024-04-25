@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _expand_string.h                                   :+:      :+:    :+:   */
+/*   _replace_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 10:55:44 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/25 19:18:51 by Philip           ###   ########.fr       */
+/*   Created: 2024/04/25 19:04:44 by Philip            #+#    #+#             */
+/*   Updated: 2024/04/25 19:18:58 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _EXPAND_STRING_H
-# define _EXPAND_STRING_H
+#include "_expand_string.h"
+#include "../character_list/char_list.h"
+#include "../free/free.h"
+#include "libft.h"
 
-# include "../environment_variables/t_env.h"
-# include "../character_list/t_char_list.h"
-# include <stdbool.h>
-
-typedef enum e_mode
-{
-	TO_NULL,
-	TO_EMPTY_STRING
-}	t_mode;
-
-extern void	_expand_string(char **arg_ptr, t_env *env);
-extern bool	_is_variable_name(char *arg);
 extern void	_replace_arg(t_char_list **char_list, char **arg_ptr,
-				t_mode mode);
-#endif
+			t_mode mode)
+{
+	char	*expanded;
+
+	expanded = char_list_to_str(*char_list);
+	if (mode == TO_NULL && ft_strlen(expanded) == 0)
+		free_and_null((void **)&expanded);
+	free_and_null((void **)arg_ptr);
+	*arg_ptr = expanded;
+	char_list_free_and_null(char_list);
+	return ;
+}

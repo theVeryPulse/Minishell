@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/25 16:40:29 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 19:16:42 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ extern void	_expand_string(char **arg_ptr, t_env *env)
 {
 	size_t		i;
 	t_char_list	*char_list;
-	char		*expanded;
 
 	char_list = NULL;
 	i = 0;
@@ -52,16 +51,15 @@ extern void	_expand_string(char **arg_ptr, t_env *env)
 			_add_env_expanded_str(&char_list, (*arg_ptr), &i, env);
 		else if ((*arg_ptr)[i] == '$' && ((*arg_ptr)[i + 1] == '?'
 			|| is_variable_name_start((*arg_ptr)[i + 1])))
+		{
 			_add_env_value(&char_list, *arg_ptr, &i, env);
+			if ((*arg_ptr)[i] == '\0')
+				return (_replace_arg(&char_list, arg_ptr, TO_NULL));
+		}
 		else
 			char_list_add_char(&char_list, (*arg_ptr)[i++]);
 	}
-	expanded = char_list_to_str(char_list);
-	if (ft_strlen(expanded) == 0)
-		free_and_null((void **)&expanded);
-	free_and_null((void **)arg_ptr);
-	*arg_ptr = expanded;
-	char_list_free_and_null(&char_list);
+	_replace_arg(&char_list, arg_ptr, TO_EMPTY_STRING);
 }
 
 static void	_add_literal_str(t_char_list **char_list, const char *arg,
