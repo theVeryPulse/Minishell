@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:07:24 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/20 12:37:30 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:19:53 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stddef.h>
 
 extern void	expand_arguments(t_cmd_list *cmd, t_env *env);
-static void	_shift_all_following_args_left(char **argv, int i);
+static void	_shift_all_following_args_left(char **argv, int *i);
 static void	_add_to_char_list_until(t_char_list **char_list, char end,
 				char *arg, size_t *i);
 static void	_expand_delimeter(char **arg_ptr);
@@ -41,7 +41,7 @@ extern void	expand_arguments(t_cmd_list *cmd, t_env *env)
 		{
 			_expand_string(&(cmd->argv[i]), env);
 			if (cmd->argv[i] == NULL)
-				_shift_all_following_args_left(cmd->argv, i);
+				_shift_all_following_args_left(cmd->argv, &i);
 			i++;
 		}
 		i = 0;
@@ -61,14 +61,18 @@ extern void	expand_arguments(t_cmd_list *cmd, t_env *env)
  * @note This function make sure that empty string "\0" is preserved in the
  *       argv, but NULL are skipped and only acts as string array terminator.
  */
-static void	_shift_all_following_args_left(char **argv, int i)
+static void	_shift_all_following_args_left(char **argv, int *i)
 {
-	argv[i] = argv[i + 1];
-	while (argv[i])
+	int	i_copy;
+
+	i_copy = *i;
+	argv[i_copy] = argv[i_copy + 1];
+	while (argv[i_copy])
 	{
-		argv[i] = argv[i + 1];
-		i++;
+		argv[i_copy] = argv[i_copy + 1];
+		i_copy++;
 	}
+	(*i)--;
 }
 
 static void	_add_to_char_list_until(t_char_list **char_list, char end,
