@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:39:37 by chuleung          #+#    #+#             */
-/*   Updated: 2024/04/20 17:28:20 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 23:07:26 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ extern void	builtin_exit(char **argv, t_env *env, t_cmd_list *cmds,
 
 static bool	_is_a_number(char *str)
 {
-	if (*str != '-' || *str != '+')
+	if (*str == '-' || *str == '+')
 		str++;
 	while (*str)
 	{
