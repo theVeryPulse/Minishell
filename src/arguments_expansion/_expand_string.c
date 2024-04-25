@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:55:56 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/25 16:01:33 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:40:29 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ extern void	_expand_string(char **arg_ptr, t_env *env)
 			char_list_add_char(&char_list, (*arg_ptr)[i++]);
 	}
 	expanded = char_list_to_str(char_list);
-	if (ft_strlen(expanded) == 0 && _is_variable_name(*arg_ptr))
+	if (ft_strlen(expanded) == 0)
 		free_and_null((void **)&expanded);
 	free_and_null((void **)arg_ptr);
 	*arg_ptr = expanded;
@@ -68,7 +68,7 @@ static void	_add_literal_str(t_char_list **char_list, const char *arg,
 				size_t *i)
 {
 	(*i)++;
-	while (arg[*i] != '\'')
+	while (arg[*i] && arg[*i] != '\'')
 	{
 		char_list_add_char(char_list, arg[*i]);
 		(*i)++;
