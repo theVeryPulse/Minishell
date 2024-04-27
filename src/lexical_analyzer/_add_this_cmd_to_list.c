@@ -6,7 +6,7 @@
 /*   By: Philip <juli@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 01:53:25 by Philip            #+#    #+#             */
-/*   Updated: 2024/04/25 23:28:41 by Philip           ###   ########.fr       */
+/*   Updated: 2024/04/27 18:11:29 by Philip           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ extern void	_add_this_cmd_to_list(t_cmd_list **cmds, t_cmd_list *this_cmd,
 		t_list **arguments, t_list **redirects)
 {
 	char	*heredoc;
-	char	*heredoc_index;
 
-	heredoc_index = ft_itoa(_heredoc_index());
-	heredoc = ft_format_string(".heredoc%s", heredoc_index);
-	free(heredoc_index);
+	heredoc = ft_format_string(".heredoc%d", _heredoc_index());
 	this_cmd->argv = _list_to_string_array(*arguments);
 	this_cmd->redirects = _list_to_string_array(*redirects);
 	this_cmd->heredoc = heredoc;
