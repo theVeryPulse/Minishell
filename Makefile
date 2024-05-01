@@ -89,7 +89,7 @@ all: $(NAME)
 $(NAME): $(OFILES) $(LIBFT)
 	@$(CC) $(OFILES) \
 	-Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o $(NAME) -g $(CFLAGS)
-	@echo "$(GREEN)> $@$(NC)"
+	@echo "$(GREEN)\n>>> ./$@\n$(NC)"
 
 $(LIBFT):
 	$(MAKE) -C lib/libft
