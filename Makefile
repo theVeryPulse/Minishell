@@ -86,7 +86,7 @@ LIBFT := lib/libft/lib/libft.a
 
 all: $(NAME)
 
-$(NAME): $(OFILES) $(LIBFT)
+$(NAME): $(LIBFT) $(OFILES)
 	@$(CC) $(OFILES) \
 	-Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o $(NAME) -g $(CFLAGS)
 	@echo "$(GREEN)\n>>> ./$@\n$(NC)"
