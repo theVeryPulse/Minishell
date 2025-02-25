@@ -1,7 +1,10 @@
 NAME := minishell
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
-DEBUG := -g
+CFLAGS := -Wall -Wextra -Werror -Ilib/libft/inc -MMD -MP
+LIBFT_DIR := lib/libft
+LIBFT := $(LIBFT_DIR)/libft.a
+LDFLAGS := -L$(LIBFT_DIR)
+LDLIBS := -lft -lreadline
 
 RED := \033[0;31m
 GREEN := \033[0;32m
@@ -82,22 +85,23 @@ FILES := \
 	src/test_func.c
 
 OFILES := $(patsubst src/%.c, build/%.o, $(FILES))
-LIBFT := lib/libft/lib/libft.a
-
+DEPS := %(OFILES:.o:.d)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OFILES)
-	@$(CC) $(OFILES) \
-	-Ilib/libft/inc/ -Llib/libft/lib -lft -lreadline -o $(NAME) -g $(CFLAGS)
+	@$(CC) $(LDFLAGS) $(OFILES) -o $@ $(LDLIBS)
 	@echo "$(GREEN)\n>>> ./$@\n$(NC)"
 
 $(LIBFT):
-	$(MAKE) -C lib/libft
+	$(MAKE) -C $(LIBFT_DIR)
 
 build/%.o: src/%.c
 	@mkdir -p $(@D)
 	@echo "$(GREEN)* $^$(NC)"
-	@$(CC) $(CFLAGS) -c $< -o $@ -Ilib/libft/inc $(DEBUG)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+# Include dependency files
+-include $(DEP_FILES)
 
 clean:
 	rm -rf build
